@@ -13,6 +13,7 @@ import (
 
 	"github.com/stainless-sdks/post-for-me-go/internal/apijson"
 	"github.com/stainless-sdks/post-for-me-go/internal/apiquery"
+	shimjson "github.com/stainless-sdks/post-for-me-go/internal/encoding/json"
 	"github.com/stainless-sdks/post-for-me-go/internal/requestconfig"
 	"github.com/stainless-sdks/post-for-me-go/option"
 	"github.com/stainless-sdks/post-for-me-go/packages/param"
@@ -542,7 +543,7 @@ type SocialPostNewParams struct {
 }
 
 func (r SocialPostNewParams) MarshalJSON() (data []byte, err error) {
-	return json.Marshal(r.CreateSocialPost)
+	return shimjson.Marshal(r.CreateSocialPost)
 }
 func (r *SocialPostNewParams) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &r.CreateSocialPost)
@@ -554,7 +555,7 @@ type SocialPostUpdateParams struct {
 }
 
 func (r SocialPostUpdateParams) MarshalJSON() (data []byte, err error) {
-	return json.Marshal(r.CreateSocialPost)
+	return shimjson.Marshal(r.CreateSocialPost)
 }
 func (r *SocialPostUpdateParams) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &r.CreateSocialPost)
