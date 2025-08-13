@@ -3,8 +3,8 @@
 package postforme
 
 import (
-	"github.com/stainless-sdks/post-for-me-go/internal/apierror"
-	"github.com/stainless-sdks/post-for-me-go/packages/param"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/apierror"
+	"github.com/DayMoonDevelopment/post-for-me-go/packages/param"
 )
 
 // aliased to make [param.APIUnion] private when embedding

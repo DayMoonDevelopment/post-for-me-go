@@ -1,7 +1,7 @@
 package sentinel
 
 import (
-	"github.com/stainless-sdks/post-for-me-go/internal/encoding/json/shims"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/encoding/json/shims"
 	"reflect"
 	"sync"
 )

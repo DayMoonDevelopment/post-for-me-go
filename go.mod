@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/post-for-me-go
+module github.com/DayMoonDevelopment/post-for-me-go
 
 go 1.21
 

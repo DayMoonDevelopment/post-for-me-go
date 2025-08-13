@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/post-for-me-go"
-	"github.com/stainless-sdks/post-for-me-go/internal"
-	"github.com/stainless-sdks/post-for-me-go/option"
+	"github.com/DayMoonDevelopment/post-for-me-go"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal"
+	"github.com/DayMoonDevelopment/post-for-me-go/option"
 )
 
 type closureTransport struct {

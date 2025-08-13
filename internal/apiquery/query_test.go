@@ -1,7 +1,7 @@
 package apiquery
 
 import (
-	"github.com/stainless-sdks/post-for-me-go/packages/param"
+	"github.com/DayMoonDevelopment/post-for-me-go/packages/param"
 	"net/url"
 	"testing"
 	"time"
