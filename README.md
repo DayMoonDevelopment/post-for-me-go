@@ -2,7 +2,7 @@
 
 <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go"><img src="https://pkg.go.dev/badge/github.com/DayMoonDevelopment/post-for-me-go.svg" alt="Go Reference"></a>
 
-The Post For Me Go library provides convenient access to the Post For Me REST API
+The Post For Me Go library provides convenient access to the [Post For Me REST API](https://api.postforme.dev/docs)
 from applications written in Go.
 
 It is generated with [Stainless](https://www.stainless.com/).
@@ -52,11 +52,16 @@ func main() {
 	client := postforme.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("POST_FOR_ME_API_KEY")
 	)
-	response, err := client.Media.NewUploadURL(context.TODO())
+	socialPost, err := client.SocialPosts.New(context.TODO(), postforme.SocialPostNewParams{
+		CreateSocialPost: postforme.CreateSocialPostParam{
+			Caption:        "caption",
+			SocialAccounts: []string{"string"},
+		},
+	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", response.MediaURL)
+	fmt.Printf("%+v\n", socialPost.ID)
 }
 
 ```
@@ -262,7 +267,7 @@ client := postforme.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.Media.NewUploadURL(context.TODO(), ...,
+client.SocialPosts.New(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -293,14 +298,19 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.Media.NewUploadURL(context.TODO())
+_, err := client.SocialPosts.New(context.TODO(), postforme.SocialPostNewParams{
+	CreateSocialPost: postforme.CreateSocialPostParam{
+		Caption:        "caption",
+		SocialAccounts: []string{"string"},
+	},
+})
 if err != nil {
 	var apierr *postforme.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/v1/media/create-upload-url": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/v1/social-posts": 400 Bad Request { ... }
 }
 ```
 
@@ -318,8 +328,14 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.Media.NewUploadURL(
+client.SocialPosts.New(
 	ctx,
+	postforme.SocialPostNewParams{
+		CreateSocialPost: postforme.CreateSocialPostParam{
+			Caption:        "caption",
+			SocialAccounts: []string{"string"},
+		},
+	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
 )
@@ -353,7 +369,16 @@ client := postforme.NewClient(
 )
 
 // Override per-request:
-client.Media.NewUploadURL(context.TODO(), option.WithMaxRetries(5))
+client.SocialPosts.New(
+	context.TODO(),
+	postforme.SocialPostNewParams{
+		CreateSocialPost: postforme.CreateSocialPostParam{
+			Caption:        "caption",
+			SocialAccounts: []string{"string"},
+		},
+	},
+	option.WithMaxRetries(5),
+)
 ```
 
 ### Accessing raw response data (e.g. response headers)
@@ -364,11 +389,20 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-response, err := client.Media.NewUploadURL(context.TODO(), option.WithResponseInto(&response))
+socialPost, err := client.SocialPosts.New(
+	context.TODO(),
+	postforme.SocialPostNewParams{
+		CreateSocialPost: postforme.CreateSocialPostParam{
+			Caption:        "caption",
+			SocialAccounts: []string{"string"},
+		},
+	},
+	option.WithResponseInto(&response),
+)
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", response)
+fmt.Printf("%+v\n", socialPost)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)
