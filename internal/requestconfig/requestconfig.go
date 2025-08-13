@@ -18,10 +18,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stainless-sdks/post-for-me-go/internal"
-	"github.com/stainless-sdks/post-for-me-go/internal/apierror"
-	"github.com/stainless-sdks/post-for-me-go/internal/apiform"
-	"github.com/stainless-sdks/post-for-me-go/internal/apiquery"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/apierror"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/apiform"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/apiquery"
 )
 
 func getDefaultHeaders() map[string]string {

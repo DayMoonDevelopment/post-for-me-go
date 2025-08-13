@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/post-for-me-go"
-	"github.com/stainless-sdks/post-for-me-go/internal/testutil"
-	"github.com/stainless-sdks/post-for-me-go/option"
+	"github.com/DayMoonDevelopment/post-for-me-go"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/testutil"
+	"github.com/DayMoonDevelopment/post-for-me-go/option"
 )
 
 func TestUsage(t *testing.T) {
@@ -24,9 +24,14 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	response, err := client.Media.NewUploadURL(context.TODO())
+	socialPost, err := client.SocialPosts.New(context.TODO(), postforme.SocialPostNewParams{
+		CreateSocialPost: postforme.CreateSocialPostParam{
+			Caption:        "caption",
+			SocialAccounts: []string{"string"},
+		},
+	})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
-	t.Logf("%+v\n", response.MediaURL)
+	t.Logf("%+v\n", socialPost.ID)
 }

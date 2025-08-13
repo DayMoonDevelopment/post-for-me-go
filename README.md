@@ -1,25 +1,33 @@
 # Post For Me Go API Library
 
-<a href="https://pkg.go.dev/github.com/stainless-sdks/post-for-me-go"><img src="https://pkg.go.dev/badge/github.com/stainless-sdks/post-for-me-go.svg" alt="Go Reference"></a>
+<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go"><img src="https://pkg.go.dev/badge/github.com/DayMoonDevelopment/post-for-me-go.svg" alt="Go Reference"></a>
 
-The Post For Me Go library provides convenient access to the Post For Me REST API
+The Post For Me Go library provides convenient access to the [Post For Me REST API](https://api.postforme.dev/docs)
 from applications written in Go.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
+<!-- x-release-please-start-version -->
+
 ```go
 import (
-	"github.com/stainless-sdks/post-for-me-go" // imported as postforme
+	"github.com/DayMoonDevelopment/post-for-me-go" // imported as postforme
 )
 ```
 
+<!-- x-release-please-end -->
+
 Or to pin the version:
 
+<!-- x-release-please-start-version -->
+
 ```sh
-go get -u 'github.com/stainless-sdks/post-for-me-go@v0.0.1-alpha.0'
+go get -u 'github.com/DayMoonDevelopment/post-for-me-go@v0.1.0-alpha.1'
 ```
+
+<!-- x-release-please-end -->
 
 ## Requirements
 
@@ -36,19 +44,24 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/stainless-sdks/post-for-me-go"
-	"github.com/stainless-sdks/post-for-me-go/option"
+	"github.com/DayMoonDevelopment/post-for-me-go"
+	"github.com/DayMoonDevelopment/post-for-me-go/option"
 )
 
 func main() {
 	client := postforme.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("POST_FOR_ME_API_KEY")
 	)
-	response, err := client.Media.NewUploadURL(context.TODO())
+	socialPost, err := client.SocialPosts.New(context.TODO(), postforme.SocialPostNewParams{
+		CreateSocialPost: postforme.CreateSocialPostParam{
+			Caption:        "caption",
+			SocialAccounts: []string{"string"},
+		},
+	})
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", response.MediaURL)
+	fmt.Printf("%+v\n", socialPost.ID)
 }
 
 ```
@@ -254,7 +267,7 @@ client := postforme.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.Media.NewUploadURL(context.TODO(), ...,
+client.SocialPosts.New(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -264,7 +277,7 @@ client.Media.NewUploadURL(context.TODO(), ...,
 
 The request option `option.WithDebugLog(nil)` may be helpful while debugging.
 
-See the [full list of request options](https://pkg.go.dev/github.com/stainless-sdks/post-for-me-go/option).
+See the [full list of request options](https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go/option).
 
 ### Pagination
 
@@ -285,14 +298,19 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.Media.NewUploadURL(context.TODO())
+_, err := client.SocialPosts.New(context.TODO(), postforme.SocialPostNewParams{
+	CreateSocialPost: postforme.CreateSocialPostParam{
+		Caption:        "caption",
+		SocialAccounts: []string{"string"},
+	},
+})
 if err != nil {
 	var apierr *postforme.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/v1/media/create-upload-url": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/v1/social-posts": 400 Bad Request { ... }
 }
 ```
 
@@ -310,8 +328,14 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.Media.NewUploadURL(
+client.SocialPosts.New(
 	ctx,
+	postforme.SocialPostNewParams{
+		CreateSocialPost: postforme.CreateSocialPostParam{
+			Caption:        "caption",
+			SocialAccounts: []string{"string"},
+		},
+	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
 )
@@ -345,7 +369,16 @@ client := postforme.NewClient(
 )
 
 // Override per-request:
-client.Media.NewUploadURL(context.TODO(), option.WithMaxRetries(5))
+client.SocialPosts.New(
+	context.TODO(),
+	postforme.SocialPostNewParams{
+		CreateSocialPost: postforme.CreateSocialPostParam{
+			Caption:        "caption",
+			SocialAccounts: []string{"string"},
+		},
+	},
+	option.WithMaxRetries(5),
+)
 ```
 
 ### Accessing raw response data (e.g. response headers)
@@ -356,11 +389,20 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-response, err := client.Media.NewUploadURL(context.TODO(), option.WithResponseInto(&response))
+socialPost, err := client.SocialPosts.New(
+	context.TODO(),
+	postforme.SocialPostNewParams{
+		CreateSocialPost: postforme.CreateSocialPostParam{
+			Caption:        "caption",
+			SocialAccounts: []string{"string"},
+		},
+	},
+	option.WithResponseInto(&response),
+)
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", response)
+fmt.Printf("%+v\n", socialPost)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)
@@ -461,7 +503,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/post-for-me-go/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/DayMoonDevelopment/post-for-me-go/issues) with questions, bugs, or suggestions.
 
 ## Contributing
 

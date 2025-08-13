@@ -1,7 +1,7 @@
 package apijson
 
 import (
-	"github.com/stainless-sdks/post-for-me-go/packages/respjson"
+	"github.com/DayMoonDevelopment/post-for-me-go/packages/respjson"
 	"reflect"
 )
 
