@@ -2,8 +2,8 @@ package apijson_test
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/post-for-me-go/internal/apijson"
-	"github.com/stainless-sdks/post-for-me-go/packages/respjson"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/apijson"
+	"github.com/DayMoonDevelopment/post-for-me-go/packages/respjson"
 	"testing"
 )
 

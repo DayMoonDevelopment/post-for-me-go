@@ -2,7 +2,7 @@ package param
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/post-for-me-go/internal/encoding/json/sentinel"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/encoding/json/sentinel"
 	"reflect"
 )
 

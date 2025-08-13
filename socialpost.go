@@ -11,13 +11,13 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/stainless-sdks/post-for-me-go/internal/apijson"
-	"github.com/stainless-sdks/post-for-me-go/internal/apiquery"
-	shimjson "github.com/stainless-sdks/post-for-me-go/internal/encoding/json"
-	"github.com/stainless-sdks/post-for-me-go/internal/requestconfig"
-	"github.com/stainless-sdks/post-for-me-go/option"
-	"github.com/stainless-sdks/post-for-me-go/packages/param"
-	"github.com/stainless-sdks/post-for-me-go/packages/respjson"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/apijson"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/apiquery"
+	shimjson "github.com/DayMoonDevelopment/post-for-me-go/internal/encoding/json"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/requestconfig"
+	"github.com/DayMoonDevelopment/post-for-me-go/option"
+	"github.com/DayMoonDevelopment/post-for-me-go/packages/param"
+	"github.com/DayMoonDevelopment/post-for-me-go/packages/respjson"
 )
 
 // SocialPostService contains methods and other services that help with interacting

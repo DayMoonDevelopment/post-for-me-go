@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/post-for-me-go"
-	"github.com/stainless-sdks/post-for-me-go/internal/testutil"
-	"github.com/stainless-sdks/post-for-me-go/option"
+	"github.com/DayMoonDevelopment/post-for-me-go"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/testutil"
+	"github.com/DayMoonDevelopment/post-for-me-go/option"
 )
 
 func TestUsage(t *testing.T) {

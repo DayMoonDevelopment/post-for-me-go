@@ -6,10 +6,10 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stainless-sdks/post-for-me-go/internal/apijson"
-	"github.com/stainless-sdks/post-for-me-go/internal/requestconfig"
-	"github.com/stainless-sdks/post-for-me-go/option"
-	"github.com/stainless-sdks/post-for-me-go/packages/respjson"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/apijson"
+	"github.com/DayMoonDevelopment/post-for-me-go/internal/requestconfig"
+	"github.com/DayMoonDevelopment/post-for-me-go/option"
+	"github.com/DayMoonDevelopment/post-for-me-go/packages/respjson"
 )
 
 // MediaService contains methods and other services that help with interacting with
