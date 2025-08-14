@@ -457,6 +457,8 @@ type TiktokConfigurationParam struct {
 	DiscloseBrandedContent param.Opt[bool] `json:"disclose_branded_content,omitzero"`
 	// Disclose your brand on TikTok
 	DiscloseYourBrand param.Opt[bool] `json:"disclose_your_brand,omitzero"`
+	// Flag content as AI generated on TikTok
+	IsAIGenerated param.Opt[bool] `json:"is_ai_generated,omitzero"`
 	// Sets the privacy status for TikTok (private, public)
 	PrivacyStatus param.Opt[string] `json:"privacy_status,omitzero"`
 	// Overrides the `title` from the post
@@ -571,7 +573,7 @@ type SocialPostListParams struct {
 	// Filter by platforms. Multiple values imply OR logic.
 	//
 	// Any of "bluesky", "facebook", "instagram", "linkedin", "pinterest", "threads",
-	// "tiktok", "twitter", "youtube".
+	// "tiktok", "x", "youtube".
 	Platform []string `query:"platform,omitzero" json:"-"`
 	// Filter by post status. Multiple values imply OR logic.
 	//
