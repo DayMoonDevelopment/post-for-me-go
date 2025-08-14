@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/apijson"
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/apiquery"
@@ -96,25 +97,43 @@ func (r *SocialAccountService) Disconnect(ctx context.Context, id string, opts .
 type SocialAccount struct {
 	// The unique identifier of the social account
 	ID string `json:"id,required"`
+	// The access token of the social account
+	AccessToken string `json:"access_token,required"`
+	// The access token expiration date of the social account
+	AccessTokenExpiresAt time.Time `json:"access_token_expires_at,required" format:"date-time"`
 	// The external id of the social account
 	ExternalID string `json:"external_id,required"`
+	// The metadata of the social account
+	Metadata any `json:"metadata,required"`
 	// The platform of the social account
 	Platform string `json:"platform,required"`
+	// The refresh token of the social account
+	RefreshToken string `json:"refresh_token,required"`
+	// The refresh token expiration date of the social account
+	RefreshTokenExpiresAt time.Time `json:"refresh_token_expires_at,required" format:"date-time"`
 	// Status of the account
 	//
 	// Any of "connected", "disconnected".
 	Status SocialAccountStatus `json:"status,required"`
+	// The platform's id of the social account
+	UserID string `json:"user_id,required"`
 	// The platform's username of the social account
 	Username string `json:"username,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		ID          respjson.Field
-		ExternalID  respjson.Field
-		Platform    respjson.Field
-		Status      respjson.Field
-		Username    respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		ID                    respjson.Field
+		AccessToken           respjson.Field
+		AccessTokenExpiresAt  respjson.Field
+		ExternalID            respjson.Field
+		Metadata              respjson.Field
+		Platform              respjson.Field
+		RefreshToken          respjson.Field
+		RefreshTokenExpiresAt respjson.Field
+		Status                respjson.Field
+		UserID                respjson.Field
+		Username              respjson.Field
+		ExtraFields           map[string]respjson.Field
+		raw                   string
 	} `json:"-"`
 }
 
@@ -199,25 +218,43 @@ func (r *SocialAccountNewAuthURLResponse) UnmarshalJSON(data []byte) error {
 type SocialAccountDisconnectResponse struct {
 	// The unique identifier of the social account
 	ID string `json:"id,required"`
+	// The access token of the social account
+	AccessToken string `json:"access_token,required"`
+	// The access token expiration date of the social account
+	AccessTokenExpiresAt time.Time `json:"access_token_expires_at,required" format:"date-time"`
 	// The external id of the social account
 	ExternalID string `json:"external_id,required"`
+	// The metadata of the social account
+	Metadata any `json:"metadata,required"`
 	// The platform of the social account
 	Platform string `json:"platform,required"`
+	// The refresh token of the social account
+	RefreshToken string `json:"refresh_token,required"`
+	// The refresh token expiration date of the social account
+	RefreshTokenExpiresAt time.Time `json:"refresh_token_expires_at,required" format:"date-time"`
 	// Status of the account
 	//
 	// Any of "disconnected".
 	Status SocialAccountDisconnectResponseStatus `json:"status,required"`
+	// The platform's id of the social account
+	UserID string `json:"user_id,required"`
 	// The platform's username of the social account
 	Username string `json:"username,required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		ID          respjson.Field
-		ExternalID  respjson.Field
-		Platform    respjson.Field
-		Status      respjson.Field
-		Username    respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		ID                    respjson.Field
+		AccessToken           respjson.Field
+		AccessTokenExpiresAt  respjson.Field
+		ExternalID            respjson.Field
+		Metadata              respjson.Field
+		Platform              respjson.Field
+		RefreshToken          respjson.Field
+		RefreshTokenExpiresAt respjson.Field
+		Status                respjson.Field
+		UserID                respjson.Field
+		Username              respjson.Field
+		ExtraFields           map[string]respjson.Field
+		raw                   string
 	} `json:"-"`
 }
 
@@ -262,7 +299,7 @@ type SocialAccountListParams struct {
 	// ?externalId=test&externalId=test2).
 	ExternalID []string `query:"external_id,omitzero" json:"-"`
 	// Filter by platform(s). Multiple values imply OR logic (e.g.,
-	// ?platform=x&platform=twitter).
+	// ?platform=x&platform=facebook).
 	Platform []string `query:"platform,omitzero" json:"-"`
 	// Filter by username(s). Multiple values imply OR logic (e.g.,
 	// ?username=test&username=test2).
