@@ -160,12 +160,12 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	BoardIDs []string `json:"board_ids,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
-	// Threads post location
-	//
-	// Any of "reels", "timeline".
-	Location string `json:"location,omitzero"`
 	// Overrides the `media` from the post
 	Media []string `json:"media,omitzero"`
+	// Post placement for Facebook/Instagram/Threads
+	//
+	// Any of "reels", "timeline", "stories".
+	Placement string `json:"placement,omitzero"`
 	paramObj
 }
 
@@ -179,7 +179,7 @@ func (r *CreateSocialPostAccountConfigurationConfigurationParam) UnmarshalJSON(d
 
 func init() {
 	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationParam](
-		"location", "reels", "timeline",
+		"placement", "reels", "timeline", "stories",
 	)
 }
 
@@ -258,6 +258,10 @@ type CreateSocialPostPlatformConfigurationsFacebookParam struct {
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
 	Media []string `json:"media,omitzero"`
+	// Facebook post placement
+	//
+	// Any of "reels", "stories", "timeline".
+	Placement string `json:"placement,omitzero"`
 	paramObj
 }
 
@@ -269,12 +273,24 @@ func (r *CreateSocialPostPlatformConfigurationsFacebookParam) UnmarshalJSON(data
 	return apijson.UnmarshalRoot(data, r)
 }
 
+func init() {
+	apijson.RegisterFieldValidator[CreateSocialPostPlatformConfigurationsFacebookParam](
+		"placement", "reels", "stories", "timeline",
+	)
+}
+
 // Instagram configuration
 type CreateSocialPostPlatformConfigurationsInstagramParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
+	// Instagram usernames to be tagged as a collaborator
+	Collaborators []string `json:"collaborators,omitzero"`
 	// Overrides the `media` from the post
 	Media []string `json:"media,omitzero"`
+	// Instagram post placement
+	//
+	// Any of "reels", "stories", "timeline".
+	Placement string `json:"placement,omitzero"`
 	paramObj
 }
 
@@ -284,6 +300,12 @@ func (r CreateSocialPostPlatformConfigurationsInstagramParam) MarshalJSON() (dat
 }
 func (r *CreateSocialPostPlatformConfigurationsInstagramParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[CreateSocialPostPlatformConfigurationsInstagramParam](
+		"placement", "reels", "stories", "timeline",
+	)
 }
 
 // LinkedIn configuration
@@ -328,12 +350,12 @@ func (r *CreateSocialPostPlatformConfigurationsPinterestParam) UnmarshalJSON(dat
 type CreateSocialPostPlatformConfigurationsThreadsParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
-	// Threads post location
-	//
-	// Any of "reels", "timeline".
-	Location string `json:"location,omitzero"`
 	// Overrides the `media` from the post
 	Media []string `json:"media,omitzero"`
+	// Threads post placement
+	//
+	// Any of "reels", "timeline".
+	Placement string `json:"placement,omitzero"`
 	paramObj
 }
 
@@ -347,7 +369,7 @@ func (r *CreateSocialPostPlatformConfigurationsThreadsParam) UnmarshalJSON(data 
 
 func init() {
 	apijson.RegisterFieldValidator[CreateSocialPostPlatformConfigurationsThreadsParam](
-		"location", "reels", "timeline",
+		"placement", "reels", "timeline",
 	)
 }
 
