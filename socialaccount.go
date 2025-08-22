@@ -319,6 +319,8 @@ func (r SocialAccountListParams) URLQuery() (v url.Values, err error) {
 type SocialAccountNewAuthURLParams struct {
 	// The social account provider
 	Platform string `json:"platform,required"`
+	// Your unique identifier for the social account
+	ExternalID param.Opt[string] `json:"external_id,omitzero"`
 	// Additional data needed for the provider
 	PlatformData SocialAccountNewAuthURLParamsPlatformData `json:"platform_data,omitzero"`
 	paramObj
