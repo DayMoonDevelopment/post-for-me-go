@@ -110,7 +110,8 @@ func TestSocialAccountNewAuthURLWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SocialAccounts.NewAuthURL(context.TODO(), postforme.SocialAccountNewAuthURLParams{
-		Platform: "platform",
+		Platform:   "platform",
+		ExternalID: postforme.String("external_id"),
 		PlatformData: postforme.SocialAccountNewAuthURLParamsPlatformData{
 			Bluesky: postforme.SocialAccountNewAuthURLParamsPlatformDataBluesky{
 				AppPassword: "app_password",
