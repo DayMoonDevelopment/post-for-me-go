@@ -150,6 +150,11 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	DiscloseBrandedContent param.Opt[bool] `json:"disclose_branded_content,omitzero"`
 	// Disclose your brand on TikTok
 	DiscloseYourBrand param.Opt[bool] `json:"disclose_your_brand,omitzero"`
+	// Flag content as AI generated on TikTok
+	IsAIGenerated param.Opt[bool] `json:"is_ai_generated,omitzero"`
+	// Will create a draft upload to TikTok, posting will need to be completed from
+	// within the app
+	IsDraft param.Opt[bool] `json:"is_draft,omitzero"`
 	// Pinterest post link
 	Link param.Opt[string] `json:"link,omitzero"`
 	// Sets the privacy status for TikTok (private, public)
@@ -481,6 +486,9 @@ type TiktokConfigurationParam struct {
 	DiscloseYourBrand param.Opt[bool] `json:"disclose_your_brand,omitzero"`
 	// Flag content as AI generated on TikTok
 	IsAIGenerated param.Opt[bool] `json:"is_ai_generated,omitzero"`
+	// Will create a draft upload to TikTok, posting will need to be completed from
+	// within the app
+	IsDraft param.Opt[bool] `json:"is_draft,omitzero"`
 	// Sets the privacy status for TikTok (private, public)
 	PrivacyStatus param.Opt[string] `json:"privacy_status,omitzero"`
 	// Overrides the `title` from the post
