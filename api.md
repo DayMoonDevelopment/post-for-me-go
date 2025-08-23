@@ -26,7 +26,17 @@ Params Types:
 
 Response Types:
 
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#BlueskyConfigurationDto">BlueskyConfigurationDto</a>
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#FacebookConfigurationDto">FacebookConfigurationDto</a>
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#InstagramConfigurationDto">InstagramConfigurationDto</a>
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#LinkedinConfigurationDto">LinkedinConfigurationDto</a>
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#PinterestConfigurationDto">PinterestConfigurationDto</a>
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#PlatformConfigurationsDto">PlatformConfigurationsDto</a>
 - <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#SocialPost">SocialPost</a>
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#ThreadsConfigurationDto">ThreadsConfigurationDto</a>
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#TiktokConfiguration">TiktokConfiguration</a>
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#TwitterConfigurationDto">TwitterConfigurationDto</a>
+- <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#YoutubeConfigurationDto">YoutubeConfigurationDto</a>
 - <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#SocialPostListResponse">SocialPostListResponse</a>
 - <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go">postforme</a>.<a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go#SocialPostDeleteResponse">SocialPostDeleteResponse</a>
 
