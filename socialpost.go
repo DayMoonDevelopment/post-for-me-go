@@ -91,6 +91,35 @@ func (r *SocialPostService) Delete(ctx context.Context, id string, opts ...optio
 	return
 }
 
+type BlueskyConfigurationDto struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Caption     respjson.Field
+		Media       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r BlueskyConfigurationDto) RawJSON() string { return r.JSON.raw }
+func (r *BlueskyConfigurationDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this BlueskyConfigurationDto to a BlueskyConfigurationDtoParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// BlueskyConfigurationDtoParam.Overrides()
+func (r BlueskyConfigurationDto) ToParam() BlueskyConfigurationDtoParam {
+	return param.Override[BlueskyConfigurationDtoParam](json.RawMessage(r.RawJSON()))
+}
+
 type BlueskyConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
@@ -223,6 +252,50 @@ func (r *CreateSocialPostMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type FacebookConfigurationDto struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// Facebook post placement
+	//
+	// Any of "reels", "stories", "timeline".
+	Placement FacebookConfigurationDtoPlacement `json:"placement,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Caption     respjson.Field
+		Media       respjson.Field
+		Placement   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r FacebookConfigurationDto) RawJSON() string { return r.JSON.raw }
+func (r *FacebookConfigurationDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this FacebookConfigurationDto to a
+// FacebookConfigurationDtoParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// FacebookConfigurationDtoParam.Overrides()
+func (r FacebookConfigurationDto) ToParam() FacebookConfigurationDtoParam {
+	return param.Override[FacebookConfigurationDtoParam](json.RawMessage(r.RawJSON()))
+}
+
+// Facebook post placement
+type FacebookConfigurationDtoPlacement string
+
+const (
+	FacebookConfigurationDtoPlacementReels    FacebookConfigurationDtoPlacement = "reels"
+	FacebookConfigurationDtoPlacementStories  FacebookConfigurationDtoPlacement = "stories"
+	FacebookConfigurationDtoPlacementTimeline FacebookConfigurationDtoPlacement = "timeline"
+)
+
 type FacebookConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
@@ -243,13 +316,51 @@ func (r *FacebookConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Facebook post placement
-type FacebookConfigurationDtoPlacement string
+type InstagramConfigurationDto struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Instagram usernames to be tagged as a collaborator
+	Collaborators []string `json:"collaborators,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// Instagram post placement
+	//
+	// Any of "reels", "stories", "timeline".
+	Placement InstagramConfigurationDtoPlacement `json:"placement,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Caption       respjson.Field
+		Collaborators respjson.Field
+		Media         respjson.Field
+		Placement     respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r InstagramConfigurationDto) RawJSON() string { return r.JSON.raw }
+func (r *InstagramConfigurationDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this InstagramConfigurationDto to a
+// InstagramConfigurationDtoParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// InstagramConfigurationDtoParam.Overrides()
+func (r InstagramConfigurationDto) ToParam() InstagramConfigurationDtoParam {
+	return param.Override[InstagramConfigurationDtoParam](json.RawMessage(r.RawJSON()))
+}
+
+// Instagram post placement
+type InstagramConfigurationDtoPlacement string
 
 const (
-	FacebookConfigurationDtoPlacementReels    FacebookConfigurationDtoPlacement = "reels"
-	FacebookConfigurationDtoPlacementStories  FacebookConfigurationDtoPlacement = "stories"
-	FacebookConfigurationDtoPlacementTimeline FacebookConfigurationDtoPlacement = "timeline"
+	InstagramConfigurationDtoPlacementReels    InstagramConfigurationDtoPlacement = "reels"
+	InstagramConfigurationDtoPlacementStories  InstagramConfigurationDtoPlacement = "stories"
+	InstagramConfigurationDtoPlacementTimeline InstagramConfigurationDtoPlacement = "timeline"
 )
 
 type InstagramConfigurationDtoParam struct {
@@ -274,14 +385,35 @@ func (r *InstagramConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Instagram post placement
-type InstagramConfigurationDtoPlacement string
+type LinkedinConfigurationDto struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Caption     respjson.Field
+		Media       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
 
-const (
-	InstagramConfigurationDtoPlacementReels    InstagramConfigurationDtoPlacement = "reels"
-	InstagramConfigurationDtoPlacementStories  InstagramConfigurationDtoPlacement = "stories"
-	InstagramConfigurationDtoPlacementTimeline InstagramConfigurationDtoPlacement = "timeline"
-)
+// Returns the unmodified JSON received from the API
+func (r LinkedinConfigurationDto) RawJSON() string { return r.JSON.raw }
+func (r *LinkedinConfigurationDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this LinkedinConfigurationDto to a
+// LinkedinConfigurationDtoParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// LinkedinConfigurationDtoParam.Overrides()
+func (r LinkedinConfigurationDto) ToParam() LinkedinConfigurationDtoParam {
+	return param.Override[LinkedinConfigurationDtoParam](json.RawMessage(r.RawJSON()))
+}
 
 type LinkedinConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
@@ -297,6 +429,42 @@ func (r LinkedinConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
 }
 func (r *LinkedinConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type PinterestConfigurationDto struct {
+	// Pinterest board IDs
+	BoardIDs []string `json:"board_ids,nullable"`
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Pinterest post link
+	Link string `json:"link,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		BoardIDs    respjson.Field
+		Caption     respjson.Field
+		Link        respjson.Field
+		Media       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PinterestConfigurationDto) RawJSON() string { return r.JSON.raw }
+func (r *PinterestConfigurationDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this PinterestConfigurationDto to a
+// PinterestConfigurationDtoParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// PinterestConfigurationDtoParam.Overrides()
+func (r PinterestConfigurationDto) ToParam() PinterestConfigurationDtoParam {
+	return param.Override[PinterestConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
 type PinterestConfigurationDtoParam struct {
@@ -317,6 +485,60 @@ func (r PinterestConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
 }
 func (r *PinterestConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformConfigurationsDto struct {
+	// Bluesky configuration
+	Bluesky BlueskyConfigurationDto `json:"bluesky,nullable"`
+	// Facebook configuration
+	Facebook FacebookConfigurationDto `json:"facebook,nullable"`
+	// Instagram configuration
+	Instagram InstagramConfigurationDto `json:"instagram,nullable"`
+	// LinkedIn configuration
+	Linkedin LinkedinConfigurationDto `json:"linkedin,nullable"`
+	// Pinterest configuration
+	Pinterest PinterestConfigurationDto `json:"pinterest,nullable"`
+	// Threads configuration
+	Threads ThreadsConfigurationDto `json:"threads,nullable"`
+	// TikTok configuration
+	Tiktok TiktokConfiguration `json:"tiktok,nullable"`
+	// TikTok configuration
+	TiktokBusiness TiktokConfiguration `json:"tiktok_business,nullable"`
+	// Twitter configuration
+	X TwitterConfigurationDto `json:"x,nullable"`
+	// YouTube configuration
+	Youtube YoutubeConfigurationDto `json:"youtube,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Bluesky        respjson.Field
+		Facebook       respjson.Field
+		Instagram      respjson.Field
+		Linkedin       respjson.Field
+		Pinterest      respjson.Field
+		Threads        respjson.Field
+		Tiktok         respjson.Field
+		TiktokBusiness respjson.Field
+		X              respjson.Field
+		Youtube        respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformConfigurationsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformConfigurationsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this PlatformConfigurationsDto to a
+// PlatformConfigurationsDtoParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// PlatformConfigurationsDtoParam.Overrides()
+func (r PlatformConfigurationsDto) ToParam() PlatformConfigurationsDtoParam {
+	return param.Override[PlatformConfigurationsDtoParam](json.RawMessage(r.RawJSON()))
 }
 
 type PlatformConfigurationsDtoParam struct {
@@ -355,7 +577,7 @@ type SocialPost struct {
 	// Unique identifier of the post
 	ID string `json:"id,required"`
 	// Account-specific configurations for the post
-	AccountConfigurations []any `json:"account_configurations,required"`
+	AccountConfigurations []SocialPostAccountConfiguration `json:"account_configurations,required"`
 	// Caption text for the post
 	Caption string `json:"caption,required"`
 	// Timestamp when the post was created
@@ -363,13 +585,13 @@ type SocialPost struct {
 	// Provided unique identifier of the post
 	ExternalID string `json:"external_id,required"`
 	// Array of media URLs associated with the post
-	Media any `json:"media,required"`
+	Media []SocialPostMedia `json:"media,required"`
 	// Platform-specific configurations for the post
-	PlatformConfigurations any `json:"platform_configurations,required"`
+	PlatformConfigurations PlatformConfigurationsDto `json:"platform_configurations,required"`
 	// Scheduled date and time for the post
 	ScheduledAt string `json:"scheduled_at,required"`
 	// Array of social account IDs for posting
-	SocialAccounts []string `json:"social_accounts,required"`
+	SocialAccounts []SocialAccount `json:"social_accounts,required"`
 	// Current status of the post: draft, processed, scheduled, or processing
 	//
 	// Any of "draft", "scheduled", "processing", "processed".
@@ -400,6 +622,109 @@ func (r *SocialPost) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type SocialPostAccountConfiguration struct {
+	// Configuration for the social account
+	Configuration SocialPostAccountConfigurationConfiguration `json:"configuration,required"`
+	// ID of the social account, you want to apply the configuration to
+	SocialAccountID string `json:"social_account_id,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Configuration   respjson.Field
+		SocialAccountID respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SocialPostAccountConfiguration) RawJSON() string { return r.JSON.raw }
+func (r *SocialPostAccountConfiguration) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Configuration for the social account
+type SocialPostAccountConfigurationConfiguration struct {
+	// Allow comments on TikTok
+	AllowComment bool `json:"allow_comment,nullable"`
+	// Allow duets on TikTok
+	AllowDuet bool `json:"allow_duet,nullable"`
+	// Allow stitch on TikTok
+	AllowStitch bool `json:"allow_stitch,nullable"`
+	// Pinterest board IDs
+	BoardIDs []string `json:"board_ids,nullable"`
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Disclose branded content on TikTok
+	DiscloseBrandedContent bool `json:"disclose_branded_content,nullable"`
+	// Disclose your brand on TikTok
+	DiscloseYourBrand bool `json:"disclose_your_brand,nullable"`
+	// Flag content as AI generated on TikTok
+	IsAIGenerated bool `json:"is_ai_generated,nullable"`
+	// Will create a draft upload to TikTok, posting will need to be completed from
+	// within the app
+	IsDraft bool `json:"is_draft,nullable"`
+	// Pinterest post link
+	Link string `json:"link,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// Post placement for Facebook/Instagram/Threads
+	//
+	// Any of "reels", "timeline", "stories".
+	Placement string `json:"placement,nullable"`
+	// Sets the privacy status for TikTok (private, public)
+	PrivacyStatus string `json:"privacy_status,nullable"`
+	// Overrides the `title` from the post
+	Title string `json:"title,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AllowComment           respjson.Field
+		AllowDuet              respjson.Field
+		AllowStitch            respjson.Field
+		BoardIDs               respjson.Field
+		Caption                respjson.Field
+		DiscloseBrandedContent respjson.Field
+		DiscloseYourBrand      respjson.Field
+		IsAIGenerated          respjson.Field
+		IsDraft                respjson.Field
+		Link                   respjson.Field
+		Media                  respjson.Field
+		Placement              respjson.Field
+		PrivacyStatus          respjson.Field
+		Title                  respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SocialPostAccountConfigurationConfiguration) RawJSON() string { return r.JSON.raw }
+func (r *SocialPostAccountConfigurationConfiguration) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SocialPostMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SocialPostMedia) RawJSON() string { return r.JSON.raw }
+func (r *SocialPostMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Current status of the post: draft, processed, scheduled, or processing
 type SocialPostStatus string
 
@@ -408,6 +733,48 @@ const (
 	SocialPostStatusScheduled  SocialPostStatus = "scheduled"
 	SocialPostStatusProcessing SocialPostStatus = "processing"
 	SocialPostStatusProcessed  SocialPostStatus = "processed"
+)
+
+type ThreadsConfigurationDto struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// Threads post placement
+	//
+	// Any of "reels", "timeline".
+	Placement ThreadsConfigurationDtoPlacement `json:"placement,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Caption     respjson.Field
+		Media       respjson.Field
+		Placement   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ThreadsConfigurationDto) RawJSON() string { return r.JSON.raw }
+func (r *ThreadsConfigurationDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this ThreadsConfigurationDto to a ThreadsConfigurationDtoParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// ThreadsConfigurationDtoParam.Overrides()
+func (r ThreadsConfigurationDto) ToParam() ThreadsConfigurationDtoParam {
+	return param.Override[ThreadsConfigurationDtoParam](json.RawMessage(r.RawJSON()))
+}
+
+// Threads post placement
+type ThreadsConfigurationDtoPlacement string
+
+const (
+	ThreadsConfigurationDtoPlacementReels    ThreadsConfigurationDtoPlacement = "reels"
+	ThreadsConfigurationDtoPlacementTimeline ThreadsConfigurationDtoPlacement = "timeline"
 )
 
 type ThreadsConfigurationDtoParam struct {
@@ -430,13 +797,62 @@ func (r *ThreadsConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Threads post placement
-type ThreadsConfigurationDtoPlacement string
+type TiktokConfiguration struct {
+	// Allow comments on TikTok
+	AllowComment bool `json:"allow_comment,nullable"`
+	// Allow duets on TikTok
+	AllowDuet bool `json:"allow_duet,nullable"`
+	// Allow stitch on TikTok
+	AllowStitch bool `json:"allow_stitch,nullable"`
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Disclose branded content on TikTok
+	DiscloseBrandedContent bool `json:"disclose_branded_content,nullable"`
+	// Disclose your brand on TikTok
+	DiscloseYourBrand bool `json:"disclose_your_brand,nullable"`
+	// Flag content as AI generated on TikTok
+	IsAIGenerated bool `json:"is_ai_generated,nullable"`
+	// Will create a draft upload to TikTok, posting will need to be completed from
+	// within the app
+	IsDraft bool `json:"is_draft,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// Sets the privacy status for TikTok (private, public)
+	PrivacyStatus string `json:"privacy_status,nullable"`
+	// Overrides the `title` from the post
+	Title string `json:"title,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AllowComment           respjson.Field
+		AllowDuet              respjson.Field
+		AllowStitch            respjson.Field
+		Caption                respjson.Field
+		DiscloseBrandedContent respjson.Field
+		DiscloseYourBrand      respjson.Field
+		IsAIGenerated          respjson.Field
+		IsDraft                respjson.Field
+		Media                  respjson.Field
+		PrivacyStatus          respjson.Field
+		Title                  respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
+	} `json:"-"`
+}
 
-const (
-	ThreadsConfigurationDtoPlacementReels    ThreadsConfigurationDtoPlacement = "reels"
-	ThreadsConfigurationDtoPlacementTimeline ThreadsConfigurationDtoPlacement = "timeline"
-)
+// Returns the unmodified JSON received from the API
+func (r TiktokConfiguration) RawJSON() string { return r.JSON.raw }
+func (r *TiktokConfiguration) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this TiktokConfiguration to a TiktokConfigurationParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// TiktokConfigurationParam.Overrides()
+func (r TiktokConfiguration) ToParam() TiktokConfigurationParam {
+	return param.Override[TiktokConfigurationParam](json.RawMessage(r.RawJSON()))
+}
 
 type TiktokConfigurationParam struct {
 	// Allow comments on TikTok
@@ -473,6 +889,35 @@ func (r *TiktokConfigurationParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type TwitterConfigurationDto struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Caption     respjson.Field
+		Media       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TwitterConfigurationDto) RawJSON() string { return r.JSON.raw }
+func (r *TwitterConfigurationDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this TwitterConfigurationDto to a TwitterConfigurationDtoParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// TwitterConfigurationDtoParam.Overrides()
+func (r TwitterConfigurationDto) ToParam() TwitterConfigurationDtoParam {
+	return param.Override[TwitterConfigurationDtoParam](json.RawMessage(r.RawJSON()))
+}
+
 type TwitterConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
@@ -487,6 +932,38 @@ func (r TwitterConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
 }
 func (r *TwitterConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+type YoutubeConfigurationDto struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,nullable"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,nullable"`
+	// Overrides the `title` from the post
+	Title string `json:"title,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Caption     respjson.Field
+		Media       respjson.Field
+		Title       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r YoutubeConfigurationDto) RawJSON() string { return r.JSON.raw }
+func (r *YoutubeConfigurationDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// ToParam converts this YoutubeConfigurationDto to a YoutubeConfigurationDtoParam.
+//
+// Warning: the fields of the param type will not be present. ToParam should only
+// be used at the last possible moment before sending a request. Test for this with
+// YoutubeConfigurationDtoParam.Overrides()
+func (r YoutubeConfigurationDto) ToParam() YoutubeConfigurationDtoParam {
+	return param.Override[YoutubeConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
 type YoutubeConfigurationDtoParam struct {
