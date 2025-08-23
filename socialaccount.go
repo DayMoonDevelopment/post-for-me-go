@@ -37,6 +37,15 @@ func NewSocialAccountService(opts ...option.RequestOption) (r SocialAccountServi
 	return
 }
 
+// If a social account with the same platform and user_id already exists, it will
+// be updated. If not, a new social account will be created.
+func (r *SocialAccountService) New(ctx context.Context, body SocialAccountNewParams, opts ...option.RequestOption) (res *SocialAccount, err error) {
+	opts = append(r.Options[:], opts...)
+	path := "v1/social-accounts"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return
+}
+
 // Get social account by ID
 func (r *SocialAccountService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *SocialAccount, err error) {
 	opts = append(r.Options[:], opts...)
@@ -269,6 +278,55 @@ type SocialAccountDisconnectResponseStatus string
 
 const (
 	SocialAccountDisconnectResponseStatusDisconnected SocialAccountDisconnectResponseStatus = "disconnected"
+)
+
+type SocialAccountNewParams struct {
+	// The access token of the social account
+	AccessToken string `json:"access_token,required"`
+	// The access token expiration date of the social account
+	AccessTokenExpiresAt time.Time `json:"access_token_expires_at,required" format:"date-time"`
+	// The platform of the social account
+	//
+	// Any of "facebook", "instagram", "x", "tiktok", "youtube", "pinterest",
+	// "linkedin", "bluesky", "threads", "tiktok_business".
+	Platform SocialAccountNewParamsPlatform `json:"platform,omitzero,required"`
+	// The user id of the social account
+	UserID string `json:"user_id,required"`
+	// The external id of the social account
+	ExternalID param.Opt[string] `json:"external_id,omitzero"`
+	// The refresh token of the social account
+	RefreshToken param.Opt[string] `json:"refresh_token,omitzero"`
+	// The refresh token expiration date of the social account
+	RefreshTokenExpiresAt param.Opt[time.Time] `json:"refresh_token_expires_at,omitzero" format:"date-time"`
+	// The platform's username of the social account
+	Username param.Opt[string] `json:"username,omitzero"`
+	// The metadata of the social account
+	Metadata any `json:"metadata,omitzero"`
+	paramObj
+}
+
+func (r SocialAccountNewParams) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The platform of the social account
+type SocialAccountNewParamsPlatform string
+
+const (
+	SocialAccountNewParamsPlatformFacebook       SocialAccountNewParamsPlatform = "facebook"
+	SocialAccountNewParamsPlatformInstagram      SocialAccountNewParamsPlatform = "instagram"
+	SocialAccountNewParamsPlatformX              SocialAccountNewParamsPlatform = "x"
+	SocialAccountNewParamsPlatformTiktok         SocialAccountNewParamsPlatform = "tiktok"
+	SocialAccountNewParamsPlatformYoutube        SocialAccountNewParamsPlatform = "youtube"
+	SocialAccountNewParamsPlatformPinterest      SocialAccountNewParamsPlatform = "pinterest"
+	SocialAccountNewParamsPlatformLinkedin       SocialAccountNewParamsPlatform = "linkedin"
+	SocialAccountNewParamsPlatformBluesky        SocialAccountNewParamsPlatform = "bluesky"
+	SocialAccountNewParamsPlatformThreads        SocialAccountNewParamsPlatform = "threads"
+	SocialAccountNewParamsPlatformTiktokBusiness SocialAccountNewParamsPlatform = "tiktok_business"
 )
 
 type SocialAccountUpdateParams struct {
