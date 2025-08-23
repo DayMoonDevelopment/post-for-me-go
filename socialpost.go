@@ -91,6 +91,22 @@ func (r *SocialPostService) Delete(ctx context.Context, id string, opts ...optio
 	return
 }
 
+type BlueskyConfigurationDtoParam struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,omitzero"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,omitzero"`
+	paramObj
+}
+
+func (r BlueskyConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
+	type shadow BlueskyConfigurationDtoParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *BlueskyConfigurationDtoParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // The properties Caption, SocialAccounts are required.
 type CreateSocialPostParam struct {
 	// Caption text for the post
@@ -109,7 +125,7 @@ type CreateSocialPostParam struct {
 	// Array of media URLs associated with the post
 	Media []CreateSocialPostMediaParam `json:"media,omitzero"`
 	// Platform-specific configurations for the post
-	PlatformConfigurations CreateSocialPostPlatformConfigurationsParam `json:"platform_configurations,omitzero"`
+	PlatformConfigurations PlatformConfigurationsDtoParam `json:"platform_configurations,omitzero"`
 	paramObj
 }
 
@@ -207,58 +223,7 @@ func (r *CreateSocialPostMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Platform-specific configurations for the post
-type CreateSocialPostPlatformConfigurationsParam struct {
-	// Bluesky configuration
-	Bluesky CreateSocialPostPlatformConfigurationsBlueskyParam `json:"bluesky,omitzero"`
-	// Facebook configuration
-	Facebook CreateSocialPostPlatformConfigurationsFacebookParam `json:"facebook,omitzero"`
-	// Instagram configuration
-	Instagram CreateSocialPostPlatformConfigurationsInstagramParam `json:"instagram,omitzero"`
-	// LinkedIn configuration
-	Linkedin CreateSocialPostPlatformConfigurationsLinkedinParam `json:"linkedin,omitzero"`
-	// Pinterest configuration
-	Pinterest CreateSocialPostPlatformConfigurationsPinterestParam `json:"pinterest,omitzero"`
-	// Threads configuration
-	Threads CreateSocialPostPlatformConfigurationsThreadsParam `json:"threads,omitzero"`
-	// Twitter configuration
-	X CreateSocialPostPlatformConfigurationsXParam `json:"x,omitzero"`
-	// YouTube configuration
-	Youtube CreateSocialPostPlatformConfigurationsYoutubeParam `json:"youtube,omitzero"`
-	// TikTok configuration
-	Tiktok TiktokConfigurationParam `json:"tiktok,omitzero"`
-	// TikTok configuration
-	TiktokBusiness TiktokConfigurationParam `json:"tiktok_business,omitzero"`
-	paramObj
-}
-
-func (r CreateSocialPostPlatformConfigurationsParam) MarshalJSON() (data []byte, err error) {
-	type shadow CreateSocialPostPlatformConfigurationsParam
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *CreateSocialPostPlatformConfigurationsParam) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Bluesky configuration
-type CreateSocialPostPlatformConfigurationsBlueskyParam struct {
-	// Overrides the `caption` from the post
-	Caption any `json:"caption,omitzero"`
-	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
-	paramObj
-}
-
-func (r CreateSocialPostPlatformConfigurationsBlueskyParam) MarshalJSON() (data []byte, err error) {
-	type shadow CreateSocialPostPlatformConfigurationsBlueskyParam
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *CreateSocialPostPlatformConfigurationsBlueskyParam) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Facebook configuration
-type CreateSocialPostPlatformConfigurationsFacebookParam struct {
+type FacebookConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
@@ -266,26 +231,28 @@ type CreateSocialPostPlatformConfigurationsFacebookParam struct {
 	// Facebook post placement
 	//
 	// Any of "reels", "stories", "timeline".
-	Placement string `json:"placement,omitzero"`
+	Placement FacebookConfigurationDtoPlacement `json:"placement,omitzero"`
 	paramObj
 }
 
-func (r CreateSocialPostPlatformConfigurationsFacebookParam) MarshalJSON() (data []byte, err error) {
-	type shadow CreateSocialPostPlatformConfigurationsFacebookParam
+func (r FacebookConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
+	type shadow FacebookConfigurationDtoParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *CreateSocialPostPlatformConfigurationsFacebookParam) UnmarshalJSON(data []byte) error {
+func (r *FacebookConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func init() {
-	apijson.RegisterFieldValidator[CreateSocialPostPlatformConfigurationsFacebookParam](
-		"placement", "reels", "stories", "timeline",
-	)
-}
+// Facebook post placement
+type FacebookConfigurationDtoPlacement string
 
-// Instagram configuration
-type CreateSocialPostPlatformConfigurationsInstagramParam struct {
+const (
+	FacebookConfigurationDtoPlacementReels    FacebookConfigurationDtoPlacement = "reels"
+	FacebookConfigurationDtoPlacementStories  FacebookConfigurationDtoPlacement = "stories"
+	FacebookConfigurationDtoPlacementTimeline FacebookConfigurationDtoPlacement = "timeline"
+)
+
+type InstagramConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Instagram usernames to be tagged as a collaborator
@@ -295,26 +262,28 @@ type CreateSocialPostPlatformConfigurationsInstagramParam struct {
 	// Instagram post placement
 	//
 	// Any of "reels", "stories", "timeline".
-	Placement string `json:"placement,omitzero"`
+	Placement InstagramConfigurationDtoPlacement `json:"placement,omitzero"`
 	paramObj
 }
 
-func (r CreateSocialPostPlatformConfigurationsInstagramParam) MarshalJSON() (data []byte, err error) {
-	type shadow CreateSocialPostPlatformConfigurationsInstagramParam
+func (r InstagramConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
+	type shadow InstagramConfigurationDtoParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *CreateSocialPostPlatformConfigurationsInstagramParam) UnmarshalJSON(data []byte) error {
+func (r *InstagramConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-func init() {
-	apijson.RegisterFieldValidator[CreateSocialPostPlatformConfigurationsInstagramParam](
-		"placement", "reels", "stories", "timeline",
-	)
-}
+// Instagram post placement
+type InstagramConfigurationDtoPlacement string
 
-// LinkedIn configuration
-type CreateSocialPostPlatformConfigurationsLinkedinParam struct {
+const (
+	InstagramConfigurationDtoPlacementReels    InstagramConfigurationDtoPlacement = "reels"
+	InstagramConfigurationDtoPlacementStories  InstagramConfigurationDtoPlacement = "stories"
+	InstagramConfigurationDtoPlacementTimeline InstagramConfigurationDtoPlacement = "timeline"
+)
+
+type LinkedinConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
@@ -322,16 +291,15 @@ type CreateSocialPostPlatformConfigurationsLinkedinParam struct {
 	paramObj
 }
 
-func (r CreateSocialPostPlatformConfigurationsLinkedinParam) MarshalJSON() (data []byte, err error) {
-	type shadow CreateSocialPostPlatformConfigurationsLinkedinParam
+func (r LinkedinConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
+	type shadow LinkedinConfigurationDtoParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *CreateSocialPostPlatformConfigurationsLinkedinParam) UnmarshalJSON(data []byte) error {
+func (r *LinkedinConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Pinterest configuration
-type CreateSocialPostPlatformConfigurationsPinterestParam struct {
+type PinterestConfigurationDtoParam struct {
 	// Pinterest post link
 	Link param.Opt[string] `json:"link,omitzero"`
 	// Pinterest board IDs
@@ -343,74 +311,43 @@ type CreateSocialPostPlatformConfigurationsPinterestParam struct {
 	paramObj
 }
 
-func (r CreateSocialPostPlatformConfigurationsPinterestParam) MarshalJSON() (data []byte, err error) {
-	type shadow CreateSocialPostPlatformConfigurationsPinterestParam
+func (r PinterestConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
+	type shadow PinterestConfigurationDtoParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *CreateSocialPostPlatformConfigurationsPinterestParam) UnmarshalJSON(data []byte) error {
+func (r *PinterestConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// Threads configuration
-type CreateSocialPostPlatformConfigurationsThreadsParam struct {
-	// Overrides the `caption` from the post
-	Caption any `json:"caption,omitzero"`
-	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
-	// Threads post placement
-	//
-	// Any of "reels", "timeline".
-	Placement string `json:"placement,omitzero"`
+type PlatformConfigurationsDtoParam struct {
+	// Bluesky configuration
+	Bluesky BlueskyConfigurationDtoParam `json:"bluesky,omitzero"`
+	// Facebook configuration
+	Facebook FacebookConfigurationDtoParam `json:"facebook,omitzero"`
+	// Instagram configuration
+	Instagram InstagramConfigurationDtoParam `json:"instagram,omitzero"`
+	// LinkedIn configuration
+	Linkedin LinkedinConfigurationDtoParam `json:"linkedin,omitzero"`
+	// Pinterest configuration
+	Pinterest PinterestConfigurationDtoParam `json:"pinterest,omitzero"`
+	// Threads configuration
+	Threads ThreadsConfigurationDtoParam `json:"threads,omitzero"`
+	// TikTok configuration
+	Tiktok TiktokConfigurationParam `json:"tiktok,omitzero"`
+	// TikTok configuration
+	TiktokBusiness TiktokConfigurationParam `json:"tiktok_business,omitzero"`
+	// Twitter configuration
+	X TwitterConfigurationDtoParam `json:"x,omitzero"`
+	// YouTube configuration
+	Youtube YoutubeConfigurationDtoParam `json:"youtube,omitzero"`
 	paramObj
 }
 
-func (r CreateSocialPostPlatformConfigurationsThreadsParam) MarshalJSON() (data []byte, err error) {
-	type shadow CreateSocialPostPlatformConfigurationsThreadsParam
+func (r PlatformConfigurationsDtoParam) MarshalJSON() (data []byte, err error) {
+	type shadow PlatformConfigurationsDtoParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
-func (r *CreateSocialPostPlatformConfigurationsThreadsParam) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func init() {
-	apijson.RegisterFieldValidator[CreateSocialPostPlatformConfigurationsThreadsParam](
-		"placement", "reels", "timeline",
-	)
-}
-
-// Twitter configuration
-type CreateSocialPostPlatformConfigurationsXParam struct {
-	// Overrides the `caption` from the post
-	Caption any `json:"caption,omitzero"`
-	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
-	paramObj
-}
-
-func (r CreateSocialPostPlatformConfigurationsXParam) MarshalJSON() (data []byte, err error) {
-	type shadow CreateSocialPostPlatformConfigurationsXParam
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *CreateSocialPostPlatformConfigurationsXParam) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// YouTube configuration
-type CreateSocialPostPlatformConfigurationsYoutubeParam struct {
-	// Overrides the `title` from the post
-	Title param.Opt[string] `json:"title,omitzero"`
-	// Overrides the `caption` from the post
-	Caption any `json:"caption,omitzero"`
-	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
-	paramObj
-}
-
-func (r CreateSocialPostPlatformConfigurationsYoutubeParam) MarshalJSON() (data []byte, err error) {
-	type shadow CreateSocialPostPlatformConfigurationsYoutubeParam
-	return param.MarshalObject(r, (*shadow)(&r))
-}
-func (r *CreateSocialPostPlatformConfigurationsYoutubeParam) UnmarshalJSON(data []byte) error {
+func (r *PlatformConfigurationsDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -473,6 +410,34 @@ const (
 	SocialPostStatusProcessed  SocialPostStatus = "processed"
 )
 
+type ThreadsConfigurationDtoParam struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,omitzero"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,omitzero"`
+	// Threads post placement
+	//
+	// Any of "reels", "timeline".
+	Placement ThreadsConfigurationDtoPlacement `json:"placement,omitzero"`
+	paramObj
+}
+
+func (r ThreadsConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
+	type shadow ThreadsConfigurationDtoParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ThreadsConfigurationDtoParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Threads post placement
+type ThreadsConfigurationDtoPlacement string
+
+const (
+	ThreadsConfigurationDtoPlacementReels    ThreadsConfigurationDtoPlacement = "reels"
+	ThreadsConfigurationDtoPlacementTimeline ThreadsConfigurationDtoPlacement = "timeline"
+)
+
 type TiktokConfigurationParam struct {
 	// Allow comments on TikTok
 	AllowComment param.Opt[bool] `json:"allow_comment,omitzero"`
@@ -505,6 +470,40 @@ func (r TiktokConfigurationParam) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *TiktokConfigurationParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type TwitterConfigurationDtoParam struct {
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,omitzero"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,omitzero"`
+	paramObj
+}
+
+func (r TwitterConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
+	type shadow TwitterConfigurationDtoParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *TwitterConfigurationDtoParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type YoutubeConfigurationDtoParam struct {
+	// Overrides the `title` from the post
+	Title param.Opt[string] `json:"title,omitzero"`
+	// Overrides the `caption` from the post
+	Caption any `json:"caption,omitzero"`
+	// Overrides the `media` from the post
+	Media []string `json:"media,omitzero"`
+	paramObj
+}
+
+func (r YoutubeConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
+	type shadow YoutubeConfigurationDtoParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *YoutubeConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

@@ -57,36 +57,36 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 				ThumbnailTimestampMs: map[string]interface{}{},
 				ThumbnailURL:         map[string]interface{}{},
 			}},
-			PlatformConfigurations: postforme.CreateSocialPostPlatformConfigurationsParam{
-				Bluesky: postforme.CreateSocialPostPlatformConfigurationsBlueskyParam{
+			PlatformConfigurations: postforme.PlatformConfigurationsDtoParam{
+				Bluesky: postforme.BlueskyConfigurationDtoParam{
 					Caption: map[string]interface{}{},
 					Media:   []string{"string"},
 				},
-				Facebook: postforme.CreateSocialPostPlatformConfigurationsFacebookParam{
+				Facebook: postforme.FacebookConfigurationDtoParam{
 					Caption:   map[string]interface{}{},
 					Media:     []string{"string"},
-					Placement: "reels",
+					Placement: postforme.FacebookConfigurationDtoPlacementReels,
 				},
-				Instagram: postforme.CreateSocialPostPlatformConfigurationsInstagramParam{
+				Instagram: postforme.InstagramConfigurationDtoParam{
 					Caption:       map[string]interface{}{},
 					Collaborators: []string{"string"},
 					Media:         []string{"string"},
-					Placement:     "reels",
+					Placement:     postforme.InstagramConfigurationDtoPlacementReels,
 				},
-				Linkedin: postforme.CreateSocialPostPlatformConfigurationsLinkedinParam{
+				Linkedin: postforme.LinkedinConfigurationDtoParam{
 					Caption: map[string]interface{}{},
 					Media:   []string{"string"},
 				},
-				Pinterest: postforme.CreateSocialPostPlatformConfigurationsPinterestParam{
+				Pinterest: postforme.PinterestConfigurationDtoParam{
 					BoardIDs: []string{"string"},
 					Caption:  map[string]interface{}{},
 					Link:     postforme.String("link"),
 					Media:    []string{"string"},
 				},
-				Threads: postforme.CreateSocialPostPlatformConfigurationsThreadsParam{
+				Threads: postforme.ThreadsConfigurationDtoParam{
 					Caption:   map[string]interface{}{},
 					Media:     []string{"string"},
-					Placement: "reels",
+					Placement: postforme.ThreadsConfigurationDtoPlacementReels,
 				},
 				Tiktok: postforme.TiktokConfigurationParam{
 					AllowComment:           postforme.Bool(true),
@@ -114,11 +114,11 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					PrivacyStatus:          postforme.String("privacy_status"),
 					Title:                  postforme.String("title"),
 				},
-				X: postforme.CreateSocialPostPlatformConfigurationsXParam{
+				X: postforme.TwitterConfigurationDtoParam{
 					Caption: map[string]interface{}{},
 					Media:   []string{"string"},
 				},
-				Youtube: postforme.CreateSocialPostPlatformConfigurationsYoutubeParam{
+				Youtube: postforme.YoutubeConfigurationDtoParam{
 					Caption: map[string]interface{}{},
 					Media:   []string{"string"},
 					Title:   postforme.String("title"),
@@ -205,36 +205,36 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 					ThumbnailTimestampMs: map[string]interface{}{},
 					ThumbnailURL:         map[string]interface{}{},
 				}},
-				PlatformConfigurations: postforme.CreateSocialPostPlatformConfigurationsParam{
-					Bluesky: postforme.CreateSocialPostPlatformConfigurationsBlueskyParam{
+				PlatformConfigurations: postforme.PlatformConfigurationsDtoParam{
+					Bluesky: postforme.BlueskyConfigurationDtoParam{
 						Caption: map[string]interface{}{},
 						Media:   []string{"string"},
 					},
-					Facebook: postforme.CreateSocialPostPlatformConfigurationsFacebookParam{
+					Facebook: postforme.FacebookConfigurationDtoParam{
 						Caption:   map[string]interface{}{},
 						Media:     []string{"string"},
-						Placement: "reels",
+						Placement: postforme.FacebookConfigurationDtoPlacementReels,
 					},
-					Instagram: postforme.CreateSocialPostPlatformConfigurationsInstagramParam{
+					Instagram: postforme.InstagramConfigurationDtoParam{
 						Caption:       map[string]interface{}{},
 						Collaborators: []string{"string"},
 						Media:         []string{"string"},
-						Placement:     "reels",
+						Placement:     postforme.InstagramConfigurationDtoPlacementReels,
 					},
-					Linkedin: postforme.CreateSocialPostPlatformConfigurationsLinkedinParam{
+					Linkedin: postforme.LinkedinConfigurationDtoParam{
 						Caption: map[string]interface{}{},
 						Media:   []string{"string"},
 					},
-					Pinterest: postforme.CreateSocialPostPlatformConfigurationsPinterestParam{
+					Pinterest: postforme.PinterestConfigurationDtoParam{
 						BoardIDs: []string{"string"},
 						Caption:  map[string]interface{}{},
 						Link:     postforme.String("link"),
 						Media:    []string{"string"},
 					},
-					Threads: postforme.CreateSocialPostPlatformConfigurationsThreadsParam{
+					Threads: postforme.ThreadsConfigurationDtoParam{
 						Caption:   map[string]interface{}{},
 						Media:     []string{"string"},
-						Placement: "reels",
+						Placement: postforme.ThreadsConfigurationDtoPlacementReels,
 					},
 					Tiktok: postforme.TiktokConfigurationParam{
 						AllowComment:           postforme.Bool(true),
@@ -262,11 +262,11 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						PrivacyStatus:          postforme.String("privacy_status"),
 						Title:                  postforme.String("title"),
 					},
-					X: postforme.CreateSocialPostPlatformConfigurationsXParam{
+					X: postforme.TwitterConfigurationDtoParam{
 						Caption: map[string]interface{}{},
 						Media:   []string{"string"},
 					},
-					Youtube: postforme.CreateSocialPostPlatformConfigurationsYoutubeParam{
+					Youtube: postforme.YoutubeConfigurationDtoParam{
 						Caption: map[string]interface{}{},
 						Media:   []string{"string"},
 						Title:   postforme.String("title"),
