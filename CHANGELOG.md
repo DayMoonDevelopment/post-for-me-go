@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.6 (2025-09-01)
+
+Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
+
+### Bug Fixes
+
+* close body before retrying ([be74c31](https://github.com/DayMoonDevelopment/post-for-me-go/commit/be74c31eeeb1baf40a98a15996c9a0fdfb6405e3))
+
 ## 0.1.0-alpha.5 (2025-08-23)
 
 Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
