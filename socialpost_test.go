@@ -60,32 +60,56 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 			PlatformConfigurations: postforme.PlatformConfigurationsDtoParam{
 				Bluesky: postforme.BlueskyConfigurationDtoParam{
 					Caption: map[string]interface{}{},
-					Media:   []string{"string"},
+					Media: []postforme.BlueskyConfigurationDtoMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
 				},
 				Facebook: postforme.FacebookConfigurationDtoParam{
-					Caption:   map[string]interface{}{},
-					Media:     []string{"string"},
+					Caption: map[string]interface{}{},
+					Media: []postforme.FacebookConfigurationDtoMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
 					Placement: postforme.FacebookConfigurationDtoPlacementReels,
 				},
 				Instagram: postforme.InstagramConfigurationDtoParam{
 					Caption:       map[string]interface{}{},
 					Collaborators: []string{"string"},
-					Media:         []string{"string"},
-					Placement:     postforme.InstagramConfigurationDtoPlacementReels,
+					Media: []postforme.InstagramConfigurationDtoMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
+					Placement: postforme.InstagramConfigurationDtoPlacementReels,
 				},
 				Linkedin: postforme.LinkedinConfigurationDtoParam{
 					Caption: map[string]interface{}{},
-					Media:   []string{"string"},
+					Media: []postforme.LinkedinConfigurationDtoMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
 				},
 				Pinterest: postforme.PinterestConfigurationDtoParam{
 					BoardIDs: []string{"string"},
 					Caption:  map[string]interface{}{},
 					Link:     postforme.String("link"),
-					Media:    []string{"string"},
+					Media: []postforme.PinterestConfigurationDtoMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
 				},
 				Threads: postforme.ThreadsConfigurationDtoParam{
-					Caption:   map[string]interface{}{},
-					Media:     []string{"string"},
+					Caption: map[string]interface{}{},
+					Media: []postforme.ThreadsConfigurationDtoMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
 					Placement: postforme.ThreadsConfigurationDtoPlacementReels,
 				},
 				Tiktok: postforme.TiktokConfigurationParam{
@@ -97,9 +121,13 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					DiscloseYourBrand:      postforme.Bool(true),
 					IsAIGenerated:          postforme.Bool(true),
 					IsDraft:                postforme.Bool(true),
-					Media:                  []string{"string"},
-					PrivacyStatus:          postforme.String("privacy_status"),
-					Title:                  postforme.String("title"),
+					Media: []postforme.TiktokConfigurationMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
+					PrivacyStatus: postforme.String("privacy_status"),
+					Title:         postforme.String("title"),
 				},
 				TiktokBusiness: postforme.TiktokConfigurationParam{
 					AllowComment:           postforme.Bool(true),
@@ -110,18 +138,30 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					DiscloseYourBrand:      postforme.Bool(true),
 					IsAIGenerated:          postforme.Bool(true),
 					IsDraft:                postforme.Bool(true),
-					Media:                  []string{"string"},
-					PrivacyStatus:          postforme.String("privacy_status"),
-					Title:                  postforme.String("title"),
+					Media: []postforme.TiktokConfigurationMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
+					PrivacyStatus: postforme.String("privacy_status"),
+					Title:         postforme.String("title"),
 				},
 				X: postforme.TwitterConfigurationDtoParam{
 					Caption: map[string]interface{}{},
-					Media:   []string{"string"},
+					Media: []postforme.TwitterConfigurationDtoMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
 				},
 				Youtube: postforme.YoutubeConfigurationDtoParam{
 					Caption: map[string]interface{}{},
-					Media:   []string{"string"},
-					Title:   postforme.String("title"),
+					Media: []postforme.YoutubeConfigurationDtoMediaParam{{
+						URL:                  "url",
+						ThumbnailTimestampMs: map[string]interface{}{},
+						ThumbnailURL:         map[string]interface{}{},
+					}},
+					Title: postforme.String("title"),
 				},
 			},
 			ScheduledAt: postforme.Time(time.Now()),
@@ -208,32 +248,56 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 				PlatformConfigurations: postforme.PlatformConfigurationsDtoParam{
 					Bluesky: postforme.BlueskyConfigurationDtoParam{
 						Caption: map[string]interface{}{},
-						Media:   []string{"string"},
+						Media: []postforme.BlueskyConfigurationDtoMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
 					},
 					Facebook: postforme.FacebookConfigurationDtoParam{
-						Caption:   map[string]interface{}{},
-						Media:     []string{"string"},
+						Caption: map[string]interface{}{},
+						Media: []postforme.FacebookConfigurationDtoMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
 						Placement: postforme.FacebookConfigurationDtoPlacementReels,
 					},
 					Instagram: postforme.InstagramConfigurationDtoParam{
 						Caption:       map[string]interface{}{},
 						Collaborators: []string{"string"},
-						Media:         []string{"string"},
-						Placement:     postforme.InstagramConfigurationDtoPlacementReels,
+						Media: []postforme.InstagramConfigurationDtoMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
+						Placement: postforme.InstagramConfigurationDtoPlacementReels,
 					},
 					Linkedin: postforme.LinkedinConfigurationDtoParam{
 						Caption: map[string]interface{}{},
-						Media:   []string{"string"},
+						Media: []postforme.LinkedinConfigurationDtoMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
 					},
 					Pinterest: postforme.PinterestConfigurationDtoParam{
 						BoardIDs: []string{"string"},
 						Caption:  map[string]interface{}{},
 						Link:     postforme.String("link"),
-						Media:    []string{"string"},
+						Media: []postforme.PinterestConfigurationDtoMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
 					},
 					Threads: postforme.ThreadsConfigurationDtoParam{
-						Caption:   map[string]interface{}{},
-						Media:     []string{"string"},
+						Caption: map[string]interface{}{},
+						Media: []postforme.ThreadsConfigurationDtoMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
 						Placement: postforme.ThreadsConfigurationDtoPlacementReels,
 					},
 					Tiktok: postforme.TiktokConfigurationParam{
@@ -245,9 +309,13 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						DiscloseYourBrand:      postforme.Bool(true),
 						IsAIGenerated:          postforme.Bool(true),
 						IsDraft:                postforme.Bool(true),
-						Media:                  []string{"string"},
-						PrivacyStatus:          postforme.String("privacy_status"),
-						Title:                  postforme.String("title"),
+						Media: []postforme.TiktokConfigurationMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
+						PrivacyStatus: postforme.String("privacy_status"),
+						Title:         postforme.String("title"),
 					},
 					TiktokBusiness: postforme.TiktokConfigurationParam{
 						AllowComment:           postforme.Bool(true),
@@ -258,18 +326,30 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						DiscloseYourBrand:      postforme.Bool(true),
 						IsAIGenerated:          postforme.Bool(true),
 						IsDraft:                postforme.Bool(true),
-						Media:                  []string{"string"},
-						PrivacyStatus:          postforme.String("privacy_status"),
-						Title:                  postforme.String("title"),
+						Media: []postforme.TiktokConfigurationMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
+						PrivacyStatus: postforme.String("privacy_status"),
+						Title:         postforme.String("title"),
 					},
 					X: postforme.TwitterConfigurationDtoParam{
 						Caption: map[string]interface{}{},
-						Media:   []string{"string"},
+						Media: []postforme.TwitterConfigurationDtoMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
 					},
 					Youtube: postforme.YoutubeConfigurationDtoParam{
 						Caption: map[string]interface{}{},
-						Media:   []string{"string"},
-						Title:   postforme.String("title"),
+						Media: []postforme.YoutubeConfigurationDtoMediaParam{{
+							URL:                  "url",
+							ThumbnailTimestampMs: map[string]interface{}{},
+							ThumbnailURL:         map[string]interface{}{},
+						}},
+						Title: postforme.String("title"),
 					},
 				},
 				ScheduledAt: postforme.Time(time.Now()),
