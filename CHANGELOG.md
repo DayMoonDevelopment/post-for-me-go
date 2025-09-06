@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2025-09-06)
+
+Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
+
+### Features
+
+* **api:** api update ([492dd5a](https://github.com/DayMoonDevelopment/post-for-me-go/commit/492dd5a1ea5dfacd592b56448e4e2c5d2c68cbda))
+
+
+### Bug Fixes
+
+* **internal:** unmarshal correctly when there are multiple discriminators ([59d0847](https://github.com/DayMoonDevelopment/post-for-me-go/commit/59d0847def63ed5790ea89e2c27a47e759364d62))
+
+
+### Chores
+
+* **internal:** codegen related update ([b6c8596](https://github.com/DayMoonDevelopment/post-for-me-go/commit/b6c85963d2151deb94818e056b7dae1db3d9814c))
+
 ## 0.1.0-alpha.6 (2025-09-01)
 
 Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
