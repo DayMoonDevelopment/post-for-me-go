@@ -233,6 +233,8 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	AllowDuet param.Opt[bool] `json:"allow_duet,omitzero"`
 	// Allow stitch on TikTok
 	AllowStitch param.Opt[bool] `json:"allow_stitch,omitzero"`
+	// Will automatically add music to photo posts on TikTok
+	AutoAddMusic param.Opt[bool] `json:"auto_add_music,omitzero"`
 	// Disclose branded content on TikTok
 	DiscloseBrandedContent param.Opt[bool] `json:"disclose_branded_content,omitzero"`
 	// Disclose your brand on TikTok
@@ -860,6 +862,8 @@ type SocialPostAccountConfigurationConfiguration struct {
 	AllowDuet bool `json:"allow_duet,nullable"`
 	// Allow stitch on TikTok
 	AllowStitch bool `json:"allow_stitch,nullable"`
+	// Will automatically add music to photo posts on TikTok
+	AutoAddMusic bool `json:"auto_add_music,nullable"`
 	// Pinterest board IDs
 	BoardIDs []string `json:"board_ids,nullable"`
 	// Overrides the `caption` from the post
@@ -890,6 +894,7 @@ type SocialPostAccountConfigurationConfiguration struct {
 		AllowComment           respjson.Field
 		AllowDuet              respjson.Field
 		AllowStitch            respjson.Field
+		AutoAddMusic           respjson.Field
 		BoardIDs               respjson.Field
 		Caption                respjson.Field
 		DiscloseBrandedContent respjson.Field
@@ -1056,6 +1061,8 @@ type TiktokConfiguration struct {
 	AllowDuet bool `json:"allow_duet,nullable"`
 	// Allow stitch on TikTok
 	AllowStitch bool `json:"allow_stitch,nullable"`
+	// Will automatically add music to photo posts
+	AutoAddMusic bool `json:"auto_add_music,nullable"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Disclose branded content on TikTok
@@ -1078,6 +1085,7 @@ type TiktokConfiguration struct {
 		AllowComment           respjson.Field
 		AllowDuet              respjson.Field
 		AllowStitch            respjson.Field
+		AutoAddMusic           respjson.Field
 		Caption                respjson.Field
 		DiscloseBrandedContent respjson.Field
 		DiscloseYourBrand      respjson.Field
@@ -1136,6 +1144,8 @@ type TiktokConfigurationParam struct {
 	AllowDuet param.Opt[bool] `json:"allow_duet,omitzero"`
 	// Allow stitch on TikTok
 	AllowStitch param.Opt[bool] `json:"allow_stitch,omitzero"`
+	// Will automatically add music to photo posts
+	AutoAddMusic param.Opt[bool] `json:"auto_add_music,omitzero"`
 	// Disclose branded content on TikTok
 	DiscloseBrandedContent param.Opt[bool] `json:"disclose_branded_content,omitzero"`
 	// Disclose your brand on TikTok
