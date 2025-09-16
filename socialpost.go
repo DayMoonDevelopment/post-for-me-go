@@ -95,7 +95,7 @@ type BlueskyConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []BlueskyConfigurationDtoMedia `json:"media,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption     respjson.Field
@@ -120,11 +120,34 @@ func (r BlueskyConfigurationDto) ToParam() BlueskyConfigurationDtoParam {
 	return param.Override[BlueskyConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
+type BlueskyConfigurationDtoMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r BlueskyConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
+func (r *BlueskyConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type BlueskyConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []BlueskyConfigurationDtoMediaParam `json:"media,omitzero"`
 	paramObj
 }
 
@@ -133,6 +156,25 @@ func (r BlueskyConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *BlueskyConfigurationDtoParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The property URL is required.
+type BlueskyConfigurationDtoMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r BlueskyConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow BlueskyConfigurationDtoMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *BlueskyConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -256,7 +298,7 @@ type FacebookConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []FacebookConfigurationDtoMedia `json:"media,nullable"`
 	// Facebook post placement
 	//
 	// Any of "reels", "stories", "timeline".
@@ -287,6 +329,29 @@ func (r FacebookConfigurationDto) ToParam() FacebookConfigurationDtoParam {
 	return param.Override[FacebookConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
+type FacebookConfigurationDtoMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r FacebookConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
+func (r *FacebookConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Facebook post placement
 type FacebookConfigurationDtoPlacement string
 
@@ -300,7 +365,7 @@ type FacebookConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []FacebookConfigurationDtoMediaParam `json:"media,omitzero"`
 	// Facebook post placement
 	//
 	// Any of "reels", "stories", "timeline".
@@ -316,13 +381,32 @@ func (r *FacebookConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The property URL is required.
+type FacebookConfigurationDtoMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r FacebookConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow FacebookConfigurationDtoMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *FacebookConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type InstagramConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Instagram usernames to be tagged as a collaborator
 	Collaborators []string `json:"collaborators,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []InstagramConfigurationDtoMedia `json:"media,nullable"`
 	// Instagram post placement
 	//
 	// Any of "reels", "stories", "timeline".
@@ -354,6 +438,29 @@ func (r InstagramConfigurationDto) ToParam() InstagramConfigurationDtoParam {
 	return param.Override[InstagramConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
+type InstagramConfigurationDtoMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r InstagramConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
+func (r *InstagramConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Instagram post placement
 type InstagramConfigurationDtoPlacement string
 
@@ -369,7 +476,7 @@ type InstagramConfigurationDtoParam struct {
 	// Instagram usernames to be tagged as a collaborator
 	Collaborators []string `json:"collaborators,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []InstagramConfigurationDtoMediaParam `json:"media,omitzero"`
 	// Instagram post placement
 	//
 	// Any of "reels", "stories", "timeline".
@@ -385,11 +492,30 @@ func (r *InstagramConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The property URL is required.
+type InstagramConfigurationDtoMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r InstagramConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow InstagramConfigurationDtoMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *InstagramConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type LinkedinConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []LinkedinConfigurationDtoMedia `json:"media,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption     respjson.Field
@@ -415,11 +541,34 @@ func (r LinkedinConfigurationDto) ToParam() LinkedinConfigurationDtoParam {
 	return param.Override[LinkedinConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
+type LinkedinConfigurationDtoMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r LinkedinConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
+func (r *LinkedinConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type LinkedinConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []LinkedinConfigurationDtoMediaParam `json:"media,omitzero"`
 	paramObj
 }
 
@@ -431,6 +580,25 @@ func (r *LinkedinConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The property URL is required.
+type LinkedinConfigurationDtoMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r LinkedinConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow LinkedinConfigurationDtoMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *LinkedinConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type PinterestConfigurationDto struct {
 	// Pinterest board IDs
 	BoardIDs []string `json:"board_ids,nullable"`
@@ -439,7 +607,7 @@ type PinterestConfigurationDto struct {
 	// Pinterest post link
 	Link string `json:"link,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []PinterestConfigurationDtoMedia `json:"media,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		BoardIDs    respjson.Field
@@ -467,6 +635,29 @@ func (r PinterestConfigurationDto) ToParam() PinterestConfigurationDtoParam {
 	return param.Override[PinterestConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
+type PinterestConfigurationDtoMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PinterestConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
+func (r *PinterestConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type PinterestConfigurationDtoParam struct {
 	// Pinterest post link
 	Link param.Opt[string] `json:"link,omitzero"`
@@ -475,7 +666,7 @@ type PinterestConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []PinterestConfigurationDtoMediaParam `json:"media,omitzero"`
 	paramObj
 }
 
@@ -484,6 +675,25 @@ func (r PinterestConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *PinterestConfigurationDtoParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The property URL is required.
+type PinterestConfigurationDtoMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r PinterestConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow PinterestConfigurationDtoMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *PinterestConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -739,7 +949,7 @@ type ThreadsConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []ThreadsConfigurationDtoMedia `json:"media,nullable"`
 	// Threads post placement
 	//
 	// Any of "reels", "timeline".
@@ -769,6 +979,29 @@ func (r ThreadsConfigurationDto) ToParam() ThreadsConfigurationDtoParam {
 	return param.Override[ThreadsConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
+type ThreadsConfigurationDtoMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ThreadsConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
+func (r *ThreadsConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Threads post placement
 type ThreadsConfigurationDtoPlacement string
 
@@ -781,7 +1014,7 @@ type ThreadsConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []ThreadsConfigurationDtoMediaParam `json:"media,omitzero"`
 	// Threads post placement
 	//
 	// Any of "reels", "timeline".
@@ -794,6 +1027,25 @@ func (r ThreadsConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *ThreadsConfigurationDtoParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The property URL is required.
+type ThreadsConfigurationDtoMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r ThreadsConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow ThreadsConfigurationDtoMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ThreadsConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -816,7 +1068,7 @@ type TiktokConfiguration struct {
 	// within the app
 	IsDraft bool `json:"is_draft,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []TiktokConfigurationMedia `json:"media,nullable"`
 	// Sets the privacy status for TikTok (private, public)
 	PrivacyStatus string `json:"privacy_status,nullable"`
 	// Overrides the `title` from the post
@@ -854,6 +1106,29 @@ func (r TiktokConfiguration) ToParam() TiktokConfigurationParam {
 	return param.Override[TiktokConfigurationParam](json.RawMessage(r.RawJSON()))
 }
 
+type TiktokConfigurationMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TiktokConfigurationMedia) RawJSON() string { return r.JSON.raw }
+func (r *TiktokConfigurationMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type TiktokConfigurationParam struct {
 	// Allow comments on TikTok
 	AllowComment param.Opt[bool] `json:"allow_comment,omitzero"`
@@ -877,7 +1152,7 @@ type TiktokConfigurationParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []TiktokConfigurationMediaParam `json:"media,omitzero"`
 	paramObj
 }
 
@@ -889,11 +1164,30 @@ func (r *TiktokConfigurationParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The property URL is required.
+type TiktokConfigurationMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r TiktokConfigurationMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow TiktokConfigurationMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *TiktokConfigurationMediaParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type TwitterConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []TwitterConfigurationDtoMedia `json:"media,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption     respjson.Field
@@ -918,11 +1212,34 @@ func (r TwitterConfigurationDto) ToParam() TwitterConfigurationDtoParam {
 	return param.Override[TwitterConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
+type TwitterConfigurationDtoMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TwitterConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
+func (r *TwitterConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type TwitterConfigurationDtoParam struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []TwitterConfigurationDtoMediaParam `json:"media,omitzero"`
 	paramObj
 }
 
@@ -934,11 +1251,30 @@ func (r *TwitterConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The property URL is required.
+type TwitterConfigurationDtoMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r TwitterConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow TwitterConfigurationDtoMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *TwitterConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type YoutubeConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []YoutubeConfigurationDtoMedia `json:"media,nullable"`
 	// Overrides the `title` from the post
 	Title string `json:"title,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -966,13 +1302,36 @@ func (r YoutubeConfigurationDto) ToParam() YoutubeConfigurationDtoParam {
 	return param.Override[YoutubeConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
+type YoutubeConfigurationDtoMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r YoutubeConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
+func (r *YoutubeConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type YoutubeConfigurationDtoParam struct {
 	// Overrides the `title` from the post
 	Title param.Opt[string] `json:"title,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []YoutubeConfigurationDtoMediaParam `json:"media,omitzero"`
 	paramObj
 }
 
@@ -981,6 +1340,25 @@ func (r YoutubeConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *YoutubeConfigurationDtoParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The property URL is required.
+type YoutubeConfigurationDtoMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r YoutubeConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow YoutubeConfigurationDtoMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *YoutubeConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

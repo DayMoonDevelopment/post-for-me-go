@@ -1,6 +1,10 @@
 # Post For Me Go API Library
 
+<!-- x-release-please-start-version -->
+
 <a href="https://pkg.go.dev/github.com/DayMoonDevelopment/post-for-me-go"><img src="https://pkg.go.dev/badge/github.com/DayMoonDevelopment/post-for-me-go.svg" alt="Go Reference"></a>
+
+<!-- x-release-please-end -->
 
 The Post For Me Go library provides convenient access to the [Post For Me REST API](https://api.postforme.dev/docs)
 from applications written in Go.
@@ -24,7 +28,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/DayMoonDevelopment/post-for-me-go@v0.1.0-alpha.6'
+go get -u 'github.com/DayMoonDevelopment/post-for-me-go@v0.1.0-alpha.7'
 ```
 
 <!-- x-release-please-end -->
