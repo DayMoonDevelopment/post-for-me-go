@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/apijson"
@@ -40,7 +41,7 @@ func NewSocialAccountService(opts ...option.RequestOption) (r SocialAccountServi
 // If a social account with the same platform and user_id already exists, it will
 // be updated. If not, a new social account will be created.
 func (r *SocialAccountService) New(ctx context.Context, body SocialAccountNewParams, opts ...option.RequestOption) (res *SocialAccount, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-accounts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -48,7 +49,7 @@ func (r *SocialAccountService) New(ctx context.Context, body SocialAccountNewPar
 
 // Get social account by ID
 func (r *SocialAccountService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *SocialAccount, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
@@ -60,7 +61,7 @@ func (r *SocialAccountService) Get(ctx context.Context, id string, opts ...optio
 
 // Update social account
 func (r *SocialAccountService) Update(ctx context.Context, id string, body SocialAccountUpdateParams, opts ...option.RequestOption) (res *SocialAccount, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
@@ -72,7 +73,7 @@ func (r *SocialAccountService) Update(ctx context.Context, id string, body Socia
 
 // Get a paginated result for social accounts based on the applied filters
 func (r *SocialAccountService) List(ctx context.Context, query SocialAccountListParams, opts ...option.RequestOption) (res *SocialAccountListResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-accounts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
@@ -83,7 +84,7 @@ func (r *SocialAccountService) List(ctx context.Context, query SocialAccountList
 // login/authorization page. Upon successful authentication, they are redirected
 // back to your application
 func (r *SocialAccountService) NewAuthURL(ctx context.Context, body SocialAccountNewAuthURLParams, opts ...option.RequestOption) (res *SocialAccountNewAuthURLResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-accounts/auth-url"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -93,7 +94,7 @@ func (r *SocialAccountService) NewAuthURL(ctx context.Context, body SocialAccoun
 // disconnected. The record of the account will be kept and can be retrieved and
 // reconnected by the owner of the account.
 func (r *SocialAccountService) Disconnect(ctx context.Context, id string, opts ...option.RequestOption) (res *SocialAccountDisconnectResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
