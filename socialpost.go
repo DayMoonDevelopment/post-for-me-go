@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/apijson"
@@ -41,7 +42,7 @@ func NewSocialPostService(opts ...option.RequestOption) (r SocialPostService) {
 
 // Create Post
 func (r *SocialPostService) New(ctx context.Context, body SocialPostNewParams, opts ...option.RequestOption) (res *SocialPost, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-posts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -49,7 +50,7 @@ func (r *SocialPostService) New(ctx context.Context, body SocialPostNewParams, o
 
 // Get Post by ID
 func (r *SocialPostService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *SocialPost, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
@@ -61,7 +62,7 @@ func (r *SocialPostService) Get(ctx context.Context, id string, opts ...option.R
 
 // Update Post
 func (r *SocialPostService) Update(ctx context.Context, id string, body SocialPostUpdateParams, opts ...option.RequestOption) (res *SocialPost, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
@@ -73,7 +74,7 @@ func (r *SocialPostService) Update(ctx context.Context, id string, body SocialPo
 
 // Get a paginated result for posts based on the applied filters
 func (r *SocialPostService) List(ctx context.Context, query SocialPostListParams, opts ...option.RequestOption) (res *SocialPostListResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-posts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
@@ -81,7 +82,7 @@ func (r *SocialPostService) List(ctx context.Context, query SocialPostListParams
 
 // Delete Post
 func (r *SocialPostService) Delete(ctx context.Context, id string, opts ...option.RequestOption) (res *SocialPostDeleteResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
