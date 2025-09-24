@@ -397,6 +397,8 @@ func (r *SocialAccountNewAuthURLParams) UnmarshalJSON(data []byte) error {
 type SocialAccountNewAuthURLParamsPlatformData struct {
 	// Additional data needed for connecting bluesky accounts
 	Bluesky SocialAccountNewAuthURLParamsPlatformDataBluesky `json:"bluesky,omitzero"`
+	// Additional data for connecting instagram accounts
+	Instagram SocialAccountNewAuthURLParamsPlatformDataInstagram `json:"instagram,omitzero"`
 	// Additional data for connecting linkedin accounts
 	Linkedin SocialAccountNewAuthURLParamsPlatformDataLinkedin `json:"linkedin,omitzero"`
 	paramObj
@@ -427,6 +429,32 @@ func (r SocialAccountNewAuthURLParamsPlatformDataBluesky) MarshalJSON() (data []
 }
 func (r *SocialAccountNewAuthURLParamsPlatformDataBluesky) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// Additional data for connecting instagram accounts
+//
+// The property ConnectionType is required.
+type SocialAccountNewAuthURLParamsPlatformDataInstagram struct {
+	// The type of connection; instagram for using login with instagram, facebook for
+	// using login with facebook.
+	//
+	// Any of "instagram", "facebook".
+	ConnectionType string `json:"connection_type,omitzero,required"`
+	paramObj
+}
+
+func (r SocialAccountNewAuthURLParamsPlatformDataInstagram) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewAuthURLParamsPlatformDataInstagram
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewAuthURLParamsPlatformDataInstagram) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[SocialAccountNewAuthURLParamsPlatformDataInstagram](
+		"connection_type", "instagram", "facebook",
+	)
 }
 
 // Additional data for connecting linkedin accounts
