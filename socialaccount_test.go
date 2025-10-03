@@ -151,6 +151,9 @@ func TestSocialAccountNewAuthURLWithOptionalParams(t *testing.T) {
 				AppPassword: "app_password",
 				Handle:      "handle",
 			},
+			Instagram: postforme.SocialAccountNewAuthURLParamsPlatformDataInstagram{
+				ConnectionType: "instagram",
+			},
 			Linkedin: postforme.SocialAccountNewAuthURLParamsPlatformDataLinkedin{
 				ConnectionType: "personal",
 			},

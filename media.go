@@ -5,6 +5,7 @@ package postforme
 import (
 	"context"
 	"net/http"
+	"slices"
 
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/apijson"
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/requestconfig"
@@ -99,7 +100,7 @@ func NewMediaService(opts ...option.RequestOption) (r MediaService) {
 //	});
 //	```
 func (r *MediaService) NewUploadURL(ctx context.Context, opts ...option.RequestOption) (res *MediaNewUploadURLResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "v1/media/create-upload-url"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return

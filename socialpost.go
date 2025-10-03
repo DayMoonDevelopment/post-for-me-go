@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/apijson"
@@ -41,7 +42,7 @@ func NewSocialPostService(opts ...option.RequestOption) (r SocialPostService) {
 
 // Create Post
 func (r *SocialPostService) New(ctx context.Context, body SocialPostNewParams, opts ...option.RequestOption) (res *SocialPost, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-posts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -49,7 +50,7 @@ func (r *SocialPostService) New(ctx context.Context, body SocialPostNewParams, o
 
 // Get Post by ID
 func (r *SocialPostService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *SocialPost, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
@@ -61,7 +62,7 @@ func (r *SocialPostService) Get(ctx context.Context, id string, opts ...option.R
 
 // Update Post
 func (r *SocialPostService) Update(ctx context.Context, id string, body SocialPostUpdateParams, opts ...option.RequestOption) (res *SocialPost, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
@@ -73,7 +74,7 @@ func (r *SocialPostService) Update(ctx context.Context, id string, body SocialPo
 
 // Get a paginated result for posts based on the applied filters
 func (r *SocialPostService) List(ctx context.Context, query SocialPostListParams, opts ...option.RequestOption) (res *SocialPostListResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-posts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
@@ -81,7 +82,7 @@ func (r *SocialPostService) List(ctx context.Context, query SocialPostListParams
 
 // Delete Post
 func (r *SocialPostService) Delete(ctx context.Context, id string, opts ...option.RequestOption) (res *SocialPostDeleteResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
@@ -123,6 +124,8 @@ func (r BlueskyConfigurationDto) ToParam() BlueskyConfigurationDtoParam {
 type BlueskyConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []BlueskyConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -130,6 +133,7 @@ type BlueskyConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -140,6 +144,42 @@ type BlueskyConfigurationDtoMedia struct {
 // Returns the unmodified JSON received from the API
 func (r BlueskyConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
 func (r *BlueskyConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type BlueskyConfigurationDtoMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r BlueskyConfigurationDtoMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *BlueskyConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -163,6 +203,8 @@ func (r *BlueskyConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type BlueskyConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []BlueskyConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -176,6 +218,45 @@ func (r BlueskyConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error
 }
 func (r *BlueskyConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ID, Platform, Type are required.
+type BlueskyConfigurationDtoMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r BlueskyConfigurationDtoMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow BlueskyConfigurationDtoMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *BlueskyConfigurationDtoMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[BlueskyConfigurationDtoMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[BlueskyConfigurationDtoMediaTagParam](
+		"type", "user", "product",
+	)
 }
 
 // The properties Caption, SocialAccounts are required.
@@ -233,6 +314,8 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	AllowDuet param.Opt[bool] `json:"allow_duet,omitzero"`
 	// Allow stitch on TikTok
 	AllowStitch param.Opt[bool] `json:"allow_stitch,omitzero"`
+	// Will automatically add music to photo posts on TikTok
+	AutoAddMusic param.Opt[bool] `json:"auto_add_music,omitzero"`
 	// Disclose branded content on TikTok
 	DiscloseBrandedContent param.Opt[bool] `json:"disclose_branded_content,omitzero"`
 	// Disclose your brand on TikTok
@@ -244,20 +327,38 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	IsDraft param.Opt[bool] `json:"is_draft,omitzero"`
 	// Pinterest post link
 	Link param.Opt[string] `json:"link,omitzero"`
+	// Page id with a location that you want to tag the image or video with (Instagram
+	// and Facebook)
+	Location param.Opt[string] `json:"location,omitzero"`
 	// Sets the privacy status for TikTok (private, public)
 	PrivacyStatus param.Opt[string] `json:"privacy_status,omitzero"`
+	// If false Instagram video posts will only be shown in the Reels tab
+	ShareToFeed param.Opt[bool] `json:"share_to_feed,omitzero"`
 	// Overrides the `title` from the post
 	Title param.Opt[string] `json:"title,omitzero"`
+	// Id of the twitter community to post to
+	CommunityID param.Opt[string] `json:"community_id,omitzero"`
+	// Id of the tweet you want to quote
+	QuoteTweetID param.Opt[string] `json:"quote_tweet_id,omitzero"`
 	// Pinterest board IDs
 	BoardIDs []string `json:"board_ids,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
+	// List of page ids or users to invite as collaborators for a Video Reel (Instagram
+	// and Facebook)
+	Collaborators [][]any `json:"collaborators,omitzero"`
 	// Overrides the `media` from the post
 	Media []string `json:"media,omitzero"`
 	// Post placement for Facebook/Instagram/Threads
 	//
 	// Any of "reels", "timeline", "stories".
 	Placement string `json:"placement,omitzero"`
+	// Who can reply to the tweet
+	//
+	// Any of "following", "mentionedUsers", "subscribers", "verified".
+	ReplySettings string `json:"reply_settings,omitzero"`
+	// Poll options for the twitter
+	Poll CreateSocialPostAccountConfigurationConfigurationPollParam `json:"poll,omitzero"`
 	paramObj
 }
 
@@ -273,12 +374,46 @@ func init() {
 	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationParam](
 		"placement", "reels", "timeline", "stories",
 	)
+	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationParam](
+		"reply_settings", "following", "mentionedUsers", "subscribers", "verified",
+	)
+}
+
+// Poll options for the twitter
+//
+// The properties DurationMinutes, Options are required.
+type CreateSocialPostAccountConfigurationConfigurationPollParam struct {
+	// Duration of the poll in minutes
+	DurationMinutes float64 `json:"duration_minutes,required"`
+	// The choices of the poll, requiring 2-4 options
+	Options []string `json:"options,omitzero,required"`
+	// Who can reply to the tweet
+	//
+	// Any of "following", "mentionedUsers", "subscribers", "verified".
+	ReplySettings string `json:"reply_settings,omitzero"`
+	paramObj
+}
+
+func (r CreateSocialPostAccountConfigurationConfigurationPollParam) MarshalJSON() (data []byte, err error) {
+	type shadow CreateSocialPostAccountConfigurationConfigurationPollParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *CreateSocialPostAccountConfigurationConfigurationPollParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationPollParam](
+		"reply_settings", "following", "mentionedUsers", "subscribers", "verified",
+	)
 }
 
 // The property URL is required.
 type CreateSocialPostMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []CreateSocialPostMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -294,9 +429,52 @@ func (r *CreateSocialPostMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The properties ID, Platform, Type are required.
+type CreateSocialPostMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r CreateSocialPostMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow CreateSocialPostMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *CreateSocialPostMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[CreateSocialPostMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[CreateSocialPostMediaTagParam](
+		"type", "user", "product",
+	)
+}
+
 type FacebookConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
+	// List of page ids to invite as collaborators for a Video Reel
+	Collaborators [][]any `json:"collaborators,nullable"`
+	// Page id with a location that you want to tag the image or video with
+	Location string `json:"location,nullable"`
 	// Overrides the `media` from the post
 	Media []FacebookConfigurationDtoMedia `json:"media,nullable"`
 	// Facebook post placement
@@ -305,11 +483,13 @@ type FacebookConfigurationDto struct {
 	Placement FacebookConfigurationDtoPlacement `json:"placement,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Caption     respjson.Field
-		Media       respjson.Field
-		Placement   respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		Caption       respjson.Field
+		Collaborators respjson.Field
+		Location      respjson.Field
+		Media         respjson.Field
+		Placement     respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
 	} `json:"-"`
 }
 
@@ -332,6 +512,8 @@ func (r FacebookConfigurationDto) ToParam() FacebookConfigurationDtoParam {
 type FacebookConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []FacebookConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -339,6 +521,7 @@ type FacebookConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -352,6 +535,42 @@ func (r *FacebookConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type FacebookConfigurationDtoMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r FacebookConfigurationDtoMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *FacebookConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Facebook post placement
 type FacebookConfigurationDtoPlacement string
 
@@ -362,8 +581,12 @@ const (
 )
 
 type FacebookConfigurationDtoParam struct {
+	// Page id with a location that you want to tag the image or video with
+	Location param.Opt[string] `json:"location,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
+	// List of page ids to invite as collaborators for a Video Reel
+	Collaborators [][]any `json:"collaborators,omitzero"`
 	// Overrides the `media` from the post
 	Media []FacebookConfigurationDtoMediaParam `json:"media,omitzero"`
 	// Facebook post placement
@@ -385,6 +608,8 @@ func (r *FacebookConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type FacebookConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []FacebookConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -400,23 +625,68 @@ func (r *FacebookConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The properties ID, Platform, Type are required.
+type FacebookConfigurationDtoMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r FacebookConfigurationDtoMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow FacebookConfigurationDtoMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *FacebookConfigurationDtoMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[FacebookConfigurationDtoMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[FacebookConfigurationDtoMediaTagParam](
+		"type", "user", "product",
+	)
+}
+
 type InstagramConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Instagram usernames to be tagged as a collaborator
 	Collaborators []string `json:"collaborators,nullable"`
+	// Page id with a location that you want to tag the image or video with
+	Location string `json:"location,nullable"`
 	// Overrides the `media` from the post
 	Media []InstagramConfigurationDtoMedia `json:"media,nullable"`
 	// Instagram post placement
 	//
 	// Any of "reels", "stories", "timeline".
 	Placement InstagramConfigurationDtoPlacement `json:"placement,nullable"`
+	// If false video posts will only be shown in the Reels tab
+	ShareToFeed bool `json:"share_to_feed,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption       respjson.Field
 		Collaborators respjson.Field
+		Location      respjson.Field
 		Media         respjson.Field
 		Placement     respjson.Field
+		ShareToFeed   respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -441,6 +711,8 @@ func (r InstagramConfigurationDto) ToParam() InstagramConfigurationDtoParam {
 type InstagramConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []InstagramConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -448,6 +720,7 @@ type InstagramConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -461,6 +734,42 @@ func (r *InstagramConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type InstagramConfigurationDtoMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r InstagramConfigurationDtoMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *InstagramConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Instagram post placement
 type InstagramConfigurationDtoPlacement string
 
@@ -471,6 +780,10 @@ const (
 )
 
 type InstagramConfigurationDtoParam struct {
+	// Page id with a location that you want to tag the image or video with
+	Location param.Opt[string] `json:"location,omitzero"`
+	// If false video posts will only be shown in the Reels tab
+	ShareToFeed param.Opt[bool] `json:"share_to_feed,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Instagram usernames to be tagged as a collaborator
@@ -496,6 +809,8 @@ func (r *InstagramConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type InstagramConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []InstagramConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -509,6 +824,45 @@ func (r InstagramConfigurationDtoMediaParam) MarshalJSON() (data []byte, err err
 }
 func (r *InstagramConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ID, Platform, Type are required.
+type InstagramConfigurationDtoMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r InstagramConfigurationDtoMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow InstagramConfigurationDtoMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *InstagramConfigurationDtoMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[InstagramConfigurationDtoMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[InstagramConfigurationDtoMediaTagParam](
+		"type", "user", "product",
+	)
 }
 
 type LinkedinConfigurationDto struct {
@@ -544,6 +898,8 @@ func (r LinkedinConfigurationDto) ToParam() LinkedinConfigurationDtoParam {
 type LinkedinConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []LinkedinConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -551,6 +907,7 @@ type LinkedinConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -561,6 +918,42 @@ type LinkedinConfigurationDtoMedia struct {
 // Returns the unmodified JSON received from the API
 func (r LinkedinConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
 func (r *LinkedinConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type LinkedinConfigurationDtoMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r LinkedinConfigurationDtoMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *LinkedinConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -584,6 +977,8 @@ func (r *LinkedinConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type LinkedinConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []LinkedinConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -597,6 +992,45 @@ func (r LinkedinConfigurationDtoMediaParam) MarshalJSON() (data []byte, err erro
 }
 func (r *LinkedinConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ID, Platform, Type are required.
+type LinkedinConfigurationDtoMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r LinkedinConfigurationDtoMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow LinkedinConfigurationDtoMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *LinkedinConfigurationDtoMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[LinkedinConfigurationDtoMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[LinkedinConfigurationDtoMediaTagParam](
+		"type", "user", "product",
+	)
 }
 
 type PinterestConfigurationDto struct {
@@ -638,6 +1072,8 @@ func (r PinterestConfigurationDto) ToParam() PinterestConfigurationDtoParam {
 type PinterestConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []PinterestConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -645,6 +1081,7 @@ type PinterestConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -655,6 +1092,42 @@ type PinterestConfigurationDtoMedia struct {
 // Returns the unmodified JSON received from the API
 func (r PinterestConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
 func (r *PinterestConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PinterestConfigurationDtoMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PinterestConfigurationDtoMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *PinterestConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -682,6 +1155,8 @@ func (r *PinterestConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type PinterestConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []PinterestConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -695,6 +1170,45 @@ func (r PinterestConfigurationDtoMediaParam) MarshalJSON() (data []byte, err err
 }
 func (r *PinterestConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ID, Platform, Type are required.
+type PinterestConfigurationDtoMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r PinterestConfigurationDtoMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow PinterestConfigurationDtoMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *PinterestConfigurationDtoMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[PinterestConfigurationDtoMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[PinterestConfigurationDtoMediaTagParam](
+		"type", "user", "product",
+	)
 }
 
 type PlatformConfigurationsDto struct {
@@ -860,10 +1374,17 @@ type SocialPostAccountConfigurationConfiguration struct {
 	AllowDuet bool `json:"allow_duet,nullable"`
 	// Allow stitch on TikTok
 	AllowStitch bool `json:"allow_stitch,nullable"`
+	// Will automatically add music to photo posts on TikTok
+	AutoAddMusic bool `json:"auto_add_music,nullable"`
 	// Pinterest board IDs
 	BoardIDs []string `json:"board_ids,nullable"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
+	// List of page ids or users to invite as collaborators for a Video Reel (Instagram
+	// and Facebook)
+	Collaborators [][]any `json:"collaborators,nullable"`
+	// Id of the twitter community to post to
+	CommunityID string `json:"community_id"`
 	// Disclose branded content on TikTok
 	DiscloseBrandedContent bool `json:"disclose_branded_content,nullable"`
 	// Disclose your brand on TikTok
@@ -875,14 +1396,27 @@ type SocialPostAccountConfigurationConfiguration struct {
 	IsDraft bool `json:"is_draft,nullable"`
 	// Pinterest post link
 	Link string `json:"link,nullable"`
+	// Page id with a location that you want to tag the image or video with (Instagram
+	// and Facebook)
+	Location string `json:"location,nullable"`
 	// Overrides the `media` from the post
 	Media []string `json:"media,nullable"`
 	// Post placement for Facebook/Instagram/Threads
 	//
 	// Any of "reels", "timeline", "stories".
 	Placement string `json:"placement,nullable"`
+	// Poll options for the twitter
+	Poll SocialPostAccountConfigurationConfigurationPoll `json:"poll"`
 	// Sets the privacy status for TikTok (private, public)
 	PrivacyStatus string `json:"privacy_status,nullable"`
+	// Id of the tweet you want to quote
+	QuoteTweetID string `json:"quote_tweet_id"`
+	// Who can reply to the tweet
+	//
+	// Any of "following", "mentionedUsers", "subscribers", "verified".
+	ReplySettings string `json:"reply_settings,nullable"`
+	// If false Instagram video posts will only be shown in the Reels tab
+	ShareToFeed bool `json:"share_to_feed,nullable"`
 	// Overrides the `title` from the post
 	Title string `json:"title,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -890,16 +1424,24 @@ type SocialPostAccountConfigurationConfiguration struct {
 		AllowComment           respjson.Field
 		AllowDuet              respjson.Field
 		AllowStitch            respjson.Field
+		AutoAddMusic           respjson.Field
 		BoardIDs               respjson.Field
 		Caption                respjson.Field
+		Collaborators          respjson.Field
+		CommunityID            respjson.Field
 		DiscloseBrandedContent respjson.Field
 		DiscloseYourBrand      respjson.Field
 		IsAIGenerated          respjson.Field
 		IsDraft                respjson.Field
 		Link                   respjson.Field
+		Location               respjson.Field
 		Media                  respjson.Field
 		Placement              respjson.Field
+		Poll                   respjson.Field
 		PrivacyStatus          respjson.Field
+		QuoteTweetID           respjson.Field
+		ReplySettings          respjson.Field
+		ShareToFeed            respjson.Field
 		Title                  respjson.Field
 		ExtraFields            map[string]respjson.Field
 		raw                    string
@@ -912,9 +1454,37 @@ func (r *SocialPostAccountConfigurationConfiguration) UnmarshalJSON(data []byte)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Poll options for the twitter
+type SocialPostAccountConfigurationConfigurationPoll struct {
+	// Duration of the poll in minutes
+	DurationMinutes float64 `json:"duration_minutes,required"`
+	// The choices of the poll, requiring 2-4 options
+	Options []string `json:"options,required"`
+	// Who can reply to the tweet
+	//
+	// Any of "following", "mentionedUsers", "subscribers", "verified".
+	ReplySettings string `json:"reply_settings"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		DurationMinutes respjson.Field
+		Options         respjson.Field
+		ReplySettings   respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SocialPostAccountConfigurationConfigurationPoll) RawJSON() string { return r.JSON.raw }
+func (r *SocialPostAccountConfigurationConfigurationPoll) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type SocialPostMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []SocialPostMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -922,6 +1492,7 @@ type SocialPostMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -932,6 +1503,42 @@ type SocialPostMedia struct {
 // Returns the unmodified JSON received from the API
 func (r SocialPostMedia) RawJSON() string { return r.JSON.raw }
 func (r *SocialPostMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SocialPostMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SocialPostMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *SocialPostMediaTag) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -982,6 +1589,8 @@ func (r ThreadsConfigurationDto) ToParam() ThreadsConfigurationDtoParam {
 type ThreadsConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []ThreadsConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -989,6 +1598,7 @@ type ThreadsConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -999,6 +1609,42 @@ type ThreadsConfigurationDtoMedia struct {
 // Returns the unmodified JSON received from the API
 func (r ThreadsConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
 func (r *ThreadsConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type ThreadsConfigurationDtoMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ThreadsConfigurationDtoMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *ThreadsConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1034,6 +1680,8 @@ func (r *ThreadsConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type ThreadsConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []ThreadsConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -1049,6 +1697,45 @@ func (r *ThreadsConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The properties ID, Platform, Type are required.
+type ThreadsConfigurationDtoMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r ThreadsConfigurationDtoMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow ThreadsConfigurationDtoMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ThreadsConfigurationDtoMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[ThreadsConfigurationDtoMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[ThreadsConfigurationDtoMediaTagParam](
+		"type", "user", "product",
+	)
+}
+
 type TiktokConfiguration struct {
 	// Allow comments on TikTok
 	AllowComment bool `json:"allow_comment,nullable"`
@@ -1056,6 +1743,8 @@ type TiktokConfiguration struct {
 	AllowDuet bool `json:"allow_duet,nullable"`
 	// Allow stitch on TikTok
 	AllowStitch bool `json:"allow_stitch,nullable"`
+	// Will automatically add music to photo posts
+	AutoAddMusic bool `json:"auto_add_music,nullable"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
 	// Disclose branded content on TikTok
@@ -1078,6 +1767,7 @@ type TiktokConfiguration struct {
 		AllowComment           respjson.Field
 		AllowDuet              respjson.Field
 		AllowStitch            respjson.Field
+		AutoAddMusic           respjson.Field
 		Caption                respjson.Field
 		DiscloseBrandedContent respjson.Field
 		DiscloseYourBrand      respjson.Field
@@ -1109,6 +1799,8 @@ func (r TiktokConfiguration) ToParam() TiktokConfigurationParam {
 type TiktokConfigurationMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []TiktokConfigurationMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -1116,6 +1808,7 @@ type TiktokConfigurationMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -1129,6 +1822,42 @@ func (r *TiktokConfigurationMedia) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type TiktokConfigurationMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TiktokConfigurationMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *TiktokConfigurationMediaTag) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 type TiktokConfigurationParam struct {
 	// Allow comments on TikTok
 	AllowComment param.Opt[bool] `json:"allow_comment,omitzero"`
@@ -1136,6 +1865,8 @@ type TiktokConfigurationParam struct {
 	AllowDuet param.Opt[bool] `json:"allow_duet,omitzero"`
 	// Allow stitch on TikTok
 	AllowStitch param.Opt[bool] `json:"allow_stitch,omitzero"`
+	// Will automatically add music to photo posts
+	AutoAddMusic param.Opt[bool] `json:"auto_add_music,omitzero"`
 	// Disclose branded content on TikTok
 	DiscloseBrandedContent param.Opt[bool] `json:"disclose_branded_content,omitzero"`
 	// Disclose your brand on TikTok
@@ -1168,6 +1899,8 @@ func (r *TiktokConfigurationParam) UnmarshalJSON(data []byte) error {
 type TiktokConfigurationMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []TiktokConfigurationMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -1183,17 +1916,70 @@ func (r *TiktokConfigurationMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// The properties ID, Platform, Type are required.
+type TiktokConfigurationMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r TiktokConfigurationMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow TiktokConfigurationMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *TiktokConfigurationMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[TiktokConfigurationMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[TiktokConfigurationMediaTagParam](
+		"type", "user", "product",
+	)
+}
+
 type TwitterConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
+	// Id of the community to post to
+	CommunityID string `json:"community_id"`
 	// Overrides the `media` from the post
 	Media []TwitterConfigurationDtoMedia `json:"media,nullable"`
+	// Poll options for the tweet
+	Poll TwitterConfigurationDtoPoll `json:"poll"`
+	// Id of the tweet you want to quote
+	QuoteTweetID string `json:"quote_tweet_id"`
+	// Who can reply to the tweet
+	//
+	// Any of "following", "mentionedUsers", "subscribers", "verified".
+	ReplySettings TwitterConfigurationDtoReplySettings `json:"reply_settings,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Caption     respjson.Field
-		Media       respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		Caption       respjson.Field
+		CommunityID   respjson.Field
+		Media         respjson.Field
+		Poll          respjson.Field
+		QuoteTweetID  respjson.Field
+		ReplySettings respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
 	} `json:"-"`
 }
 
@@ -1215,6 +2001,8 @@ func (r TwitterConfigurationDto) ToParam() TwitterConfigurationDtoParam {
 type TwitterConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []TwitterConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -1222,6 +2010,7 @@ type TwitterConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -1235,11 +2024,93 @@ func (r *TwitterConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type TwitterConfigurationDtoMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TwitterConfigurationDtoMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *TwitterConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Poll options for the tweet
+type TwitterConfigurationDtoPoll struct {
+	// Duration of the poll in minutes
+	DurationMinutes float64 `json:"duration_minutes,required"`
+	// The choices of the poll, requiring 2-4 options
+	Options []string `json:"options,required"`
+	// Who can reply to the tweet
+	//
+	// Any of "following", "mentionedUsers", "subscribers", "verified".
+	ReplySettings string `json:"reply_settings"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		DurationMinutes respjson.Field
+		Options         respjson.Field
+		ReplySettings   respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r TwitterConfigurationDtoPoll) RawJSON() string { return r.JSON.raw }
+func (r *TwitterConfigurationDtoPoll) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Who can reply to the tweet
+type TwitterConfigurationDtoReplySettings string
+
+const (
+	TwitterConfigurationDtoReplySettingsFollowing      TwitterConfigurationDtoReplySettings = "following"
+	TwitterConfigurationDtoReplySettingsMentionedUsers TwitterConfigurationDtoReplySettings = "mentionedUsers"
+	TwitterConfigurationDtoReplySettingsSubscribers    TwitterConfigurationDtoReplySettings = "subscribers"
+	TwitterConfigurationDtoReplySettingsVerified       TwitterConfigurationDtoReplySettings = "verified"
+)
+
 type TwitterConfigurationDtoParam struct {
+	// Id of the community to post to
+	CommunityID param.Opt[string] `json:"community_id,omitzero"`
+	// Id of the tweet you want to quote
+	QuoteTweetID param.Opt[string] `json:"quote_tweet_id,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
 	Media []TwitterConfigurationDtoMediaParam `json:"media,omitzero"`
+	// Who can reply to the tweet
+	//
+	// Any of "following", "mentionedUsers", "subscribers", "verified".
+	ReplySettings TwitterConfigurationDtoReplySettings `json:"reply_settings,omitzero"`
+	// Poll options for the tweet
+	Poll TwitterConfigurationDtoPollParam `json:"poll,omitzero"`
 	paramObj
 }
 
@@ -1255,6 +2126,8 @@ func (r *TwitterConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type TwitterConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []TwitterConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -1268,6 +2141,74 @@ func (r TwitterConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error
 }
 func (r *TwitterConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ID, Platform, Type are required.
+type TwitterConfigurationDtoMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r TwitterConfigurationDtoMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow TwitterConfigurationDtoMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *TwitterConfigurationDtoMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[TwitterConfigurationDtoMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[TwitterConfigurationDtoMediaTagParam](
+		"type", "user", "product",
+	)
+}
+
+// Poll options for the tweet
+//
+// The properties DurationMinutes, Options are required.
+type TwitterConfigurationDtoPollParam struct {
+	// Duration of the poll in minutes
+	DurationMinutes float64 `json:"duration_minutes,required"`
+	// The choices of the poll, requiring 2-4 options
+	Options []string `json:"options,omitzero,required"`
+	// Who can reply to the tweet
+	//
+	// Any of "following", "mentionedUsers", "subscribers", "verified".
+	ReplySettings string `json:"reply_settings,omitzero"`
+	paramObj
+}
+
+func (r TwitterConfigurationDtoPollParam) MarshalJSON() (data []byte, err error) {
+	type shadow TwitterConfigurationDtoPollParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *TwitterConfigurationDtoPollParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[TwitterConfigurationDtoPollParam](
+		"reply_settings", "following", "mentionedUsers", "subscribers", "verified",
+	)
 }
 
 type YoutubeConfigurationDto struct {
@@ -1305,6 +2246,8 @@ func (r YoutubeConfigurationDto) ToParam() YoutubeConfigurationDtoParam {
 type YoutubeConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []YoutubeConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
 	// Public URL of the thumbnail for the media
@@ -1312,6 +2255,7 @@ type YoutubeConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
 		ExtraFields          map[string]respjson.Field
@@ -1322,6 +2266,42 @@ type YoutubeConfigurationDtoMedia struct {
 // Returns the unmodified JSON received from the API
 func (r YoutubeConfigurationDtoMedia) RawJSON() string { return r.JSON.raw }
 func (r *YoutubeConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type YoutubeConfigurationDtoMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r YoutubeConfigurationDtoMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *YoutubeConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1347,6 +2327,8 @@ func (r *YoutubeConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type YoutubeConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []YoutubeConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
 	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
 	// Public URL of the thumbnail for the media
@@ -1360,6 +2342,45 @@ func (r YoutubeConfigurationDtoMediaParam) MarshalJSON() (data []byte, err error
 }
 func (r *YoutubeConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ID, Platform, Type are required.
+type YoutubeConfigurationDtoMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r YoutubeConfigurationDtoMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow YoutubeConfigurationDtoMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *YoutubeConfigurationDtoMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[YoutubeConfigurationDtoMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[YoutubeConfigurationDtoMediaTagParam](
+		"type", "user", "product",
+	)
 }
 
 type SocialPostListResponse struct {

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/apijson"
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/apiquery"
@@ -38,7 +39,7 @@ func NewSocialPostResultService(opts ...option.RequestOption) (r SocialPostResul
 
 // Get post result by ID
 func (r *SocialPostResultService) Get(ctx context.Context, id string, opts ...option.RequestOption) (res *SocialPostResult, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return
@@ -50,7 +51,7 @@ func (r *SocialPostResultService) Get(ctx context.Context, id string, opts ...op
 
 // Get a paginated result for post results based on the applied filters
 func (r *SocialPostResultService) List(ctx context.Context, query SocialPostResultListParams, opts ...option.RequestOption) (res *SocialPostResultListResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-post-results"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return
