@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.1.0-alpha.8 (2025-10-03)
+
+Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
+
+### Features
+
+* **api:** api update ([40fd0b8](https://github.com/DayMoonDevelopment/post-for-me-go/commit/40fd0b8bce6ed6b9b9392f23f55daa716abb31ab))
+* **api:** api update ([ba19603](https://github.com/DayMoonDevelopment/post-for-me-go/commit/ba19603fe681eaf559d26d9bd848fb433f0c0fb7))
+* **api:** api update ([3a67055](https://github.com/DayMoonDevelopment/post-for-me-go/commit/3a67055134976ec6ea183177289563df9786f082))
+
+
+### Bug Fixes
+
+* bugfix for setting JSON keys with special characters ([982b475](https://github.com/DayMoonDevelopment/post-for-me-go/commit/982b475781c7ff96586faa4bc09cad69711e93c0))
+* use slices.Concat instead of sometimes modifying r.Options ([e380e49](https://github.com/DayMoonDevelopment/post-for-me-go/commit/e380e49f48415af062cf3af6e0782e8e4c0aaa75))
+
+
+### Chores
+
+* bump minimum go version to 1.22 ([2802c48](https://github.com/DayMoonDevelopment/post-for-me-go/commit/2802c486eea2a450cecbf86105a0aacd569e968e))
+* do not install brew dependencies in ./scripts/bootstrap by default ([5c44f42](https://github.com/DayMoonDevelopment/post-for-me-go/commit/5c44f42123c3d496fb5aee5a3c5c73de741e6f82))
+* update more docs for 1.22 ([aec10c0](https://github.com/DayMoonDevelopment/post-for-me-go/commit/aec10c043190cab70f0d3ffe4c02f2630a165d6a))
+
 ## 0.1.0-alpha.7 (2025-09-06)
 
 Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
