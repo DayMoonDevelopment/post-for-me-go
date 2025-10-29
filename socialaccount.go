@@ -117,6 +117,8 @@ type SocialAccount struct {
 	Metadata any `json:"metadata,required"`
 	// The platform of the social account
 	Platform string `json:"platform,required"`
+	// The platform's profile photo of the social account
+	ProfilePhotoURL string `json:"profile_photo_url,required"`
 	// The refresh token of the social account
 	RefreshToken string `json:"refresh_token,required"`
 	// The refresh token expiration date of the social account
@@ -137,6 +139,7 @@ type SocialAccount struct {
 		ExternalID            respjson.Field
 		Metadata              respjson.Field
 		Platform              respjson.Field
+		ProfilePhotoURL       respjson.Field
 		RefreshToken          respjson.Field
 		RefreshTokenExpiresAt respjson.Field
 		Status                respjson.Field
@@ -238,6 +241,8 @@ type SocialAccountDisconnectResponse struct {
 	Metadata any `json:"metadata,required"`
 	// The platform of the social account
 	Platform string `json:"platform,required"`
+	// The platform's profile photo of the social account
+	ProfilePhotoURL string `json:"profile_photo_url,required"`
 	// The refresh token of the social account
 	RefreshToken string `json:"refresh_token,required"`
 	// The refresh token expiration date of the social account
@@ -258,6 +263,7 @@ type SocialAccountDisconnectResponse struct {
 		ExternalID            respjson.Field
 		Metadata              respjson.Field
 		Platform              respjson.Field
+		ProfilePhotoURL       respjson.Field
 		RefreshToken          respjson.Field
 		RefreshTokenExpiresAt respjson.Field
 		Status                respjson.Field
