@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.9 (2025-11-12)
+
+Full Changelog: [v0.1.0-alpha.8...v0.1.0-alpha.9](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.8...v0.1.0-alpha.9)
+
+### Features
+
+* **api:** api update ([c8bb941](https://github.com/DayMoonDevelopment/post-for-me-go/commit/c8bb94195b9de14492538e3eef979c8bfc7ea7f0))
+
+
+### Chores
+
+* bump gjson version ([11cd3f2](https://github.com/DayMoonDevelopment/post-for-me-go/commit/11cd3f25118c2b53cd8c2ad7c875b9f8db66d65d))
+* **internal:** grammar fix (it's -&gt; its) ([f73215d](https://github.com/DayMoonDevelopment/post-for-me-go/commit/f73215d7e8c12ad4043d437079413e7dc770d226))
+
 ## 0.1.0-alpha.8 (2025-10-03)
 
 Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
