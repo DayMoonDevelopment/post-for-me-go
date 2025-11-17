@@ -386,6 +386,11 @@ type SocialAccountNewAuthURLParams struct {
 	Platform string `json:"platform,required"`
 	// Your unique identifier for the social account
 	ExternalID param.Opt[string] `json:"external_id,omitzero"`
+	// Override the default redirect URL for the OAuth flow. If provided, this URL will
+	// be used instead of our redirect URL. Make sure this URL is included in your
+	// app's authorized redirect urls. This override will not work when using our
+	// system credientals.
+	RedirectURLOverride param.Opt[string] `json:"redirect_url_override,omitzero"`
 	// Additional data needed for the provider
 	PlatformData SocialAccountNewAuthURLParamsPlatformData `json:"platform_data,omitzero"`
 	paramObj
