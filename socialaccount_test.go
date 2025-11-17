@@ -158,6 +158,7 @@ func TestSocialAccountNewAuthURLWithOptionalParams(t *testing.T) {
 				ConnectionType: "personal",
 			},
 		},
+		RedirectURLOverride: postforme.String("redirect_url_override"),
 	})
 	if err != nil {
 		var apierr *postforme.Error
