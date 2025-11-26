@@ -33,7 +33,7 @@ func TestSocialAccountNewWithOptionalParams(t *testing.T) {
 		Platform:              postforme.SocialAccountNewParamsPlatformFacebook,
 		UserID:                "user_id",
 		ExternalID:            postforme.String("external_id"),
-		Metadata:              map[string]interface{}{},
+		Metadata:              map[string]any{},
 		RefreshToken:          postforme.String("refresh_token"),
 		RefreshTokenExpiresAt: postforme.Time(time.Now()),
 		Username:              postforme.String("username"),
