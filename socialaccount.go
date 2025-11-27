@@ -472,8 +472,9 @@ func init() {
 //
 // The property ConnectionType is required.
 type SocialAccountNewAuthURLParamsPlatformDataLinkedin struct {
-	// The type of connection; personal for posting on behalf of the user only,
-	// organization for posting on behalf of both an organization and the user
+	// The type of connection; If using our provided credentials always use
+	// "organization". If using your own crednetials then only use "organization" if
+	// you are using the Community API
 	//
 	// Any of "personal", "organization".
 	ConnectionType string `json:"connection_type,omitzero,required"`
