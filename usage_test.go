@@ -24,6 +24,7 @@ func TestUsage(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
+	t.Skip("Prism tests are disabled")
 	socialPost, err := client.SocialPosts.New(context.TODO(), postforme.SocialPostNewParams{
 		CreateSocialPost: postforme.CreateSocialPostParam{
 			Caption:        "caption",
