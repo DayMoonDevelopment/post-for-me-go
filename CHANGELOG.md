@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.1.0-alpha.10 (2025-12-19)
+
+Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)
+
+### Features
+
+* **api:** api update ([43971da](https://github.com/DayMoonDevelopment/post-for-me-go/commit/43971dade583672b561e8381bb932df028abd42f))
+* **api:** api update ([56ea8f5](https://github.com/DayMoonDevelopment/post-for-me-go/commit/56ea8f5d37ff9f69e43ccb34b25bbdc4da575347))
+* **api:** api update ([deb9a5c](https://github.com/DayMoonDevelopment/post-for-me-go/commit/deb9a5ca2169a4aff418eace320f21a9e0263006))
+* **encoder:** support bracket encoding form-data object members ([d7adc69](https://github.com/DayMoonDevelopment/post-for-me-go/commit/d7adc69d8a548af50e698085ebe06b35124b830b))
+
+
+### Bug Fixes
+
+* **mcp:** correct code tool API endpoint ([ded1cf2](https://github.com/DayMoonDevelopment/post-for-me-go/commit/ded1cf21ad14076cf588cc79119338910ac7a52c))
+* rename param to avoid collision ([fd65602](https://github.com/DayMoonDevelopment/post-for-me-go/commit/fd65602bc59d0ce3517684990c01ac4289a14631))
+* skip usage tests that don't work with Prism ([fbd58ec](https://github.com/DayMoonDevelopment/post-for-me-go/commit/fbd58ece7dcdef5ea322b1ac24a0d97d85c384e4))
+
+
+### Chores
+
+* add float64 to valid types for RegisterFieldValidator ([c2053b1](https://github.com/DayMoonDevelopment/post-for-me-go/commit/c2053b14c89920b41367436525b533979197aa78))
+* elide duplicate aliases ([75c0537](https://github.com/DayMoonDevelopment/post-for-me-go/commit/75c05371d9febb9f5d4d7a4e526774e734c172a3))
+* fix empty interfaces ([af65089](https://github.com/DayMoonDevelopment/post-for-me-go/commit/af65089bddf3967d11dab6ec52bb505a6ef3421f))
+* **internal:** codegen related update ([94f5955](https://github.com/DayMoonDevelopment/post-for-me-go/commit/94f59558cdc97d07bdada6be7227618c7e722cbf))
+
 ## 0.1.0-alpha.9 (2025-11-12)
 
 Full Changelog: [v0.1.0-alpha.8...v0.1.0-alpha.9](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.8...v0.1.0-alpha.9)

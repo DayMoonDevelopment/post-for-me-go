@@ -386,6 +386,16 @@ type SocialAccountNewAuthURLParams struct {
 	Platform string `json:"platform,required"`
 	// Your unique identifier for the social account
 	ExternalID param.Opt[string] `json:"external_id,omitzero"`
+	// Override the default redirect URL for the OAuth flow. If provided, this URL will
+	// be used instead of our redirect URL. Make sure this URL is included in your
+	// app's authorized redirect urls. This override will not work when using our
+	// system credientals.
+	RedirectURLOverride param.Opt[string] `json:"redirect_url_override,omitzero"`
+	// List of permissions you want to allow. Will default to only post permissions.
+	// You must include the "feeds" permission to request an account feed and metrics
+	//
+	// Any of "posts", "feeds".
+	Permissions []string `json:"permissions,omitzero"`
 	// Additional data needed for the provider
 	PlatformData SocialAccountNewAuthURLParamsPlatformData `json:"platform_data,omitzero"`
 	paramObj
@@ -403,10 +413,22 @@ func (r *SocialAccountNewAuthURLParams) UnmarshalJSON(data []byte) error {
 type SocialAccountNewAuthURLParamsPlatformData struct {
 	// Additional data needed for connecting bluesky accounts
 	Bluesky SocialAccountNewAuthURLParamsPlatformDataBluesky `json:"bluesky,omitzero"`
+	// Additional data for connecting facebook accounts
+	Facebook SocialAccountNewAuthURLParamsPlatformDataFacebook `json:"facebook,omitzero"`
 	// Additional data for connecting instagram accounts
 	Instagram SocialAccountNewAuthURLParamsPlatformDataInstagram `json:"instagram,omitzero"`
 	// Additional data for connecting linkedin accounts
 	Linkedin SocialAccountNewAuthURLParamsPlatformDataLinkedin `json:"linkedin,omitzero"`
+	// Additional data for connecting Pinterest accounts
+	Pinterest SocialAccountNewAuthURLParamsPlatformDataPinterest `json:"pinterest,omitzero"`
+	// Additional data for connecting Threads accounts
+	Threads SocialAccountNewAuthURLParamsPlatformDataThreads `json:"threads,omitzero"`
+	// Additional data for connecting TikTok accounts
+	Tiktok SocialAccountNewAuthURLParamsPlatformDataTiktok `json:"tiktok,omitzero"`
+	// Additional data for connecting TikTok Business accounts
+	TiktokBusiness SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness `json:"tiktok_business,omitzero"`
+	// Additional data for connecting YouTube accounts
+	Youtube SocialAccountNewAuthURLParamsPlatformDataYoutube `json:"youtube,omitzero"`
 	paramObj
 }
 
@@ -437,6 +459,23 @@ func (r *SocialAccountNewAuthURLParamsPlatformDataBluesky) UnmarshalJSON(data []
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Additional data for connecting facebook accounts
+type SocialAccountNewAuthURLParamsPlatformDataFacebook struct {
+	// Override the default permissions/scopes requested during OAuth. Default scopes:
+	// public_profile, pages_show_list, pages_read_engagement, pages_manage_posts,
+	// business_management
+	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	paramObj
+}
+
+func (r SocialAccountNewAuthURLParamsPlatformDataFacebook) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewAuthURLParamsPlatformDataFacebook
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewAuthURLParamsPlatformDataFacebook) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Additional data for connecting instagram accounts
 //
 // The property ConnectionType is required.
@@ -446,6 +485,11 @@ type SocialAccountNewAuthURLParamsPlatformDataInstagram struct {
 	//
 	// Any of "instagram", "facebook".
 	ConnectionType string `json:"connection_type,omitzero,required"`
+	// Override the default permissions/scopes requested during OAuth. Default
+	// instagram scopes: instagram_business_basic, instagram_business_content_publish.
+	// Default facebook scopes: instagram_basic, instagram_content_publish,
+	// pages_show_list, public_profile, business_management
+	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
@@ -467,11 +511,17 @@ func init() {
 //
 // The property ConnectionType is required.
 type SocialAccountNewAuthURLParamsPlatformDataLinkedin struct {
-	// The type of connection; personal for posting on behalf of the user only,
-	// organization for posting on behalf of both an organization and the user
+	// The type of connection; If using our provided credentials always use
+	// "organization". If using your own crednetials then only use "organization" if
+	// you are using the Community API
 	//
 	// Any of "personal", "organization".
 	ConnectionType string `json:"connection_type,omitzero,required"`
+	// Override the default permissions/scopes requested during OAuth. Default personal
+	// scopes: openid, w_member_social, profile, email. Default organization scopes:
+	// r_basicprofile, w_member_social, r_organization_social, w_organization_social,
+	// rw_organization_admin
+	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
@@ -487,4 +537,90 @@ func init() {
 	apijson.RegisterFieldValidator[SocialAccountNewAuthURLParamsPlatformDataLinkedin](
 		"connection_type", "personal", "organization",
 	)
+}
+
+// Additional data for connecting Pinterest accounts
+type SocialAccountNewAuthURLParamsPlatformDataPinterest struct {
+	// Override the default permissions/scopes requested during OAuth. Default scopes:
+	// boards:read, boards:write, pins:read, pins:write, user_accounts:read
+	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	paramObj
+}
+
+func (r SocialAccountNewAuthURLParamsPlatformDataPinterest) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewAuthURLParamsPlatformDataPinterest
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewAuthURLParamsPlatformDataPinterest) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Additional data for connecting Threads accounts
+type SocialAccountNewAuthURLParamsPlatformDataThreads struct {
+	// Override the default permissions/scopes requested during OAuth. Default scopes:
+	// threads_basic, threads_content_publish
+	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	paramObj
+}
+
+func (r SocialAccountNewAuthURLParamsPlatformDataThreads) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewAuthURLParamsPlatformDataThreads
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewAuthURLParamsPlatformDataThreads) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Additional data for connecting TikTok accounts
+type SocialAccountNewAuthURLParamsPlatformDataTiktok struct {
+	// Override the default permissions/scopes requested during OAuth. Default scopes:
+	// user.info.basic, video.list, video.upload, video.publish
+	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	paramObj
+}
+
+func (r SocialAccountNewAuthURLParamsPlatformDataTiktok) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewAuthURLParamsPlatformDataTiktok
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewAuthURLParamsPlatformDataTiktok) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Additional data for connecting TikTok Business accounts
+type SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness struct {
+	// Override the default permissions/scopes requested during OAuth. Default scopes:
+	// user.info.basic, user.info.username, user.info.stats, user.info.profile,
+	// user.account.type, user.insights, video.list, video.insights, comment.list,
+	// comment.list.manage, video.publish, video.upload, biz.spark.auth,
+	// discovery.search.words
+	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	paramObj
+}
+
+func (r SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Additional data for connecting YouTube accounts
+type SocialAccountNewAuthURLParamsPlatformDataYoutube struct {
+	// Override the default permissions/scopes requested during OAuth. Default scopes:
+	// https://www.googleapis.com/auth/youtube.force-ssl,
+	// https://www.googleapis.com/auth/youtube.upload,
+	// https://www.googleapis.com/auth/youtube.readonly,
+	// https://www.googleapis.com/auth/userinfo.profile
+	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	paramObj
+}
+
+func (r SocialAccountNewAuthURLParamsPlatformDataYoutube) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewAuthURLParamsPlatformDataYoutube
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewAuthURLParamsPlatformDataYoutube) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }

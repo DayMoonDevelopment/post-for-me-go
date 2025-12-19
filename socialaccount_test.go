@@ -33,7 +33,7 @@ func TestSocialAccountNewWithOptionalParams(t *testing.T) {
 		Platform:              postforme.SocialAccountNewParamsPlatformFacebook,
 		UserID:                "user_id",
 		ExternalID:            postforme.String("external_id"),
-		Metadata:              map[string]interface{}{},
+		Metadata:              map[string]any{},
 		RefreshToken:          postforme.String("refresh_token"),
 		RefreshTokenExpiresAt: postforme.Time(time.Now()),
 		Username:              postforme.String("username"),
@@ -144,20 +144,42 @@ func TestSocialAccountNewAuthURLWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SocialAccounts.NewAuthURL(context.TODO(), postforme.SocialAccountNewAuthURLParams{
-		Platform:   "platform",
-		ExternalID: postforme.String("external_id"),
+		Platform:    "platform",
+		ExternalID:  postforme.String("external_id"),
+		Permissions: []string{"posts", "feeds"},
 		PlatformData: postforme.SocialAccountNewAuthURLParamsPlatformData{
 			Bluesky: postforme.SocialAccountNewAuthURLParamsPlatformDataBluesky{
 				AppPassword: "app_password",
 				Handle:      "handle",
 			},
+			Facebook: postforme.SocialAccountNewAuthURLParamsPlatformDataFacebook{
+				PermissionOverrides: [][]any{{map[string]any{}}},
+			},
 			Instagram: postforme.SocialAccountNewAuthURLParamsPlatformDataInstagram{
-				ConnectionType: "instagram",
+				ConnectionType:      "instagram",
+				PermissionOverrides: [][]any{{map[string]any{}}},
 			},
 			Linkedin: postforme.SocialAccountNewAuthURLParamsPlatformDataLinkedin{
-				ConnectionType: "personal",
+				ConnectionType:      "personal",
+				PermissionOverrides: [][]any{{map[string]any{}}},
+			},
+			Pinterest: postforme.SocialAccountNewAuthURLParamsPlatformDataPinterest{
+				PermissionOverrides: [][]any{{map[string]any{}}},
+			},
+			Threads: postforme.SocialAccountNewAuthURLParamsPlatformDataThreads{
+				PermissionOverrides: [][]any{{map[string]any{}}},
+			},
+			Tiktok: postforme.SocialAccountNewAuthURLParamsPlatformDataTiktok{
+				PermissionOverrides: [][]any{{map[string]any{}}},
+			},
+			TiktokBusiness: postforme.SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness{
+				PermissionOverrides: [][]any{{map[string]any{}}},
+			},
+			Youtube: postforme.SocialAccountNewAuthURLParamsPlatformDataYoutube{
+				PermissionOverrides: [][]any{{map[string]any{}}},
 			},
 		},
+		RedirectURLOverride: postforme.String("redirect_url_override"),
 	})
 	if err != nil {
 		var apierr *postforme.Error
