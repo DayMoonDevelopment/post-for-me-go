@@ -16,11 +16,12 @@ import (
 // interacting with the post-for-me API. You should not instantiate this client
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
-	Options           []option.RequestOption
-	Media             MediaService
-	SocialPosts       SocialPostService
-	SocialPostResults SocialPostResultService
-	SocialAccounts    SocialAccountService
+	Options            []option.RequestOption
+	Media              MediaService
+	SocialPosts        SocialPostService
+	SocialPostResults  SocialPostResultService
+	SocialAccounts     SocialAccountService
+	SocialAccountFeeds SocialAccountFeedService
 }
 
 // DefaultClientOptions read from the environment (POST_FOR_ME_API_KEY,
@@ -49,6 +50,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r.SocialPosts = NewSocialPostService(opts...)
 	r.SocialPostResults = NewSocialPostResultService(opts...)
 	r.SocialAccounts = NewSocialAccountService(opts...)
+	r.SocialAccountFeeds = NewSocialAccountFeedService(opts...)
 
 	return
 }
