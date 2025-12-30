@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.11 (2025-12-30)
+
+Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
+
+### Features
+
+* **api:** Adding account feed endpoint ([9777aa9](https://github.com/DayMoonDevelopment/post-for-me-go/commit/9777aa95a446e3315eaec6f733f7ecd429793d2d))
+
 ## 0.1.0-alpha.10 (2025-12-19)
 
 Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)
