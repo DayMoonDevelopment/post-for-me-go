@@ -330,8 +330,8 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	// Page id with a location that you want to tag the image or video with (Instagram
 	// and Facebook)
 	Location param.Opt[string] `json:"location,omitzero"`
-	// Sets the privacy status for TikTok (private, public)
-	PrivacyStatus param.Opt[string] `json:"privacy_status,omitzero"`
+	// If true will notify YouTube the video is intended for kids, defaults to false
+	MadeForKids param.Opt[bool] `json:"made_for_kids,omitzero"`
 	// If false Instagram video posts will only be shown in the Reels tab
 	ShareToFeed param.Opt[bool] `json:"share_to_feed,omitzero"`
 	// Overrides the `title` from the post
@@ -353,6 +353,11 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	//
 	// Any of "reels", "timeline", "stories".
 	Placement string `json:"placement,omitzero"`
+	// Sets the privacy status for TikTok (private, public), or YouTube (private,
+	// public, unlisted)
+	//
+	// Any of "public", "private", "unlisted".
+	PrivacyStatus string `json:"privacy_status,omitzero"`
 	// Who can reply to the tweet
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
@@ -373,6 +378,9 @@ func (r *CreateSocialPostAccountConfigurationConfigurationParam) UnmarshalJSON(d
 func init() {
 	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationParam](
 		"placement", "reels", "timeline", "stories",
+	)
+	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationParam](
+		"privacy_status", "public", "private", "unlisted",
 	)
 	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationParam](
 		"reply_settings", "following", "mentionedUsers", "subscribers", "verified",
@@ -1399,6 +1407,8 @@ type SocialPostAccountConfigurationConfiguration struct {
 	// Page id with a location that you want to tag the image or video with (Instagram
 	// and Facebook)
 	Location string `json:"location,nullable"`
+	// If true will notify YouTube the video is intended for kids, defaults to false
+	MadeForKids bool `json:"made_for_kids,nullable"`
 	// Overrides the `media` from the post
 	Media []string `json:"media,nullable"`
 	// Post placement for Facebook/Instagram/Threads
@@ -1407,7 +1417,10 @@ type SocialPostAccountConfigurationConfiguration struct {
 	Placement string `json:"placement,nullable"`
 	// Poll options for the twitter
 	Poll SocialPostAccountConfigurationConfigurationPoll `json:"poll"`
-	// Sets the privacy status for TikTok (private, public)
+	// Sets the privacy status for TikTok (private, public), or YouTube (private,
+	// public, unlisted)
+	//
+	// Any of "public", "private", "unlisted".
 	PrivacyStatus string `json:"privacy_status,nullable"`
 	// Id of the tweet you want to quote
 	QuoteTweetID string `json:"quote_tweet_id"`
@@ -1435,6 +1448,7 @@ type SocialPostAccountConfigurationConfiguration struct {
 		IsDraft                respjson.Field
 		Link                   respjson.Field
 		Location               respjson.Field
+		MadeForKids            respjson.Field
 		Media                  respjson.Field
 		Placement              respjson.Field
 		Poll                   respjson.Field
@@ -2214,17 +2228,25 @@ func init() {
 type YoutubeConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,nullable"`
+	// If true will notify YouTube the video is intended for kids, defaults to false
+	MadeForKids bool `json:"made_for_kids,nullable"`
 	// Overrides the `media` from the post
 	Media []YoutubeConfigurationDtoMedia `json:"media,nullable"`
+	// Sets the privacy status of the video, will default to public
+	//
+	// Any of "public", "private", "unlisted".
+	PrivacyStatus YoutubeConfigurationDtoPrivacyStatus `json:"privacy_status,nullable"`
 	// Overrides the `title` from the post
 	Title string `json:"title,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Caption     respjson.Field
-		Media       respjson.Field
-		Title       respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		Caption       respjson.Field
+		MadeForKids   respjson.Field
+		Media         respjson.Field
+		PrivacyStatus respjson.Field
+		Title         respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
 	} `json:"-"`
 }
 
@@ -2305,13 +2327,28 @@ func (r *YoutubeConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Sets the privacy status of the video, will default to public
+type YoutubeConfigurationDtoPrivacyStatus string
+
+const (
+	YoutubeConfigurationDtoPrivacyStatusPublic   YoutubeConfigurationDtoPrivacyStatus = "public"
+	YoutubeConfigurationDtoPrivacyStatusPrivate  YoutubeConfigurationDtoPrivacyStatus = "private"
+	YoutubeConfigurationDtoPrivacyStatusUnlisted YoutubeConfigurationDtoPrivacyStatus = "unlisted"
+)
+
 type YoutubeConfigurationDtoParam struct {
+	// If true will notify YouTube the video is intended for kids, defaults to false
+	MadeForKids param.Opt[bool] `json:"made_for_kids,omitzero"`
 	// Overrides the `title` from the post
 	Title param.Opt[string] `json:"title,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post
 	Media []YoutubeConfigurationDtoMediaParam `json:"media,omitzero"`
+	// Sets the privacy status of the video, will default to public
+	//
+	// Any of "public", "private", "unlisted".
+	PrivacyStatus YoutubeConfigurationDtoPrivacyStatus `json:"privacy_status,omitzero"`
 	paramObj
 }
 

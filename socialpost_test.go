@@ -47,6 +47,7 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					IsDraft:                postforme.Bool(true),
 					Link:                   postforme.String("link"),
 					Location:               postforme.String("location"),
+					MadeForKids:            postforme.Bool(true),
 					Media:                  []string{"string"},
 					Placement:              "reels",
 					Poll: postforme.CreateSocialPostAccountConfigurationConfigurationPollParam{
@@ -54,7 +55,7 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 						Options:         []string{"string"},
 						ReplySettings:   "following",
 					},
-					PrivacyStatus: postforme.String("privacy_status"),
+					PrivacyStatus: "public",
 					QuoteTweetID:  postforme.String("quote_tweet_id"),
 					ReplySettings: "following",
 					ShareToFeed:   postforme.Bool(true),
@@ -251,7 +252,8 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					ReplySettings: postforme.TwitterConfigurationDtoReplySettingsFollowing,
 				},
 				Youtube: postforme.YoutubeConfigurationDtoParam{
-					Caption: map[string]any{},
+					Caption:     map[string]any{},
+					MadeForKids: postforme.Bool(true),
 					Media: []postforme.YoutubeConfigurationDtoMediaParam{{
 						URL: "url",
 						Tags: []postforme.YoutubeConfigurationDtoMediaTagParam{{
@@ -264,7 +266,8 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 						ThumbnailTimestampMs: map[string]any{},
 						ThumbnailURL:         map[string]any{},
 					}},
-					Title: postforme.String("title"),
+					PrivacyStatus: postforme.YoutubeConfigurationDtoPrivacyStatusPublic,
+					Title:         postforme.String("title"),
 				},
 			},
 			ScheduledAt: postforme.Time(time.Now()),
@@ -338,6 +341,7 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						IsDraft:                postforme.Bool(true),
 						Link:                   postforme.String("link"),
 						Location:               postforme.String("location"),
+						MadeForKids:            postforme.Bool(true),
 						Media:                  []string{"string"},
 						Placement:              "reels",
 						Poll: postforme.CreateSocialPostAccountConfigurationConfigurationPollParam{
@@ -345,7 +349,7 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 							Options:         []string{"string"},
 							ReplySettings:   "following",
 						},
-						PrivacyStatus: postforme.String("privacy_status"),
+						PrivacyStatus: "public",
 						QuoteTweetID:  postforme.String("quote_tweet_id"),
 						ReplySettings: "following",
 						ShareToFeed:   postforme.Bool(true),
@@ -542,7 +546,8 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						ReplySettings: postforme.TwitterConfigurationDtoReplySettingsFollowing,
 					},
 					Youtube: postforme.YoutubeConfigurationDtoParam{
-						Caption: map[string]any{},
+						Caption:     map[string]any{},
+						MadeForKids: postforme.Bool(true),
 						Media: []postforme.YoutubeConfigurationDtoMediaParam{{
 							URL: "url",
 							Tags: []postforme.YoutubeConfigurationDtoMediaTagParam{{
@@ -555,7 +560,8 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 							ThumbnailTimestampMs: map[string]any{},
 							ThumbnailURL:         map[string]any{},
 						}},
-						Title: postforme.String("title"),
+						PrivacyStatus: postforme.YoutubeConfigurationDtoPrivacyStatusPublic,
+						Title:         postforme.String("title"),
 					},
 				},
 				ScheduledAt: postforme.Time(time.Now()),
