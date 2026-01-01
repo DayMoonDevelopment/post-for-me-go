@@ -348,7 +348,7 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	// and Facebook)
 	Collaborators [][]any `json:"collaborators,omitzero"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,omitzero"`
+	Media []CreateSocialPostAccountConfigurationConfigurationMediaParam `json:"media,omitzero"`
 	// Post placement for Facebook/Instagram/Threads
 	//
 	// Any of "reels", "timeline", "stories".
@@ -384,6 +384,66 @@ func init() {
 	)
 	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationParam](
 		"reply_settings", "following", "mentionedUsers", "subscribers", "verified",
+	)
+}
+
+// The property URL is required.
+type CreateSocialPostAccountConfigurationConfigurationMediaParam struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []CreateSocialPostAccountConfigurationConfigurationMediaTagParam `json:"tags,omitzero"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,omitzero"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,omitzero"`
+	paramObj
+}
+
+func (r CreateSocialPostAccountConfigurationConfigurationMediaParam) MarshalJSON() (data []byte, err error) {
+	type shadow CreateSocialPostAccountConfigurationConfigurationMediaParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *CreateSocialPostAccountConfigurationConfigurationMediaParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ID, Platform, Type are required.
+type CreateSocialPostAccountConfigurationConfigurationMediaTagParam struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,omitzero,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,omitzero,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X param.Opt[float64] `json:"x,omitzero"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y param.Opt[float64] `json:"y,omitzero"`
+	paramObj
+}
+
+func (r CreateSocialPostAccountConfigurationConfigurationMediaTagParam) MarshalJSON() (data []byte, err error) {
+	type shadow CreateSocialPostAccountConfigurationConfigurationMediaTagParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *CreateSocialPostAccountConfigurationConfigurationMediaTagParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationMediaTagParam](
+		"platform", "facebook", "instagram",
+	)
+	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationMediaTagParam](
+		"type", "user", "product",
 	)
 }
 
@@ -1410,7 +1470,7 @@ type SocialPostAccountConfigurationConfiguration struct {
 	// If true will notify YouTube the video is intended for kids, defaults to false
 	MadeForKids bool `json:"made_for_kids,nullable"`
 	// Overrides the `media` from the post
-	Media []string `json:"media,nullable"`
+	Media []SocialPostAccountConfigurationConfigurationMedia `json:"media,nullable"`
 	// Post placement for Facebook/Instagram/Threads
 	//
 	// Any of "reels", "timeline", "stories".
@@ -1465,6 +1525,68 @@ type SocialPostAccountConfigurationConfiguration struct {
 // Returns the unmodified JSON received from the API
 func (r SocialPostAccountConfigurationConfiguration) RawJSON() string { return r.JSON.raw }
 func (r *SocialPostAccountConfigurationConfiguration) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SocialPostAccountConfigurationConfigurationMedia struct {
+	// Public URL of the media
+	URL string `json:"url,required"`
+	// List of tags to attach to the media
+	Tags []SocialPostAccountConfigurationConfigurationMediaTag `json:"tags,nullable"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		Tags                 respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SocialPostAccountConfigurationConfigurationMedia) RawJSON() string { return r.JSON.raw }
+func (r *SocialPostAccountConfigurationConfigurationMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SocialPostAccountConfigurationConfigurationMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id,required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform,required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type,required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SocialPostAccountConfigurationConfigurationMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *SocialPostAccountConfigurationConfigurationMediaTag) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

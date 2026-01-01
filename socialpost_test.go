@@ -48,8 +48,19 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					Link:                   postforme.String("link"),
 					Location:               postforme.String("location"),
 					MadeForKids:            postforme.Bool(true),
-					Media:                  []string{"string"},
-					Placement:              "reels",
+					Media: []postforme.CreateSocialPostAccountConfigurationConfigurationMediaParam{{
+						URL: "url",
+						Tags: []postforme.CreateSocialPostAccountConfigurationConfigurationMediaTagParam{{
+							ID:       "id",
+							Platform: "facebook",
+							Type:     "user",
+							X:        postforme.Float(0),
+							Y:        postforme.Float(0),
+						}},
+						ThumbnailTimestampMs: map[string]any{},
+						ThumbnailURL:         map[string]any{},
+					}},
+					Placement: "reels",
 					Poll: postforme.CreateSocialPostAccountConfigurationConfigurationPollParam{
 						DurationMinutes: 0,
 						Options:         []string{"string"},
@@ -342,8 +353,19 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						Link:                   postforme.String("link"),
 						Location:               postforme.String("location"),
 						MadeForKids:            postforme.Bool(true),
-						Media:                  []string{"string"},
-						Placement:              "reels",
+						Media: []postforme.CreateSocialPostAccountConfigurationConfigurationMediaParam{{
+							URL: "url",
+							Tags: []postforme.CreateSocialPostAccountConfigurationConfigurationMediaTagParam{{
+								ID:       "id",
+								Platform: "facebook",
+								Type:     "user",
+								X:        postforme.Float(0),
+								Y:        postforme.Float(0),
+							}},
+							ThumbnailTimestampMs: map[string]any{},
+							ThumbnailURL:         map[string]any{},
+						}},
+						Placement: "reels",
 						Poll: postforme.CreateSocialPostAccountConfigurationConfigurationPollParam{
 							DurationMinutes: 0,
 							Options:         []string{"string"},
