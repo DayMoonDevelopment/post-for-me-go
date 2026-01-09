@@ -613,11 +613,12 @@ func TestSocialPostListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SocialPosts.List(context.TODO(), postforme.SocialPostListParams{
-		ExternalID: []string{"string"},
-		Limit:      postforme.Float(0),
-		Offset:     postforme.Float(0),
-		Platform:   []string{"bluesky"},
-		Status:     []string{"draft"},
+		ExternalID:      []string{"string"},
+		Limit:           postforme.Float(0),
+		Offset:          postforme.Float(0),
+		Platform:        []string{"bluesky"},
+		SocialAccountID: []string{"string"},
+		Status:          []string{"draft"},
 	})
 	if err != nil {
 		var apierr *postforme.Error

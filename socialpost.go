@@ -2639,6 +2639,8 @@ type SocialPostListParams struct {
 	// Any of "bluesky", "facebook", "instagram", "linkedin", "pinterest", "threads",
 	// "tiktok", "x", "youtube".
 	Platform []string `query:"platform,omitzero" json:"-"`
+	// Filter by social account ID. Multiple values imply OR logic.
+	SocialAccountID []string `query:"social_account_id,omitzero" json:"-"`
 	// Filter by post status. Multiple values imply OR logic.
 	//
 	// Any of "draft", "scheduled", "processing", "processed".
