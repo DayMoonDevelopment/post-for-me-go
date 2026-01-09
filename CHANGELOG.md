@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.0-alpha.12 (2026-01-09)
+
+Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
+
+### Features
+
+* **api:** api update ([3485b5f](https://github.com/DayMoonDevelopment/post-for-me-go/commit/3485b5fa01d3891e3396bc2b8776b3bbd02169ee))
+* **api:** api update ([cd4d914](https://github.com/DayMoonDevelopment/post-for-me-go/commit/cd4d9144882d42143f75fa4c47d8867206b10050))
+* **api:** api update ([cd1861b](https://github.com/DayMoonDevelopment/post-for-me-go/commit/cd1861b43b81aeed07d5d50dd8a4f51f65bc88f7))
+
+
+### Documentation
+
+* prominently feature MCP server setup in root SDK readmes ([151b60b](https://github.com/DayMoonDevelopment/post-for-me-go/commit/151b60bf196e6b8e530e9bdaadb91a12802db8bc))
+
 ## 0.1.0-alpha.11 (2025-12-30)
 
 Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
