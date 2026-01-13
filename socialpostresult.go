@@ -168,6 +168,9 @@ type SocialPostResultListParams struct {
 	// Filter by post IDs. Multiple values imply OR logic (e.g.,
 	// ?post_id=123&post_id=456).
 	PostID []string `query:"post_id,omitzero" json:"-"`
+	// Filter by social account ID(s). Multiple values imply OR logic (e.g.,
+	// ?social_account_id=123&social_account_id=456).
+	SocialAccountID []string `query:"social_account_id,omitzero" json:"-"`
 	paramObj
 }
 
