@@ -362,6 +362,12 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
 	ReplySettings string `json:"reply_settings,omitzero"`
+	// Instagram trial reel type, when passed will be created as a trial reel. If
+	// manual the trial reel can be manually graduated in the native app. If perfomance
+	// the trial reel will be automatically graduated if the trial reel performs well.
+	//
+	// Any of "manual", "performance".
+	TrialReelType string `json:"trial_reel_type,omitzero"`
 	// Poll options for the twitter
 	Poll CreateSocialPostAccountConfigurationConfigurationPollParam `json:"poll,omitzero"`
 	paramObj
@@ -384,6 +390,9 @@ func init() {
 	)
 	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationParam](
 		"reply_settings", "following", "mentionedUsers", "subscribers", "verified",
+	)
+	apijson.RegisterFieldValidator[CreateSocialPostAccountConfigurationConfigurationParam](
+		"trial_reel_type", "manual", "performance",
 	)
 }
 
@@ -747,6 +756,12 @@ type InstagramConfigurationDto struct {
 	Placement InstagramConfigurationDtoPlacement `json:"placement,nullable"`
 	// If false video posts will only be shown in the Reels tab
 	ShareToFeed bool `json:"share_to_feed,nullable"`
+	// Instagram trial reel type, when passed will be created as a trial reel. If
+	// manual the trial reel can be manually graduated in the native app. If perfomance
+	// the trial reel will be automatically graduated if the trial reel performs well.
+	//
+	// Any of "manual", "performance".
+	TrialReelType InstagramConfigurationDtoTrialReelType `json:"trial_reel_type,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption       respjson.Field
@@ -755,6 +770,7 @@ type InstagramConfigurationDto struct {
 		Media         respjson.Field
 		Placement     respjson.Field
 		ShareToFeed   respjson.Field
+		TrialReelType respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -847,6 +863,16 @@ const (
 	InstagramConfigurationDtoPlacementTimeline InstagramConfigurationDtoPlacement = "timeline"
 )
 
+// Instagram trial reel type, when passed will be created as a trial reel. If
+// manual the trial reel can be manually graduated in the native app. If perfomance
+// the trial reel will be automatically graduated if the trial reel performs well.
+type InstagramConfigurationDtoTrialReelType string
+
+const (
+	InstagramConfigurationDtoTrialReelTypeManual      InstagramConfigurationDtoTrialReelType = "manual"
+	InstagramConfigurationDtoTrialReelTypePerformance InstagramConfigurationDtoTrialReelType = "performance"
+)
+
 type InstagramConfigurationDtoParam struct {
 	// Page id with a location that you want to tag the image or video with
 	Location param.Opt[string] `json:"location,omitzero"`
@@ -862,6 +888,12 @@ type InstagramConfigurationDtoParam struct {
 	//
 	// Any of "reels", "stories", "timeline".
 	Placement InstagramConfigurationDtoPlacement `json:"placement,omitzero"`
+	// Instagram trial reel type, when passed will be created as a trial reel. If
+	// manual the trial reel can be manually graduated in the native app. If perfomance
+	// the trial reel will be automatically graduated if the trial reel performs well.
+	//
+	// Any of "manual", "performance".
+	TrialReelType InstagramConfigurationDtoTrialReelType `json:"trial_reel_type,omitzero"`
 	paramObj
 }
 
@@ -1492,6 +1524,12 @@ type SocialPostAccountConfigurationConfiguration struct {
 	ShareToFeed bool `json:"share_to_feed,nullable"`
 	// Overrides the `title` from the post
 	Title string `json:"title,nullable"`
+	// Instagram trial reel type, when passed will be created as a trial reel. If
+	// manual the trial reel can be manually graduated in the native app. If perfomance
+	// the trial reel will be automatically graduated if the trial reel performs well.
+	//
+	// Any of "manual", "performance".
+	TrialReelType string `json:"trial_reel_type,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		AllowComment           respjson.Field
@@ -1517,6 +1555,7 @@ type SocialPostAccountConfigurationConfiguration struct {
 		ReplySettings          respjson.Field
 		ShareToFeed            respjson.Field
 		Title                  respjson.Field
+		TrialReelType          respjson.Field
 		ExtraFields            map[string]respjson.Field
 		raw                    string
 	} `json:"-"`

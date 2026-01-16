@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.13 (2026-01-14)
+
+Full Changelog: [v0.1.0-alpha.12...v0.1.0-alpha.13](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.12...v0.1.0-alpha.13)
+
+### Features
+
+* **api:** api update ([86eb8ef](https://github.com/DayMoonDevelopment/post-for-me-go/commit/86eb8efc7f479802d3b29d4830dd061cdcfbc9b1))
+
 ## 0.1.0-alpha.12 (2026-01-09)
 
 Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
