@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.14 (2026-01-17)
+
+Full Changelog: [v0.1.0-alpha.13...v0.1.0-alpha.14](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.13...v0.1.0-alpha.14)
+
+### Bug Fixes
+
+* **docs:** add missing pointer prefix to api.md return types ([84bb5ac](https://github.com/DayMoonDevelopment/post-for-me-go/commit/84bb5acd3f809acd8776864026012cb85e9dcb41))
+
+
+### Chores
+
+* **internal:** update `actions/checkout` version ([b8e4ad9](https://github.com/DayMoonDevelopment/post-for-me-go/commit/b8e4ad9ef0963bb60f38f7cfcf65edffcfe6bffe))
+
 ## 0.1.0-alpha.13 (2026-01-14)
 
 Full Changelog: [v0.1.0-alpha.12...v0.1.0-alpha.13](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.12...v0.1.0-alpha.13)
