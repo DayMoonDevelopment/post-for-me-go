@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.15 (2026-02-02)
+
+Full Changelog: [v0.1.0-alpha.14...v0.1.0-alpha.15](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.14...v0.1.0-alpha.15)
+
+### Features
+
+* **api:** api update ([ad6f196](https://github.com/DayMoonDevelopment/post-for-me-go/commit/ad6f196fb89d8e417c353a208e512e27aa6b0d9a))
+* **api:** api update ([ad95199](https://github.com/DayMoonDevelopment/post-for-me-go/commit/ad951997965fbeece08e0efb145996ccb456c04c))
+
+
+### Bug Fixes
+
+* **docs:** fix mcp installation instructions for remote servers ([a3a6c76](https://github.com/DayMoonDevelopment/post-for-me-go/commit/a3a6c76f915a542d995faa4ff7b50edcc3924b9a))
+
 ## 0.1.0-alpha.14 (2026-01-24)
 
 Full Changelog: [v0.1.0-alpha.13...v0.1.0-alpha.14](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.13...v0.1.0-alpha.14)

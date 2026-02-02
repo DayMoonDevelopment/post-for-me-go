@@ -108,7 +108,13 @@ func (r *PlatformPost) UnmarshalJSON(data []byte) error {
 // [PlatformPostMetricsTikTokBusinessMetricsDto],
 // [PlatformPostMetricsTikTokPostMetricsDto],
 // [PlatformPostMetricsInstagramPostMetricsDto],
-// [PlatformPostMetricsYouTubePostMetricsDto].
+// [PlatformPostMetricsYouTubePostMetricsDto],
+// [PlatformPostMetricsFacebookPostMetricsDto],
+// [PlatformPostMetricsTwitterPostMetricsDto],
+// [PlatformPostMetricsThreadsPostMetricsDto],
+// [PlatformPostMetricsLinkedInPostMetricsDto],
+// [PlatformPostMetricsBlueskyPostMetricsDto],
+// [PlatformPostMetricsPinterestPostMetricsDto].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type PlatformPostMetricsUnion struct {
@@ -152,16 +158,12 @@ type PlatformPostMetricsUnion struct {
 	TotalTimeWatched float64 `json:"total_time_watched"`
 	// This field is from variant [PlatformPostMetricsTikTokBusinessMetricsDto].
 	VideoViewRetention []PlatformPostMetricsTikTokBusinessMetricsDtoVideoViewRetention `json:"video_view_retention"`
-	// This field is from variant [PlatformPostMetricsTikTokBusinessMetricsDto].
-	VideoViews float64 `json:"video_views"`
+	VideoViews         float64                                                         `json:"video_views"`
 	// This field is from variant [PlatformPostMetricsTikTokBusinessMetricsDto].
 	WebsiteClicks float64 `json:"website_clicks"`
-	// This field is from variant [PlatformPostMetricsTikTokPostMetricsDto].
-	CommentCount float64 `json:"comment_count"`
-	// This field is from variant [PlatformPostMetricsTikTokPostMetricsDto].
-	LikeCount float64 `json:"like_count"`
-	// This field is from variant [PlatformPostMetricsTikTokPostMetricsDto].
-	ShareCount float64 `json:"share_count"`
+	CommentCount  float64 `json:"comment_count"`
+	LikeCount     float64 `json:"like_count"`
+	ShareCount    float64 `json:"share_count"`
 	// This field is from variant [PlatformPostMetricsTikTokPostMetricsDto].
 	ViewCount float64 `json:"view_count"`
 	// This field is from variant [PlatformPostMetricsInstagramPostMetricsDto].
@@ -176,8 +178,7 @@ type PlatformPostMetricsUnion struct {
 	ProfileActivity float64 `json:"profile_activity"`
 	// This field is from variant [PlatformPostMetricsInstagramPostMetricsDto].
 	ProfileVisits float64 `json:"profile_visits"`
-	// This field is from variant [PlatformPostMetricsInstagramPostMetricsDto].
-	Replies float64 `json:"replies"`
+	Replies       float64 `json:"replies"`
 	// This field is from variant [PlatformPostMetricsInstagramPostMetricsDto].
 	Saved float64 `json:"saved"`
 	// This field is from variant [PlatformPostMetricsInstagramPostMetricsDto].
@@ -231,70 +232,247 @@ type PlatformPostMetricsUnion struct {
 	VideosAddedToPlaylists float64 `json:"videosAddedToPlaylists"`
 	// This field is from variant [PlatformPostMetricsYouTubePostMetricsDto].
 	VideosRemovedFromPlaylists float64 `json:"videosRemovedFromPlaylists"`
-	JSON                       struct {
-		AddressClicks                  respjson.Field
-		AppDownloadClicks              respjson.Field
-		AudienceCities                 respjson.Field
-		AudienceCountries              respjson.Field
-		AudienceGenders                respjson.Field
-		AudienceTypes                  respjson.Field
-		AverageTimeWatched             respjson.Field
-		Comments                       respjson.Field
-		EmailClicks                    respjson.Field
-		EngagementLikes                respjson.Field
-		Favorites                      respjson.Field
-		FullVideoWatchedRate           respjson.Field
-		ImpressionSources              respjson.Field
-		LeadSubmissions                respjson.Field
-		Likes                          respjson.Field
-		NewFollowers                   respjson.Field
-		PhoneNumberClicks              respjson.Field
-		ProfileViews                   respjson.Field
-		Reach                          respjson.Field
-		Shares                         respjson.Field
-		TotalTimeWatched               respjson.Field
-		VideoViewRetention             respjson.Field
-		VideoViews                     respjson.Field
-		WebsiteClicks                  respjson.Field
-		CommentCount                   respjson.Field
-		LikeCount                      respjson.Field
-		ShareCount                     respjson.Field
-		ViewCount                      respjson.Field
-		Follows                        respjson.Field
-		IgReelsAvgWatchTime            respjson.Field
-		IgReelsVideoViewTotalTime      respjson.Field
-		Navigation                     respjson.Field
-		ProfileActivity                respjson.Field
-		ProfileVisits                  respjson.Field
-		Replies                        respjson.Field
-		Saved                          respjson.Field
-		TotalInteractions              respjson.Field
-		Views                          respjson.Field
-		Dislikes                       respjson.Field
-		AnnotationClickableImpressions respjson.Field
-		AnnotationClicks               respjson.Field
-		AnnotationClickThroughRate     respjson.Field
-		AnnotationClosableImpressions  respjson.Field
-		AnnotationCloseRate            respjson.Field
-		AnnotationCloses               respjson.Field
-		AnnotationImpressions          respjson.Field
-		AverageViewDuration            respjson.Field
-		AverageViewPercentage          respjson.Field
-		CardClickRate                  respjson.Field
-		CardClicks                     respjson.Field
-		CardImpressions                respjson.Field
-		CardTeaserClickRate            respjson.Field
-		CardTeaserClicks               respjson.Field
-		CardTeaserImpressions          respjson.Field
-		EngagedViews                   respjson.Field
-		EstimatedMinutesWatched        respjson.Field
-		EstimatedRedMinutesWatched     respjson.Field
-		RedViews                       respjson.Field
-		SubscribersGained              respjson.Field
-		SubscribersLost                respjson.Field
-		VideosAddedToPlaylists         respjson.Field
-		VideosRemovedFromPlaylists     respjson.Field
-		raw                            string
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ActivityByActionType []PlatformPostMetricsFacebookPostMetricsDtoActivityByActionType `json:"activity_by_action_type"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ActivityByActionTypeUnique []PlatformPostMetricsFacebookPostMetricsDtoActivityByActionTypeUnique `json:"activity_by_action_type_unique"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	FanReach float64 `json:"fan_reach"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	MediaViews float64 `json:"media_views"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	NonviralReach float64 `json:"nonviral_reach"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	OrganicReach float64 `json:"organic_reach"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	PaidReach float64 `json:"paid_reach"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ReactionsAnger float64 `json:"reactions_anger"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ReactionsByType any `json:"reactions_by_type"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ReactionsHaha float64 `json:"reactions_haha"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ReactionsLike float64 `json:"reactions_like"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ReactionsLove float64 `json:"reactions_love"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ReactionsSorry float64 `json:"reactions_sorry"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ReactionsTotal float64 `json:"reactions_total"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ReactionsWow float64 `json:"reactions_wow"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoAvgTimeWatched float64 `json:"video_avg_time_watched"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoCompleteViewsOrganic float64 `json:"video_complete_views_organic"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoCompleteViewsOrganicUnique float64 `json:"video_complete_views_organic_unique"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoCompleteViewsPaid float64 `json:"video_complete_views_paid"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoCompleteViewsPaidUnique float64 `json:"video_complete_views_paid_unique"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoLength float64 `json:"video_length"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoRetentionGraphAutoplayed []PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphAutoplayed `json:"video_retention_graph_autoplayed"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoRetentionGraphClickedToPlay []PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphClickedToPlay `json:"video_retention_graph_clicked_to_play"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoSocialActionsUnique float64 `json:"video_social_actions_unique"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewTime float64 `json:"video_view_time"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewTimeByAgeGender []PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByAgeGender `json:"video_view_time_by_age_gender"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewTimeByCountry []PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByCountry `json:"video_view_time_by_country"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewTimeByDistributionType any `json:"video_view_time_by_distribution_type"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewTimeByRegion []PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByRegion `json:"video_view_time_by_region"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewTimeOrganic float64 `json:"video_view_time_organic"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViews15s float64 `json:"video_views_15s"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViews60s float64 `json:"video_views_60s"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewsAutoplayed float64 `json:"video_views_autoplayed"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewsByDistributionType any `json:"video_views_by_distribution_type"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewsClickedToPlay float64 `json:"video_views_clicked_to_play"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewsOrganic float64 `json:"video_views_organic"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewsOrganicUnique float64 `json:"video_views_organic_unique"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewsPaid float64 `json:"video_views_paid"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewsPaidUnique float64 `json:"video_views_paid_unique"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewsSoundOn float64 `json:"video_views_sound_on"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	VideoViewsUnique float64 `json:"video_views_unique"`
+	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
+	ViralReach float64 `json:"viral_reach"`
+	// This field is from variant [PlatformPostMetricsTwitterPostMetricsDto].
+	NonPublicMetrics PlatformPostMetricsTwitterPostMetricsDtoNonPublicMetrics `json:"non_public_metrics"`
+	// This field is from variant [PlatformPostMetricsTwitterPostMetricsDto].
+	OrganicMetrics PlatformPostMetricsTwitterPostMetricsDtoOrganicMetrics `json:"organic_metrics"`
+	// This field is from variant [PlatformPostMetricsTwitterPostMetricsDto].
+	PublicMetrics PlatformPostMetricsTwitterPostMetricsDtoPublicMetrics `json:"public_metrics"`
+	// This field is from variant [PlatformPostMetricsThreadsPostMetricsDto].
+	Quotes float64 `json:"quotes"`
+	// This field is from variant [PlatformPostMetricsThreadsPostMetricsDto].
+	Reposts float64 `json:"reposts"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	ClickCount float64 `json:"clickCount"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	Engagement float64 `json:"engagement"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	ImpressionCount float64 `json:"impressionCount"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	TimeWatched float64 `json:"timeWatched"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	TimeWatchedForVideoViews float64 `json:"timeWatchedForVideoViews"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	VideoView float64 `json:"videoView"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	Viewer float64 `json:"viewer"`
+	// This field is from variant [PlatformPostMetricsBlueskyPostMetricsDto].
+	QuoteCount float64 `json:"quoteCount"`
+	// This field is from variant [PlatformPostMetricsBlueskyPostMetricsDto].
+	ReplyCount float64 `json:"replyCount"`
+	// This field is from variant [PlatformPostMetricsBlueskyPostMetricsDto].
+	RepostCount float64 `json:"repostCount"`
+	// This field is from variant [PlatformPostMetricsPinterestPostMetricsDto].
+	Number90d PlatformPostMetricsPinterestPostMetricsDto90d `json:"90d"`
+	// This field is from variant [PlatformPostMetricsPinterestPostMetricsDto].
+	LifetimeMetrics PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics `json:"lifetime_metrics"`
+	JSON            struct {
+		AddressClicks                    respjson.Field
+		AppDownloadClicks                respjson.Field
+		AudienceCities                   respjson.Field
+		AudienceCountries                respjson.Field
+		AudienceGenders                  respjson.Field
+		AudienceTypes                    respjson.Field
+		AverageTimeWatched               respjson.Field
+		Comments                         respjson.Field
+		EmailClicks                      respjson.Field
+		EngagementLikes                  respjson.Field
+		Favorites                        respjson.Field
+		FullVideoWatchedRate             respjson.Field
+		ImpressionSources                respjson.Field
+		LeadSubmissions                  respjson.Field
+		Likes                            respjson.Field
+		NewFollowers                     respjson.Field
+		PhoneNumberClicks                respjson.Field
+		ProfileViews                     respjson.Field
+		Reach                            respjson.Field
+		Shares                           respjson.Field
+		TotalTimeWatched                 respjson.Field
+		VideoViewRetention               respjson.Field
+		VideoViews                       respjson.Field
+		WebsiteClicks                    respjson.Field
+		CommentCount                     respjson.Field
+		LikeCount                        respjson.Field
+		ShareCount                       respjson.Field
+		ViewCount                        respjson.Field
+		Follows                          respjson.Field
+		IgReelsAvgWatchTime              respjson.Field
+		IgReelsVideoViewTotalTime        respjson.Field
+		Navigation                       respjson.Field
+		ProfileActivity                  respjson.Field
+		ProfileVisits                    respjson.Field
+		Replies                          respjson.Field
+		Saved                            respjson.Field
+		TotalInteractions                respjson.Field
+		Views                            respjson.Field
+		Dislikes                         respjson.Field
+		AnnotationClickableImpressions   respjson.Field
+		AnnotationClicks                 respjson.Field
+		AnnotationClickThroughRate       respjson.Field
+		AnnotationClosableImpressions    respjson.Field
+		AnnotationCloseRate              respjson.Field
+		AnnotationCloses                 respjson.Field
+		AnnotationImpressions            respjson.Field
+		AverageViewDuration              respjson.Field
+		AverageViewPercentage            respjson.Field
+		CardClickRate                    respjson.Field
+		CardClicks                       respjson.Field
+		CardImpressions                  respjson.Field
+		CardTeaserClickRate              respjson.Field
+		CardTeaserClicks                 respjson.Field
+		CardTeaserImpressions            respjson.Field
+		EngagedViews                     respjson.Field
+		EstimatedMinutesWatched          respjson.Field
+		EstimatedRedMinutesWatched       respjson.Field
+		RedViews                         respjson.Field
+		SubscribersGained                respjson.Field
+		SubscribersLost                  respjson.Field
+		VideosAddedToPlaylists           respjson.Field
+		VideosRemovedFromPlaylists       respjson.Field
+		ActivityByActionType             respjson.Field
+		ActivityByActionTypeUnique       respjson.Field
+		FanReach                         respjson.Field
+		MediaViews                       respjson.Field
+		NonviralReach                    respjson.Field
+		OrganicReach                     respjson.Field
+		PaidReach                        respjson.Field
+		ReactionsAnger                   respjson.Field
+		ReactionsByType                  respjson.Field
+		ReactionsHaha                    respjson.Field
+		ReactionsLike                    respjson.Field
+		ReactionsLove                    respjson.Field
+		ReactionsSorry                   respjson.Field
+		ReactionsTotal                   respjson.Field
+		ReactionsWow                     respjson.Field
+		VideoAvgTimeWatched              respjson.Field
+		VideoCompleteViewsOrganic        respjson.Field
+		VideoCompleteViewsOrganicUnique  respjson.Field
+		VideoCompleteViewsPaid           respjson.Field
+		VideoCompleteViewsPaidUnique     respjson.Field
+		VideoLength                      respjson.Field
+		VideoRetentionGraphAutoplayed    respjson.Field
+		VideoRetentionGraphClickedToPlay respjson.Field
+		VideoSocialActionsUnique         respjson.Field
+		VideoViewTime                    respjson.Field
+		VideoViewTimeByAgeGender         respjson.Field
+		VideoViewTimeByCountry           respjson.Field
+		VideoViewTimeByDistributionType  respjson.Field
+		VideoViewTimeByRegion            respjson.Field
+		VideoViewTimeOrganic             respjson.Field
+		VideoViews15s                    respjson.Field
+		VideoViews60s                    respjson.Field
+		VideoViewsAutoplayed             respjson.Field
+		VideoViewsByDistributionType     respjson.Field
+		VideoViewsClickedToPlay          respjson.Field
+		VideoViewsOrganic                respjson.Field
+		VideoViewsOrganicUnique          respjson.Field
+		VideoViewsPaid                   respjson.Field
+		VideoViewsPaidUnique             respjson.Field
+		VideoViewsSoundOn                respjson.Field
+		VideoViewsUnique                 respjson.Field
+		ViralReach                       respjson.Field
+		NonPublicMetrics                 respjson.Field
+		OrganicMetrics                   respjson.Field
+		PublicMetrics                    respjson.Field
+		Quotes                           respjson.Field
+		Reposts                          respjson.Field
+		ClickCount                       respjson.Field
+		Engagement                       respjson.Field
+		ImpressionCount                  respjson.Field
+		TimeWatched                      respjson.Field
+		TimeWatchedForVideoViews         respjson.Field
+		VideoView                        respjson.Field
+		Viewer                           respjson.Field
+		QuoteCount                       respjson.Field
+		ReplyCount                       respjson.Field
+		RepostCount                      respjson.Field
+		Number90d                        respjson.Field
+		LifetimeMetrics                  respjson.Field
+		raw                              string
 	} `json:"-"`
 }
 
@@ -314,6 +492,36 @@ func (u PlatformPostMetricsUnion) AsPlatformPostMetricsInstagramPostMetricsDto()
 }
 
 func (u PlatformPostMetricsUnion) AsPlatformPostMetricsYouTubePostMetricsDto() (v PlatformPostMetricsYouTubePostMetricsDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u PlatformPostMetricsUnion) AsPlatformPostMetricsFacebookPostMetricsDto() (v PlatformPostMetricsFacebookPostMetricsDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u PlatformPostMetricsUnion) AsPlatformPostMetricsTwitterPostMetricsDto() (v PlatformPostMetricsTwitterPostMetricsDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u PlatformPostMetricsUnion) AsPlatformPostMetricsThreadsPostMetricsDto() (v PlatformPostMetricsThreadsPostMetricsDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u PlatformPostMetricsUnion) AsPlatformPostMetricsLinkedInPostMetricsDto() (v PlatformPostMetricsLinkedInPostMetricsDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u PlatformPostMetricsUnion) AsPlatformPostMetricsBlueskyPostMetricsDto() (v PlatformPostMetricsBlueskyPostMetricsDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u PlatformPostMetricsUnion) AsPlatformPostMetricsPinterestPostMetricsDto() (v PlatformPostMetricsPinterestPostMetricsDto) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -738,6 +946,675 @@ type PlatformPostMetricsYouTubePostMetricsDto struct {
 // Returns the unmodified JSON received from the API
 func (r PlatformPostMetricsYouTubePostMetricsDto) RawJSON() string { return r.JSON.raw }
 func (r *PlatformPostMetricsYouTubePostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsFacebookPostMetricsDto struct {
+	// Total activity breakdown by action type
+	ActivityByActionType []PlatformPostMetricsFacebookPostMetricsDtoActivityByActionType `json:"activity_by_action_type"`
+	// Unique users activity breakdown by action type
+	ActivityByActionTypeUnique []PlatformPostMetricsFacebookPostMetricsDtoActivityByActionTypeUnique `json:"activity_by_action_type_unique"`
+	// Number of comments (from post object)
+	Comments float64 `json:"comments"`
+	// Number of fans who saw the post
+	FanReach float64 `json:"fan_reach"`
+	// Number of times the photo or video was viewed
+	MediaViews float64 `json:"media_views"`
+	// Number of people who saw the post via non-viral distribution
+	NonviralReach float64 `json:"nonviral_reach"`
+	// Number of people who saw the post via organic distribution
+	OrganicReach float64 `json:"organic_reach"`
+	// Number of people who saw the post via paid distribution
+	PaidReach float64 `json:"paid_reach"`
+	// Total number of unique people who saw the post
+	Reach float64 `json:"reach"`
+	// Number of anger reactions
+	ReactionsAnger float64 `json:"reactions_anger"`
+	// Breakdown of all reaction types
+	ReactionsByType any `json:"reactions_by_type"`
+	// Number of haha reactions
+	ReactionsHaha float64 `json:"reactions_haha"`
+	// Number of like reactions
+	ReactionsLike float64 `json:"reactions_like"`
+	// Number of love reactions
+	ReactionsLove float64 `json:"reactions_love"`
+	// Number of sad reactions
+	ReactionsSorry float64 `json:"reactions_sorry"`
+	// Total number of reactions (all types)
+	ReactionsTotal float64 `json:"reactions_total"`
+	// Number of wow reactions
+	ReactionsWow float64 `json:"reactions_wow"`
+	// Number of shares (from post object)
+	Shares float64 `json:"shares"`
+	// Average time video was viewed in milliseconds
+	VideoAvgTimeWatched float64 `json:"video_avg_time_watched"`
+	// Number of times video was viewed to 95% organically
+	VideoCompleteViewsOrganic float64 `json:"video_complete_views_organic"`
+	// Number of unique people who viewed video to 95% organically
+	VideoCompleteViewsOrganicUnique float64 `json:"video_complete_views_organic_unique"`
+	// Number of times video was viewed to 95% via paid distribution
+	VideoCompleteViewsPaid float64 `json:"video_complete_views_paid"`
+	// Number of unique people who viewed video to 95% via paid distribution
+	VideoCompleteViewsPaidUnique float64 `json:"video_complete_views_paid_unique"`
+	// Length of the video in milliseconds
+	VideoLength float64 `json:"video_length"`
+	// Video retention graph for autoplayed views
+	VideoRetentionGraphAutoplayed []PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphAutoplayed `json:"video_retention_graph_autoplayed"`
+	// Video retention graph for clicked-to-play views
+	VideoRetentionGraphClickedToPlay []PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphClickedToPlay `json:"video_retention_graph_clicked_to_play"`
+	// Number of unique people who performed social actions on the video
+	VideoSocialActionsUnique float64 `json:"video_social_actions_unique"`
+	// Total time video was viewed in milliseconds
+	VideoViewTime float64 `json:"video_view_time"`
+	// Video view time breakdown by age and gender
+	VideoViewTimeByAgeGender []PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByAgeGender `json:"video_view_time_by_age_gender"`
+	// Video view time breakdown by country
+	VideoViewTimeByCountry []PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByCountry `json:"video_view_time_by_country"`
+	// Video view time breakdown by distribution type
+	VideoViewTimeByDistributionType any `json:"video_view_time_by_distribution_type"`
+	// Video view time breakdown by region
+	VideoViewTimeByRegion []PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByRegion `json:"video_view_time_by_region"`
+	// Total time video was viewed in milliseconds via organic distribution
+	VideoViewTimeOrganic float64 `json:"video_view_time_organic"`
+	// Number of times video was viewed for 3+ seconds
+	VideoViews float64 `json:"video_views"`
+	// Number of times video was viewed for 15+ seconds
+	VideoViews15s float64 `json:"video_views_15s"`
+	// Number of times video was viewed for 60+ seconds (excludes videos shorter than
+	// 60s)
+	VideoViews60s float64 `json:"video_views_60s"`
+	// Number of times video was autoplayed for 3+ seconds
+	VideoViewsAutoplayed float64 `json:"video_views_autoplayed"`
+	// Video views breakdown by distribution type
+	VideoViewsByDistributionType any `json:"video_views_by_distribution_type"`
+	// Number of times video was clicked to play for 3+ seconds
+	VideoViewsClickedToPlay float64 `json:"video_views_clicked_to_play"`
+	// Number of times video was viewed for 3+ seconds organically
+	VideoViewsOrganic float64 `json:"video_views_organic"`
+	// Number of unique people who viewed the video for 3+ seconds organically
+	VideoViewsOrganicUnique float64 `json:"video_views_organic_unique"`
+	// Number of times video was viewed for 3+ seconds via paid distribution
+	VideoViewsPaid float64 `json:"video_views_paid"`
+	// Number of unique people who viewed the video for 3+ seconds via paid
+	// distribution
+	VideoViewsPaidUnique float64 `json:"video_views_paid_unique"`
+	// Number of times video was viewed with sound on
+	VideoViewsSoundOn float64 `json:"video_views_sound_on"`
+	// Number of unique people who viewed the video for 3+ seconds
+	VideoViewsUnique float64 `json:"video_views_unique"`
+	// Number of people who saw the post in News Feed via viral reach
+	ViralReach float64 `json:"viral_reach"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ActivityByActionType             respjson.Field
+		ActivityByActionTypeUnique       respjson.Field
+		Comments                         respjson.Field
+		FanReach                         respjson.Field
+		MediaViews                       respjson.Field
+		NonviralReach                    respjson.Field
+		OrganicReach                     respjson.Field
+		PaidReach                        respjson.Field
+		Reach                            respjson.Field
+		ReactionsAnger                   respjson.Field
+		ReactionsByType                  respjson.Field
+		ReactionsHaha                    respjson.Field
+		ReactionsLike                    respjson.Field
+		ReactionsLove                    respjson.Field
+		ReactionsSorry                   respjson.Field
+		ReactionsTotal                   respjson.Field
+		ReactionsWow                     respjson.Field
+		Shares                           respjson.Field
+		VideoAvgTimeWatched              respjson.Field
+		VideoCompleteViewsOrganic        respjson.Field
+		VideoCompleteViewsOrganicUnique  respjson.Field
+		VideoCompleteViewsPaid           respjson.Field
+		VideoCompleteViewsPaidUnique     respjson.Field
+		VideoLength                      respjson.Field
+		VideoRetentionGraphAutoplayed    respjson.Field
+		VideoRetentionGraphClickedToPlay respjson.Field
+		VideoSocialActionsUnique         respjson.Field
+		VideoViewTime                    respjson.Field
+		VideoViewTimeByAgeGender         respjson.Field
+		VideoViewTimeByCountry           respjson.Field
+		VideoViewTimeByDistributionType  respjson.Field
+		VideoViewTimeByRegion            respjson.Field
+		VideoViewTimeOrganic             respjson.Field
+		VideoViews                       respjson.Field
+		VideoViews15s                    respjson.Field
+		VideoViews60s                    respjson.Field
+		VideoViewsAutoplayed             respjson.Field
+		VideoViewsByDistributionType     respjson.Field
+		VideoViewsClickedToPlay          respjson.Field
+		VideoViewsOrganic                respjson.Field
+		VideoViewsOrganicUnique          respjson.Field
+		VideoViewsPaid                   respjson.Field
+		VideoViewsPaidUnique             respjson.Field
+		VideoViewsSoundOn                respjson.Field
+		VideoViewsUnique                 respjson.Field
+		ViralReach                       respjson.Field
+		ExtraFields                      map[string]respjson.Field
+		raw                              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsFacebookPostMetricsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsFacebookPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsFacebookPostMetricsDtoActivityByActionType struct {
+	// Action type (e.g., like, comment, share)
+	ActionType string `json:"action_type,required"`
+	// Number of actions
+	Value float64 `json:"value,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ActionType  respjson.Field
+		Value       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsFacebookPostMetricsDtoActivityByActionType) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *PlatformPostMetricsFacebookPostMetricsDtoActivityByActionType) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsFacebookPostMetricsDtoActivityByActionTypeUnique struct {
+	// Action type (e.g., like, comment, share)
+	ActionType string `json:"action_type,required"`
+	// Number of actions
+	Value float64 `json:"value,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ActionType  respjson.Field
+		Value       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsFacebookPostMetricsDtoActivityByActionTypeUnique) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *PlatformPostMetricsFacebookPostMetricsDtoActivityByActionTypeUnique) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphAutoplayed struct {
+	// Percentage of viewers at this time
+	Rate float64 `json:"rate,required"`
+	// Time in seconds
+	Time float64 `json:"time,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Rate        respjson.Field
+		Time        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphAutoplayed) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphAutoplayed) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphClickedToPlay struct {
+	// Percentage of viewers at this time
+	Rate float64 `json:"rate,required"`
+	// Time in seconds
+	Time float64 `json:"time,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Rate        respjson.Field
+		Time        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphClickedToPlay) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphClickedToPlay) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByAgeGender struct {
+	// Demographic key (e.g., age_gender, region, country)
+	Key string `json:"key,required"`
+	// Total view time in milliseconds
+	Value float64 `json:"value,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Key         respjson.Field
+		Value       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByAgeGender) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByAgeGender) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByCountry struct {
+	// Demographic key (e.g., age_gender, region, country)
+	Key string `json:"key,required"`
+	// Total view time in milliseconds
+	Value float64 `json:"value,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Key         respjson.Field
+		Value       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByCountry) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByCountry) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByRegion struct {
+	// Demographic key (e.g., age_gender, region, country)
+	Key string `json:"key,required"`
+	// Total view time in milliseconds
+	Value float64 `json:"value,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Key         respjson.Field
+		Value       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByRegion) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByRegion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsTwitterPostMetricsDto struct {
+	// Non-public metrics for the Tweet (available to the Tweet owner or advertisers)
+	NonPublicMetrics PlatformPostMetricsTwitterPostMetricsDtoNonPublicMetrics `json:"non_public_metrics"`
+	// Organic metrics for the Tweet (available to the Tweet owner)
+	OrganicMetrics PlatformPostMetricsTwitterPostMetricsDtoOrganicMetrics `json:"organic_metrics"`
+	// Publicly available metrics for the Tweet
+	PublicMetrics PlatformPostMetricsTwitterPostMetricsDtoPublicMetrics `json:"public_metrics"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		NonPublicMetrics respjson.Field
+		OrganicMetrics   respjson.Field
+		PublicMetrics    respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsTwitterPostMetricsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsTwitterPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Non-public metrics for the Tweet (available to the Tweet owner or advertisers)
+type PlatformPostMetricsTwitterPostMetricsDtoNonPublicMetrics struct {
+	// Number of times this Tweet has been viewed via promoted distribution
+	ImpressionCount float64 `json:"impression_count,required"`
+	// Number of clicks on links in this Tweet via promoted distribution
+	URLLinkClicks float64 `json:"url_link_clicks,required"`
+	// Number of clicks on the author's profile via promoted distribution
+	UserProfileClicks float64 `json:"user_profile_clicks,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ImpressionCount   respjson.Field
+		URLLinkClicks     respjson.Field
+		UserProfileClicks respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsTwitterPostMetricsDtoNonPublicMetrics) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsTwitterPostMetricsDtoNonPublicMetrics) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Organic metrics for the Tweet (available to the Tweet owner)
+type PlatformPostMetricsTwitterPostMetricsDtoOrganicMetrics struct {
+	// Number of times this Tweet has been viewed organically
+	ImpressionCount float64 `json:"impression_count,required"`
+	// Number of Likes of this Tweet from organic distribution
+	LikeCount float64 `json:"like_count,required"`
+	// Number of Replies of this Tweet from organic distribution
+	ReplyCount float64 `json:"reply_count,required"`
+	// Number of Retweets of this Tweet from organic distribution
+	RetweetCount float64 `json:"retweet_count,required"`
+	// Number of clicks on links in this Tweet from organic distribution
+	URLLinkClicks float64 `json:"url_link_clicks,required"`
+	// Number of clicks on the author's profile from organic distribution
+	UserProfileClicks float64 `json:"user_profile_clicks,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ImpressionCount   respjson.Field
+		LikeCount         respjson.Field
+		ReplyCount        respjson.Field
+		RetweetCount      respjson.Field
+		URLLinkClicks     respjson.Field
+		UserProfileClicks respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsTwitterPostMetricsDtoOrganicMetrics) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsTwitterPostMetricsDtoOrganicMetrics) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Publicly available metrics for the Tweet
+type PlatformPostMetricsTwitterPostMetricsDtoPublicMetrics struct {
+	// Number of times this Tweet has been bookmarked
+	BookmarkCount float64 `json:"bookmark_count,required"`
+	// Number of times this Tweet has been viewed
+	ImpressionCount float64 `json:"impression_count,required"`
+	// Number of Likes of this Tweet
+	LikeCount float64 `json:"like_count,required"`
+	// Number of Quotes of this Tweet
+	QuoteCount float64 `json:"quote_count,required"`
+	// Number of Replies of this Tweet
+	ReplyCount float64 `json:"reply_count,required"`
+	// Number of Retweets of this Tweet
+	RetweetCount float64 `json:"retweet_count,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		BookmarkCount   respjson.Field
+		ImpressionCount respjson.Field
+		LikeCount       respjson.Field
+		QuoteCount      respjson.Field
+		ReplyCount      respjson.Field
+		RetweetCount    respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsTwitterPostMetricsDtoPublicMetrics) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsTwitterPostMetricsDtoPublicMetrics) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsThreadsPostMetricsDto struct {
+	// Number of likes on the post
+	Likes float64 `json:"likes,required"`
+	// Number of quotes of the post
+	Quotes float64 `json:"quotes,required"`
+	// Number of replies on the post
+	Replies float64 `json:"replies,required"`
+	// Number of reposts of the post
+	Reposts float64 `json:"reposts,required"`
+	// Number of shares of the post
+	Shares float64 `json:"shares,required"`
+	// Number of views on the post
+	Views float64 `json:"views,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Likes       respjson.Field
+		Quotes      respjson.Field
+		Replies     respjson.Field
+		Reposts     respjson.Field
+		Shares      respjson.Field
+		Views       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsThreadsPostMetricsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsThreadsPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsLinkedInPostMetricsDto struct {
+	// Number of clicks
+	ClickCount float64 `json:"clickCount"`
+	// Number of comments
+	CommentCount float64 `json:"commentCount"`
+	// Engagement rate
+	Engagement float64 `json:"engagement"`
+	// Number of impressions
+	ImpressionCount float64 `json:"impressionCount"`
+	// Number of likes
+	LikeCount float64 `json:"likeCount"`
+	// Number of shares
+	ShareCount float64 `json:"shareCount"`
+	// TIME_WATCHED: The time the video was watched in milliseconds. Video auto-looping
+	// will continue to increase this metric for each subsequent play
+	TimeWatched float64 `json:"timeWatched"`
+	// TIME_WATCHED_FOR_VIDEO_VIEWS: The time watched in milliseconds for video
+	// play-pause cycles that are at least 3 seconds. Video auto-looping will continue
+	// to increase this metric for each subsequent play. Analytics data for this metric
+	// will be available for six months
+	TimeWatchedForVideoViews float64 `json:"timeWatchedForVideoViews"`
+	// VIDEO_VIEW: Video views with play-pause cycles for at least 3 seconds.
+	// Auto-looping videos are counted as one when loaded. Each subsequent auto-looped
+	// play doesn't increase this metric. Analytics data for this metric won't be
+	// available after six months
+	VideoView float64 `json:"videoView"`
+	// VIEWER: Unique viewers who made engaged plays on the video. Auto-looping videos
+	// are counted as one when loaded. Each subsequent auto-looped play doesn't
+	// increase this metric. Analytics data for this metric won't be available after
+	// six months
+	Viewer float64 `json:"viewer"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ClickCount               respjson.Field
+		CommentCount             respjson.Field
+		Engagement               respjson.Field
+		ImpressionCount          respjson.Field
+		LikeCount                respjson.Field
+		ShareCount               respjson.Field
+		TimeWatched              respjson.Field
+		TimeWatchedForVideoViews respjson.Field
+		VideoView                respjson.Field
+		Viewer                   respjson.Field
+		ExtraFields              map[string]respjson.Field
+		raw                      string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsLinkedInPostMetricsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsLinkedInPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsBlueskyPostMetricsDto struct {
+	// Number of likes on the post
+	LikeCount float64 `json:"likeCount,required"`
+	// Number of quotes of the post
+	QuoteCount float64 `json:"quoteCount,required"`
+	// Number of replies on the post
+	ReplyCount float64 `json:"replyCount,required"`
+	// Number of reposts of the post
+	RepostCount float64 `json:"repostCount,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		LikeCount   respjson.Field
+		QuoteCount  respjson.Field
+		ReplyCount  respjson.Field
+		RepostCount respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsBlueskyPostMetricsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsBlueskyPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsPinterestPostMetricsDto struct {
+	// Last 90 days of Pin metrics
+	Number90d PlatformPostMetricsPinterestPostMetricsDto90d `json:"90d"`
+	// Lifetime Pin metrics
+	LifetimeMetrics PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics `json:"lifetime_metrics"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Number90d       respjson.Field
+		LifetimeMetrics respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsPinterestPostMetricsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsPinterestPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Last 90 days of Pin metrics
+type PlatformPostMetricsPinterestPostMetricsDto90d struct {
+	// Number of comments on the Pin
+	Comment float64 `json:"comment"`
+	// Number of times the Pin was shown (impressions)
+	Impression float64 `json:"impression"`
+	// The last time Pinterest updated these metrics
+	LastUpdated string `json:"last_updated"`
+	// Number of clicks from the Pin to an external destination (outbound clicks)
+	OutboundClick float64 `json:"outbound_click"`
+	// Number of clicks on the Pin to view it in closeup (Pin clicks)
+	PinClick float64 `json:"pin_click"`
+	// Number of visits to the author's profile driven from the Pin
+	ProfileVisit any `json:"profile_visit,nullable"`
+	// Total number of reactions on the Pin
+	Reaction float64 `json:"reaction"`
+	// Number of saves of the Pin
+	Save float64 `json:"save"`
+	// Number of follows driven from the Pin
+	UserFollow any `json:"user_follow,nullable"`
+	// Number of video views of at least 10 seconds
+	Video10sViews float64 `json:"video_10s_views"`
+	// Average watch time for the video
+	VideoAverageTime float64 `json:"video_average_time"`
+	// Number of video views that reached 95% completion
+	VideoP95Views float64 `json:"video_p95_views"`
+	// Total watch time for the video
+	VideoTotalTime float64 `json:"video_total_time"`
+	// Number of video views
+	VideoViews float64 `json:"video_views"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Comment          respjson.Field
+		Impression       respjson.Field
+		LastUpdated      respjson.Field
+		OutboundClick    respjson.Field
+		PinClick         respjson.Field
+		ProfileVisit     respjson.Field
+		Reaction         respjson.Field
+		Save             respjson.Field
+		UserFollow       respjson.Field
+		Video10sViews    respjson.Field
+		VideoAverageTime respjson.Field
+		VideoP95Views    respjson.Field
+		VideoTotalTime   respjson.Field
+		VideoViews       respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsPinterestPostMetricsDto90d) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsPinterestPostMetricsDto90d) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Lifetime Pin metrics
+type PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics struct {
+	// Number of comments on the Pin
+	Comment float64 `json:"comment"`
+	// Number of times the Pin was shown (impressions)
+	Impression float64 `json:"impression"`
+	// The last time Pinterest updated these metrics
+	LastUpdated string `json:"last_updated"`
+	// Number of clicks from the Pin to an external destination (outbound clicks)
+	OutboundClick float64 `json:"outbound_click"`
+	// Number of clicks on the Pin to view it in closeup (Pin clicks)
+	PinClick float64 `json:"pin_click"`
+	// Number of visits to the author's profile driven from the Pin
+	ProfileVisit any `json:"profile_visit,nullable"`
+	// Total number of reactions on the Pin
+	Reaction float64 `json:"reaction"`
+	// Number of saves of the Pin
+	Save float64 `json:"save"`
+	// Number of follows driven from the Pin
+	UserFollow any `json:"user_follow,nullable"`
+	// Number of video views of at least 10 seconds
+	Video10sViews float64 `json:"video_10s_views"`
+	// Average watch time for the video
+	VideoAverageTime float64 `json:"video_average_time"`
+	// Number of video views that reached 95% completion
+	VideoP95Views float64 `json:"video_p95_views"`
+	// Total watch time for the video
+	VideoTotalTime float64 `json:"video_total_time"`
+	// Number of video views
+	VideoViews float64 `json:"video_views"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Comment          respjson.Field
+		Impression       respjson.Field
+		LastUpdated      respjson.Field
+		OutboundClick    respjson.Field
+		PinClick         respjson.Field
+		ProfileVisit     respjson.Field
+		Reaction         respjson.Field
+		Save             respjson.Field
+		UserFollow       respjson.Field
+		Video10sViews    respjson.Field
+		VideoAverageTime respjson.Field
+		VideoP95Views    respjson.Field
+		VideoTotalTime   respjson.Field
+		VideoViews       respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
