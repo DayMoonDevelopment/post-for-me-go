@@ -111,7 +111,10 @@ func (r *PlatformPost) UnmarshalJSON(data []byte) error {
 // [PlatformPostMetricsYouTubePostMetricsDto],
 // [PlatformPostMetricsFacebookPostMetricsDto],
 // [PlatformPostMetricsTwitterPostMetricsDto],
-// [PlatformPostMetricsThreadsPostMetricsDto].
+// [PlatformPostMetricsThreadsPostMetricsDto],
+// [PlatformPostMetricsLinkedInPostMetricsDto],
+// [PlatformPostMetricsBlueskyPostMetricsDto],
+// [PlatformPostMetricsPinterestPostMetricsDto].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type PlatformPostMetricsUnion struct {
@@ -158,12 +161,9 @@ type PlatformPostMetricsUnion struct {
 	VideoViews         float64                                                         `json:"video_views"`
 	// This field is from variant [PlatformPostMetricsTikTokBusinessMetricsDto].
 	WebsiteClicks float64 `json:"website_clicks"`
-	// This field is from variant [PlatformPostMetricsTikTokPostMetricsDto].
-	CommentCount float64 `json:"comment_count"`
-	// This field is from variant [PlatformPostMetricsTikTokPostMetricsDto].
-	LikeCount float64 `json:"like_count"`
-	// This field is from variant [PlatformPostMetricsTikTokPostMetricsDto].
-	ShareCount float64 `json:"share_count"`
+	CommentCount  float64 `json:"comment_count"`
+	LikeCount     float64 `json:"like_count"`
+	ShareCount    float64 `json:"share_count"`
 	// This field is from variant [PlatformPostMetricsTikTokPostMetricsDto].
 	ViewCount float64 `json:"view_count"`
 	// This field is from variant [PlatformPostMetricsInstagramPostMetricsDto].
@@ -326,7 +326,31 @@ type PlatformPostMetricsUnion struct {
 	Quotes float64 `json:"quotes"`
 	// This field is from variant [PlatformPostMetricsThreadsPostMetricsDto].
 	Reposts float64 `json:"reposts"`
-	JSON    struct {
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	ClickCount float64 `json:"clickCount"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	Engagement float64 `json:"engagement"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	ImpressionCount float64 `json:"impressionCount"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	TimeWatched float64 `json:"timeWatched"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	TimeWatchedForVideoViews float64 `json:"timeWatchedForVideoViews"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	VideoView float64 `json:"videoView"`
+	// This field is from variant [PlatformPostMetricsLinkedInPostMetricsDto].
+	Viewer float64 `json:"viewer"`
+	// This field is from variant [PlatformPostMetricsBlueskyPostMetricsDto].
+	QuoteCount float64 `json:"quoteCount"`
+	// This field is from variant [PlatformPostMetricsBlueskyPostMetricsDto].
+	ReplyCount float64 `json:"replyCount"`
+	// This field is from variant [PlatformPostMetricsBlueskyPostMetricsDto].
+	RepostCount float64 `json:"repostCount"`
+	// This field is from variant [PlatformPostMetricsPinterestPostMetricsDto].
+	Number90d PlatformPostMetricsPinterestPostMetricsDto90d `json:"90d"`
+	// This field is from variant [PlatformPostMetricsPinterestPostMetricsDto].
+	LifetimeMetrics PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics `json:"lifetime_metrics"`
+	JSON            struct {
 		AddressClicks                    respjson.Field
 		AppDownloadClicks                respjson.Field
 		AudienceCities                   respjson.Field
@@ -436,6 +460,18 @@ type PlatformPostMetricsUnion struct {
 		PublicMetrics                    respjson.Field
 		Quotes                           respjson.Field
 		Reposts                          respjson.Field
+		ClickCount                       respjson.Field
+		Engagement                       respjson.Field
+		ImpressionCount                  respjson.Field
+		TimeWatched                      respjson.Field
+		TimeWatchedForVideoViews         respjson.Field
+		VideoView                        respjson.Field
+		Viewer                           respjson.Field
+		QuoteCount                       respjson.Field
+		ReplyCount                       respjson.Field
+		RepostCount                      respjson.Field
+		Number90d                        respjson.Field
+		LifetimeMetrics                  respjson.Field
 		raw                              string
 	} `json:"-"`
 }
@@ -471,6 +507,21 @@ func (u PlatformPostMetricsUnion) AsPlatformPostMetricsTwitterPostMetricsDto() (
 }
 
 func (u PlatformPostMetricsUnion) AsPlatformPostMetricsThreadsPostMetricsDto() (v PlatformPostMetricsThreadsPostMetricsDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u PlatformPostMetricsUnion) AsPlatformPostMetricsLinkedInPostMetricsDto() (v PlatformPostMetricsLinkedInPostMetricsDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u PlatformPostMetricsUnion) AsPlatformPostMetricsBlueskyPostMetricsDto() (v PlatformPostMetricsBlueskyPostMetricsDto) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u PlatformPostMetricsUnion) AsPlatformPostMetricsPinterestPostMetricsDto() (v PlatformPostMetricsPinterestPostMetricsDto) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -1348,6 +1399,222 @@ type PlatformPostMetricsThreadsPostMetricsDto struct {
 // Returns the unmodified JSON received from the API
 func (r PlatformPostMetricsThreadsPostMetricsDto) RawJSON() string { return r.JSON.raw }
 func (r *PlatformPostMetricsThreadsPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsLinkedInPostMetricsDto struct {
+	// Number of clicks
+	ClickCount float64 `json:"clickCount"`
+	// Number of comments
+	CommentCount float64 `json:"commentCount"`
+	// Engagement rate
+	Engagement float64 `json:"engagement"`
+	// Number of impressions
+	ImpressionCount float64 `json:"impressionCount"`
+	// Number of likes
+	LikeCount float64 `json:"likeCount"`
+	// Number of shares
+	ShareCount float64 `json:"shareCount"`
+	// TIME_WATCHED: The time the video was watched in milliseconds. Video auto-looping
+	// will continue to increase this metric for each subsequent play
+	TimeWatched float64 `json:"timeWatched"`
+	// TIME_WATCHED_FOR_VIDEO_VIEWS: The time watched in milliseconds for video
+	// play-pause cycles that are at least 3 seconds. Video auto-looping will continue
+	// to increase this metric for each subsequent play. Analytics data for this metric
+	// will be available for six months
+	TimeWatchedForVideoViews float64 `json:"timeWatchedForVideoViews"`
+	// VIDEO_VIEW: Video views with play-pause cycles for at least 3 seconds.
+	// Auto-looping videos are counted as one when loaded. Each subsequent auto-looped
+	// play doesn't increase this metric. Analytics data for this metric won't be
+	// available after six months
+	VideoView float64 `json:"videoView"`
+	// VIEWER: Unique viewers who made engaged plays on the video. Auto-looping videos
+	// are counted as one when loaded. Each subsequent auto-looped play doesn't
+	// increase this metric. Analytics data for this metric won't be available after
+	// six months
+	Viewer float64 `json:"viewer"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ClickCount               respjson.Field
+		CommentCount             respjson.Field
+		Engagement               respjson.Field
+		ImpressionCount          respjson.Field
+		LikeCount                respjson.Field
+		ShareCount               respjson.Field
+		TimeWatched              respjson.Field
+		TimeWatchedForVideoViews respjson.Field
+		VideoView                respjson.Field
+		Viewer                   respjson.Field
+		ExtraFields              map[string]respjson.Field
+		raw                      string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsLinkedInPostMetricsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsLinkedInPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsBlueskyPostMetricsDto struct {
+	// Number of likes on the post
+	LikeCount float64 `json:"likeCount,required"`
+	// Number of quotes of the post
+	QuoteCount float64 `json:"quoteCount,required"`
+	// Number of replies on the post
+	ReplyCount float64 `json:"replyCount,required"`
+	// Number of reposts of the post
+	RepostCount float64 `json:"repostCount,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		LikeCount   respjson.Field
+		QuoteCount  respjson.Field
+		ReplyCount  respjson.Field
+		RepostCount respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsBlueskyPostMetricsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsBlueskyPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type PlatformPostMetricsPinterestPostMetricsDto struct {
+	// Last 90 days of Pin metrics
+	Number90d PlatformPostMetricsPinterestPostMetricsDto90d `json:"90d"`
+	// Lifetime Pin metrics
+	LifetimeMetrics PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics `json:"lifetime_metrics"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Number90d       respjson.Field
+		LifetimeMetrics respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsPinterestPostMetricsDto) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsPinterestPostMetricsDto) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Last 90 days of Pin metrics
+type PlatformPostMetricsPinterestPostMetricsDto90d struct {
+	// Number of comments on the Pin
+	Comment float64 `json:"comment"`
+	// Number of times the Pin was shown (impressions)
+	Impression float64 `json:"impression"`
+	// The last time Pinterest updated these metrics
+	LastUpdated string `json:"last_updated"`
+	// Number of clicks from the Pin to an external destination (outbound clicks)
+	OutboundClick float64 `json:"outbound_click"`
+	// Number of clicks on the Pin to view it in closeup (Pin clicks)
+	PinClick float64 `json:"pin_click"`
+	// Number of visits to the author's profile driven from the Pin
+	ProfileVisit any `json:"profile_visit,nullable"`
+	// Total number of reactions on the Pin
+	Reaction float64 `json:"reaction"`
+	// Number of saves of the Pin
+	Save float64 `json:"save"`
+	// Number of follows driven from the Pin
+	UserFollow any `json:"user_follow,nullable"`
+	// Number of video views of at least 10 seconds
+	Video10sViews float64 `json:"video_10s_views"`
+	// Average watch time for the video
+	VideoAverageTime float64 `json:"video_average_time"`
+	// Number of video views that reached 95% completion
+	VideoP95Views float64 `json:"video_p95_views"`
+	// Total watch time for the video
+	VideoTotalTime float64 `json:"video_total_time"`
+	// Number of video views
+	VideoViews float64 `json:"video_views"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Comment          respjson.Field
+		Impression       respjson.Field
+		LastUpdated      respjson.Field
+		OutboundClick    respjson.Field
+		PinClick         respjson.Field
+		ProfileVisit     respjson.Field
+		Reaction         respjson.Field
+		Save             respjson.Field
+		UserFollow       respjson.Field
+		Video10sViews    respjson.Field
+		VideoAverageTime respjson.Field
+		VideoP95Views    respjson.Field
+		VideoTotalTime   respjson.Field
+		VideoViews       respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsPinterestPostMetricsDto90d) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostMetricsPinterestPostMetricsDto90d) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Lifetime Pin metrics
+type PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics struct {
+	// Number of comments on the Pin
+	Comment float64 `json:"comment"`
+	// Number of times the Pin was shown (impressions)
+	Impression float64 `json:"impression"`
+	// The last time Pinterest updated these metrics
+	LastUpdated string `json:"last_updated"`
+	// Number of clicks from the Pin to an external destination (outbound clicks)
+	OutboundClick float64 `json:"outbound_click"`
+	// Number of clicks on the Pin to view it in closeup (Pin clicks)
+	PinClick float64 `json:"pin_click"`
+	// Number of visits to the author's profile driven from the Pin
+	ProfileVisit any `json:"profile_visit,nullable"`
+	// Total number of reactions on the Pin
+	Reaction float64 `json:"reaction"`
+	// Number of saves of the Pin
+	Save float64 `json:"save"`
+	// Number of follows driven from the Pin
+	UserFollow any `json:"user_follow,nullable"`
+	// Number of video views of at least 10 seconds
+	Video10sViews float64 `json:"video_10s_views"`
+	// Average watch time for the video
+	VideoAverageTime float64 `json:"video_average_time"`
+	// Number of video views that reached 95% completion
+	VideoP95Views float64 `json:"video_p95_views"`
+	// Total watch time for the video
+	VideoTotalTime float64 `json:"video_total_time"`
+	// Number of video views
+	VideoViews float64 `json:"video_views"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Comment          respjson.Field
+		Impression       respjson.Field
+		LastUpdated      respjson.Field
+		OutboundClick    respjson.Field
+		PinClick         respjson.Field
+		ProfileVisit     respjson.Field
+		Reaction         respjson.Field
+		Save             respjson.Field
+		UserFollow       respjson.Field
+		Video10sViews    respjson.Field
+		VideoAverageTime respjson.Field
+		VideoP95Views    respjson.Field
+		VideoTotalTime   respjson.Field
+		VideoViews       respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
