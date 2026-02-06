@@ -124,6 +124,10 @@ func (r BlueskyConfigurationDto) ToParam() BlueskyConfigurationDtoParam {
 type BlueskyConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []BlueskyConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -133,6 +137,7 @@ type BlueskyConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -203,6 +208,10 @@ func (r *BlueskyConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type BlueskyConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []BlueskyConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -400,6 +409,10 @@ func init() {
 type CreateSocialPostAccountConfigurationConfigurationMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []CreateSocialPostAccountConfigurationConfigurationMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -489,6 +502,10 @@ func init() {
 type CreateSocialPostMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []CreateSocialPostMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -589,6 +606,10 @@ func (r FacebookConfigurationDto) ToParam() FacebookConfigurationDtoParam {
 type FacebookConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []FacebookConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -598,6 +619,7 @@ type FacebookConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -685,6 +707,10 @@ func (r *FacebookConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type FacebookConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []FacebookConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -795,6 +821,10 @@ func (r InstagramConfigurationDto) ToParam() InstagramConfigurationDtoParam {
 type InstagramConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []InstagramConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -804,6 +834,7 @@ type InstagramConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -909,6 +940,10 @@ func (r *InstagramConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type InstagramConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []InstagramConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -998,6 +1033,10 @@ func (r LinkedinConfigurationDto) ToParam() LinkedinConfigurationDtoParam {
 type LinkedinConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []LinkedinConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -1007,6 +1046,7 @@ type LinkedinConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -1077,6 +1117,10 @@ func (r *LinkedinConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type LinkedinConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []LinkedinConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -1172,6 +1216,10 @@ func (r PinterestConfigurationDto) ToParam() PinterestConfigurationDtoParam {
 type PinterestConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []PinterestConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -1181,6 +1229,7 @@ type PinterestConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -1255,6 +1304,10 @@ func (r *PinterestConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type PinterestConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []PinterestConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -1570,6 +1623,10 @@ func (r *SocialPostAccountConfigurationConfiguration) UnmarshalJSON(data []byte)
 type SocialPostAccountConfigurationConfigurationMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []SocialPostAccountConfigurationConfigurationMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -1579,6 +1636,7 @@ type SocialPostAccountConfigurationConfigurationMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -1658,6 +1716,10 @@ func (r *SocialPostAccountConfigurationConfigurationPoll) UnmarshalJSON(data []b
 type SocialPostMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []SocialPostMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -1667,6 +1729,7 @@ type SocialPostMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -1764,6 +1827,10 @@ func (r ThreadsConfigurationDto) ToParam() ThreadsConfigurationDtoParam {
 type ThreadsConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []ThreadsConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -1773,6 +1840,7 @@ type ThreadsConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -1855,6 +1923,10 @@ func (r *ThreadsConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type ThreadsConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []ThreadsConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -1974,6 +2046,10 @@ func (r TiktokConfiguration) ToParam() TiktokConfigurationParam {
 type TiktokConfigurationMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []TiktokConfigurationMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -1983,6 +2059,7 @@ type TiktokConfigurationMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -2074,6 +2151,10 @@ func (r *TiktokConfigurationParam) UnmarshalJSON(data []byte) error {
 type TiktokConfigurationMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []TiktokConfigurationMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -2176,6 +2257,10 @@ func (r TwitterConfigurationDto) ToParam() TwitterConfigurationDtoParam {
 type TwitterConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []TwitterConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -2185,6 +2270,7 @@ type TwitterConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -2301,6 +2387,10 @@ func (r *TwitterConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type TwitterConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []TwitterConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -2429,6 +2519,10 @@ func (r YoutubeConfigurationDto) ToParam() YoutubeConfigurationDtoParam {
 type YoutubeConfigurationDtoMedia struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing,nullable"`
 	// List of tags to attach to the media
 	Tags []YoutubeConfigurationDtoMediaTag `json:"tags,nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
@@ -2438,6 +2532,7 @@ type YoutubeConfigurationDtoMedia struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
+		SkipProcessing       respjson.Field
 		Tags                 respjson.Field
 		ThumbnailTimestampMs respjson.Field
 		ThumbnailURL         respjson.Field
@@ -2525,6 +2620,10 @@ func (r *YoutubeConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 type YoutubeConfigurationDtoMediaParam struct {
 	// Public URL of the media
 	URL string `json:"url,required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing param.Opt[bool] `json:"skip_processing,omitzero"`
 	// List of tags to attach to the media
 	Tags []YoutubeConfigurationDtoMediaTagParam `json:"tags,omitzero"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
