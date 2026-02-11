@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.16 (2026-02-11)
+
+Full Changelog: [v0.1.0-alpha.15...v0.1.0-alpha.16](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.15...v0.1.0-alpha.16)
+
+### Features
+
+* **api:** api update ([5160ddf](https://github.com/DayMoonDevelopment/post-for-me-go/commit/5160ddf4ca8b59bce14d8f2b2ddd94cb1d6bb3bc))
+
+
+### Bug Fixes
+
+* **encoder:** correctly serialize NullStruct ([9f2b484](https://github.com/DayMoonDevelopment/post-for-me-go/commit/9f2b484d258db3d957063f08b865fd25d3b272ff))
+
 ## 0.1.0-alpha.15 (2026-02-02)
 
 Full Changelog: [v0.1.0-alpha.14...v0.1.0-alpha.15](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.14...v0.1.0-alpha.15)
