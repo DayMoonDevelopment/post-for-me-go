@@ -119,6 +119,7 @@ func TestSocialAccountListWithOptionalParams(t *testing.T) {
 		Limit:      postforme.Float(0),
 		Offset:     postforme.Float(0),
 		Platform:   []string{"string"},
+		Status:     []string{"connected"},
 		Username:   []string{"string"},
 	})
 	if err != nil {
