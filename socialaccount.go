@@ -366,6 +366,11 @@ type SocialAccountListParams struct {
 	// Filter by platform(s). Multiple values imply OR logic (e.g.,
 	// ?platform=x&platform=facebook).
 	Platform []string `query:"platform,omitzero" json:"-"`
+	// Filter by status. Multiple values imply OR logic (e.g.,
+	// ?status=connected&status=disconnected).
+	//
+	// Any of "connected", "disconnected".
+	Status []string `query:"status,omitzero" json:"-"`
 	// Filter by username(s). Multiple values imply OR logic (e.g.,
 	// ?username=test&username=test2).
 	Username []string `query:"username,omitzero" json:"-"`
