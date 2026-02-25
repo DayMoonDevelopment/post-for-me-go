@@ -59,19 +59,19 @@ func (r *SocialPostResultService) List(ctx context.Context, query SocialPostResu
 
 type SocialPostResult struct {
 	// The unique identifier of the post result
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// Detailed logs from the post
-	Details any `json:"details,required"`
+	Details any `json:"details" api:"required"`
 	// Error message if the post failed
-	Error any `json:"error,required"`
+	Error any `json:"error" api:"required"`
 	// Platform-specific data
-	PlatformData SocialPostResultPlatformData `json:"platform_data,required"`
+	PlatformData SocialPostResultPlatformData `json:"platform_data" api:"required"`
 	// The ID of the associated post
-	PostID string `json:"post_id,required"`
+	PostID string `json:"post_id" api:"required"`
 	// The ID of the associated social account
-	SocialAccountID string `json:"social_account_id,required"`
+	SocialAccountID string `json:"social_account_id" api:"required"`
 	// Indicates if the post was successful
-	Success bool `json:"success,required"`
+	Success bool `json:"success" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID              respjson.Field
@@ -114,8 +114,8 @@ func (r *SocialPostResultPlatformData) UnmarshalJSON(data []byte) error {
 }
 
 type SocialPostResultListResponse struct {
-	Data []SocialPostResult               `json:"data,required"`
-	Meta SocialPostResultListResponseMeta `json:"meta,required"`
+	Data []SocialPostResult               `json:"data" api:"required"`
+	Meta SocialPostResultListResponseMeta `json:"meta" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -133,13 +133,13 @@ func (r *SocialPostResultListResponse) UnmarshalJSON(data []byte) error {
 
 type SocialPostResultListResponseMeta struct {
 	// Maximum number of items returned.
-	Limit float64 `json:"limit,required"`
+	Limit float64 `json:"limit" api:"required"`
 	// URL to the next page of results, or null if none.
-	Next string `json:"next,required"`
+	Next string `json:"next" api:"required"`
 	// Number of items skipped.
-	Offset float64 `json:"offset,required"`
+	Offset float64 `json:"offset" api:"required"`
 	// Total number of items available.
-	Total float64 `json:"total,required"`
+	Total float64 `json:"total" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Limit       respjson.Field

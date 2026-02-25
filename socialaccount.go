@@ -106,31 +106,31 @@ func (r *SocialAccountService) Disconnect(ctx context.Context, id string, opts .
 
 type SocialAccount struct {
 	// The unique identifier of the social account
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The access token of the social account
-	AccessToken string `json:"access_token,required"`
+	AccessToken string `json:"access_token" api:"required"`
 	// The access token expiration date of the social account
-	AccessTokenExpiresAt time.Time `json:"access_token_expires_at,required" format:"date-time"`
+	AccessTokenExpiresAt time.Time `json:"access_token_expires_at" api:"required" format:"date-time"`
 	// The external id of the social account
-	ExternalID string `json:"external_id,required"`
+	ExternalID string `json:"external_id" api:"required"`
 	// The metadata of the social account
-	Metadata any `json:"metadata,required"`
+	Metadata any `json:"metadata" api:"required"`
 	// The platform of the social account
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The platform's profile photo of the social account
-	ProfilePhotoURL string `json:"profile_photo_url,required"`
+	ProfilePhotoURL string `json:"profile_photo_url" api:"required"`
 	// The refresh token of the social account
-	RefreshToken string `json:"refresh_token,required"`
+	RefreshToken string `json:"refresh_token" api:"required"`
 	// The refresh token expiration date of the social account
-	RefreshTokenExpiresAt time.Time `json:"refresh_token_expires_at,required" format:"date-time"`
+	RefreshTokenExpiresAt time.Time `json:"refresh_token_expires_at" api:"required" format:"date-time"`
 	// Status of the account
 	//
 	// Any of "connected", "disconnected".
-	Status SocialAccountStatus `json:"status,required"`
+	Status SocialAccountStatus `json:"status" api:"required"`
 	// The platform's id of the social account
-	UserID string `json:"user_id,required"`
+	UserID string `json:"user_id" api:"required"`
 	// The platform's username of the social account
-	Username string `json:"username,required"`
+	Username string `json:"username" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID                    respjson.Field
@@ -165,8 +165,8 @@ const (
 )
 
 type SocialAccountListResponse struct {
-	Data []SocialAccount               `json:"data,required"`
-	Meta SocialAccountListResponseMeta `json:"meta,required"`
+	Data []SocialAccount               `json:"data" api:"required"`
+	Meta SocialAccountListResponseMeta `json:"meta" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -184,13 +184,13 @@ func (r *SocialAccountListResponse) UnmarshalJSON(data []byte) error {
 
 type SocialAccountListResponseMeta struct {
 	// Maximum number of items returned.
-	Limit float64 `json:"limit,required"`
+	Limit float64 `json:"limit" api:"required"`
 	// URL to the next page of results, or null if none.
-	Next string `json:"next,required"`
+	Next string `json:"next" api:"required"`
 	// Number of items skipped.
-	Offset float64 `json:"offset,required"`
+	Offset float64 `json:"offset" api:"required"`
 	// Total number of items available.
-	Total float64 `json:"total,required"`
+	Total float64 `json:"total" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Limit       respjson.Field
@@ -210,9 +210,9 @@ func (r *SocialAccountListResponseMeta) UnmarshalJSON(data []byte) error {
 
 type SocialAccountNewAuthURLResponse struct {
 	// The social account provider
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The url to redirect the user to, in order to connect their account
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Platform    respjson.Field
@@ -230,31 +230,31 @@ func (r *SocialAccountNewAuthURLResponse) UnmarshalJSON(data []byte) error {
 
 type SocialAccountDisconnectResponse struct {
 	// The unique identifier of the social account
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The access token of the social account
-	AccessToken string `json:"access_token,required"`
+	AccessToken string `json:"access_token" api:"required"`
 	// The access token expiration date of the social account
-	AccessTokenExpiresAt time.Time `json:"access_token_expires_at,required" format:"date-time"`
+	AccessTokenExpiresAt time.Time `json:"access_token_expires_at" api:"required" format:"date-time"`
 	// The external id of the social account
-	ExternalID string `json:"external_id,required"`
+	ExternalID string `json:"external_id" api:"required"`
 	// The metadata of the social account
-	Metadata any `json:"metadata,required"`
+	Metadata any `json:"metadata" api:"required"`
 	// The platform of the social account
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The platform's profile photo of the social account
-	ProfilePhotoURL string `json:"profile_photo_url,required"`
+	ProfilePhotoURL string `json:"profile_photo_url" api:"required"`
 	// The refresh token of the social account
-	RefreshToken string `json:"refresh_token,required"`
+	RefreshToken string `json:"refresh_token" api:"required"`
 	// The refresh token expiration date of the social account
-	RefreshTokenExpiresAt time.Time `json:"refresh_token_expires_at,required" format:"date-time"`
+	RefreshTokenExpiresAt time.Time `json:"refresh_token_expires_at" api:"required" format:"date-time"`
 	// Status of the account
 	//
 	// Any of "disconnected".
-	Status SocialAccountDisconnectResponseStatus `json:"status,required"`
+	Status SocialAccountDisconnectResponseStatus `json:"status" api:"required"`
 	// The platform's id of the social account
-	UserID string `json:"user_id,required"`
+	UserID string `json:"user_id" api:"required"`
 	// The platform's username of the social account
-	Username string `json:"username,required"`
+	Username string `json:"username" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID                    respjson.Field
@@ -289,16 +289,16 @@ const (
 
 type SocialAccountNewParams struct {
 	// The access token of the social account
-	AccessToken string `json:"access_token,required"`
+	AccessToken string `json:"access_token" api:"required"`
 	// The access token expiration date of the social account
-	AccessTokenExpiresAt time.Time `json:"access_token_expires_at,required" format:"date-time"`
+	AccessTokenExpiresAt time.Time `json:"access_token_expires_at" api:"required" format:"date-time"`
 	// The platform of the social account
 	//
 	// Any of "facebook", "instagram", "x", "tiktok", "youtube", "pinterest",
 	// "linkedin", "bluesky", "threads", "tiktok_business".
-	Platform SocialAccountNewParamsPlatform `json:"platform,omitzero,required"`
+	Platform SocialAccountNewParamsPlatform `json:"platform,omitzero" api:"required"`
 	// The user id of the social account
-	UserID string `json:"user_id,required"`
+	UserID string `json:"user_id" api:"required"`
 	// The external id of the social account
 	ExternalID param.Opt[string] `json:"external_id,omitzero"`
 	// The refresh token of the social account
@@ -388,7 +388,7 @@ func (r SocialAccountListParams) URLQuery() (v url.Values, err error) {
 
 type SocialAccountNewAuthURLParams struct {
 	// The social account provider
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// Your unique identifier for the social account
 	ExternalID param.Opt[string] `json:"external_id,omitzero"`
 	// Override the default redirect URL for the OAuth flow. If provided, this URL will
@@ -450,9 +450,9 @@ func (r *SocialAccountNewAuthURLParamsPlatformData) UnmarshalJSON(data []byte) e
 // The properties AppPassword, Handle are required.
 type SocialAccountNewAuthURLParamsPlatformDataBluesky struct {
 	// The app password of the account
-	AppPassword string `json:"app_password,required"`
+	AppPassword string `json:"app_password" api:"required"`
 	// The handle of the account
-	Handle string `json:"handle,required"`
+	Handle string `json:"handle" api:"required"`
 	paramObj
 }
 
@@ -489,7 +489,7 @@ type SocialAccountNewAuthURLParamsPlatformDataInstagram struct {
 	// using login with facebook.
 	//
 	// Any of "instagram", "facebook".
-	ConnectionType string `json:"connection_type,omitzero,required"`
+	ConnectionType string `json:"connection_type,omitzero" api:"required"`
 	// Override the default permissions/scopes requested during OAuth. Default
 	// instagram scopes: instagram_business_basic, instagram_business_content_publish.
 	// Default facebook scopes: instagram_basic, instagram_content_publish,
@@ -521,7 +521,7 @@ type SocialAccountNewAuthURLParamsPlatformDataLinkedin struct {
 	// you are using the Community API
 	//
 	// Any of "personal", "organization".
-	ConnectionType string `json:"connection_type,omitzero,required"`
+	ConnectionType string `json:"connection_type,omitzero" api:"required"`
 	// Override the default permissions/scopes requested during OAuth. Default personal
 	// scopes: openid, w_member_social, profile, email. Default organization scopes:
 	// r_basicprofile, w_member_social, r_organization_social, w_organization_social,

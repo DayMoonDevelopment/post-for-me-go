@@ -108,9 +108,9 @@ func (r *MediaService) NewUploadURL(ctx context.Context, opts ...option.RequestO
 
 type MediaNewUploadURLResponse struct {
 	// The public URL for the media, to use once file has been uploaded
-	MediaURL string `json:"media_url,required"`
+	MediaURL string `json:"media_url" api:"required"`
 	// The signed upload URL for the client to upload the file
-	UploadURL string `json:"upload_url,required"`
+	UploadURL string `json:"upload_url" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		MediaURL    respjson.Field
