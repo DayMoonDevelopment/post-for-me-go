@@ -94,9 +94,9 @@ func (r *SocialPostService) Delete(ctx context.Context, id string, opts ...optio
 
 type BlueskyConfigurationDto struct {
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// Overrides the `media` from the post
-	Media []BlueskyConfigurationDtoMedia `json:"media,nullable"`
+	Media []BlueskyConfigurationDtoMedia `json:"media" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption     respjson.Field
@@ -123,17 +123,17 @@ func (r BlueskyConfigurationDto) ToParam() BlueskyConfigurationDtoParam {
 
 type BlueskyConfigurationDtoMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []BlueskyConfigurationDtoMediaTag `json:"tags,nullable"`
+	Tags []BlueskyConfigurationDtoMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -154,16 +154,16 @@ func (r *BlueskyConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 
 type BlueskyConfigurationDtoMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -207,7 +207,7 @@ func (r *BlueskyConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 // The property URL is required.
 type BlueskyConfigurationDtoMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -232,16 +232,16 @@ func (r *BlueskyConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type BlueskyConfigurationDtoMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -271,9 +271,9 @@ func init() {
 // The properties Caption, SocialAccounts are required.
 type CreateSocialPostParam struct {
 	// Caption text for the post
-	Caption string `json:"caption,required"`
+	Caption string `json:"caption" api:"required"`
 	// Array of social account IDs for posting
-	SocialAccounts []string `json:"social_accounts,omitzero,required"`
+	SocialAccounts []string `json:"social_accounts,omitzero" api:"required"`
 	// Array of social account IDs for posting
 	ExternalID param.Opt[string] `json:"external_id,omitzero"`
 	// If isDraft is set then the post will not be processed
@@ -301,9 +301,9 @@ func (r *CreateSocialPostParam) UnmarshalJSON(data []byte) error {
 // The properties Configuration, SocialAccountID are required.
 type CreateSocialPostAccountConfigurationParam struct {
 	// Configuration for the social account
-	Configuration CreateSocialPostAccountConfigurationConfigurationParam `json:"configuration,omitzero,required"`
+	Configuration CreateSocialPostAccountConfigurationConfigurationParam `json:"configuration,omitzero" api:"required"`
 	// ID of the social account, you want to apply the configuration to
-	SocialAccountID string `json:"social_account_id,required"`
+	SocialAccountID string `json:"social_account_id" api:"required"`
 	paramObj
 }
 
@@ -408,7 +408,7 @@ func init() {
 // The property URL is required.
 type CreateSocialPostAccountConfigurationConfigurationMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -433,16 +433,16 @@ func (r *CreateSocialPostAccountConfigurationConfigurationMediaParam) UnmarshalJ
 // The properties ID, Platform, Type are required.
 type CreateSocialPostAccountConfigurationConfigurationMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -474,9 +474,9 @@ func init() {
 // The properties DurationMinutes, Options are required.
 type CreateSocialPostAccountConfigurationConfigurationPollParam struct {
 	// Duration of the poll in minutes
-	DurationMinutes float64 `json:"duration_minutes,required"`
+	DurationMinutes float64 `json:"duration_minutes" api:"required"`
 	// The choices of the poll, requiring 2-4 options
-	Options []string `json:"options,omitzero,required"`
+	Options []string `json:"options,omitzero" api:"required"`
 	// Who can reply to the tweet
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
@@ -501,7 +501,7 @@ func init() {
 // The property URL is required.
 type CreateSocialPostMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -526,16 +526,16 @@ func (r *CreateSocialPostMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type CreateSocialPostMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -564,17 +564,17 @@ func init() {
 
 type FacebookConfigurationDto struct {
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// List of page ids to invite as collaborators for a Video Reel
-	Collaborators [][]any `json:"collaborators,nullable"`
+	Collaborators [][]any `json:"collaborators" api:"nullable"`
 	// Page id with a location that you want to tag the image or video with
-	Location string `json:"location,nullable"`
+	Location string `json:"location" api:"nullable"`
 	// Overrides the `media` from the post
-	Media []FacebookConfigurationDtoMedia `json:"media,nullable"`
+	Media []FacebookConfigurationDtoMedia `json:"media" api:"nullable"`
 	// Facebook post placement
 	//
 	// Any of "reels", "stories", "timeline".
-	Placement FacebookConfigurationDtoPlacement `json:"placement,nullable"`
+	Placement FacebookConfigurationDtoPlacement `json:"placement" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption       respjson.Field
@@ -605,17 +605,17 @@ func (r FacebookConfigurationDto) ToParam() FacebookConfigurationDtoParam {
 
 type FacebookConfigurationDtoMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []FacebookConfigurationDtoMediaTag `json:"tags,nullable"`
+	Tags []FacebookConfigurationDtoMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -636,16 +636,16 @@ func (r *FacebookConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 
 type FacebookConfigurationDtoMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -706,7 +706,7 @@ func (r *FacebookConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 // The property URL is required.
 type FacebookConfigurationDtoMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -731,16 +731,16 @@ func (r *FacebookConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type FacebookConfigurationDtoMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -769,25 +769,25 @@ func init() {
 
 type InstagramConfigurationDto struct {
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// Instagram usernames to be tagged as a collaborator
-	Collaborators []string `json:"collaborators,nullable"`
+	Collaborators []string `json:"collaborators" api:"nullable"`
 	// Page id with a location that you want to tag the image or video with
-	Location string `json:"location,nullable"`
+	Location string `json:"location" api:"nullable"`
 	// Overrides the `media` from the post
-	Media []InstagramConfigurationDtoMedia `json:"media,nullable"`
+	Media []InstagramConfigurationDtoMedia `json:"media" api:"nullable"`
 	// Instagram post placement
 	//
 	// Any of "reels", "stories", "timeline".
-	Placement InstagramConfigurationDtoPlacement `json:"placement,nullable"`
+	Placement InstagramConfigurationDtoPlacement `json:"placement" api:"nullable"`
 	// If false video posts will only be shown in the Reels tab
-	ShareToFeed bool `json:"share_to_feed,nullable"`
+	ShareToFeed bool `json:"share_to_feed" api:"nullable"`
 	// Instagram trial reel type, when passed will be created as a trial reel. If
 	// manual the trial reel can be manually graduated in the native app. If perfomance
 	// the trial reel will be automatically graduated if the trial reel performs well.
 	//
 	// Any of "manual", "performance".
-	TrialReelType InstagramConfigurationDtoTrialReelType `json:"trial_reel_type,nullable"`
+	TrialReelType InstagramConfigurationDtoTrialReelType `json:"trial_reel_type" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption       respjson.Field
@@ -820,17 +820,17 @@ func (r InstagramConfigurationDto) ToParam() InstagramConfigurationDtoParam {
 
 type InstagramConfigurationDtoMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []InstagramConfigurationDtoMediaTag `json:"tags,nullable"`
+	Tags []InstagramConfigurationDtoMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -851,16 +851,16 @@ func (r *InstagramConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 
 type InstagramConfigurationDtoMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -939,7 +939,7 @@ func (r *InstagramConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 // The property URL is required.
 type InstagramConfigurationDtoMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -964,16 +964,16 @@ func (r *InstagramConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type InstagramConfigurationDtoMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -1002,9 +1002,9 @@ func init() {
 
 type LinkedinConfigurationDto struct {
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// Overrides the `media` from the post
-	Media []LinkedinConfigurationDtoMedia `json:"media,nullable"`
+	Media []LinkedinConfigurationDtoMedia `json:"media" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption     respjson.Field
@@ -1032,17 +1032,17 @@ func (r LinkedinConfigurationDto) ToParam() LinkedinConfigurationDtoParam {
 
 type LinkedinConfigurationDtoMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []LinkedinConfigurationDtoMediaTag `json:"tags,nullable"`
+	Tags []LinkedinConfigurationDtoMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -1063,16 +1063,16 @@ func (r *LinkedinConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 
 type LinkedinConfigurationDtoMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -1116,7 +1116,7 @@ func (r *LinkedinConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 // The property URL is required.
 type LinkedinConfigurationDtoMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -1141,16 +1141,16 @@ func (r *LinkedinConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type LinkedinConfigurationDtoMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -1179,13 +1179,13 @@ func init() {
 
 type PinterestConfigurationDto struct {
 	// Pinterest board IDs
-	BoardIDs []string `json:"board_ids,nullable"`
+	BoardIDs []string `json:"board_ids" api:"nullable"`
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// Pinterest post link
-	Link string `json:"link,nullable"`
+	Link string `json:"link" api:"nullable"`
 	// Overrides the `media` from the post
-	Media []PinterestConfigurationDtoMedia `json:"media,nullable"`
+	Media []PinterestConfigurationDtoMedia `json:"media" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		BoardIDs    respjson.Field
@@ -1215,17 +1215,17 @@ func (r PinterestConfigurationDto) ToParam() PinterestConfigurationDtoParam {
 
 type PinterestConfigurationDtoMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []PinterestConfigurationDtoMediaTag `json:"tags,nullable"`
+	Tags []PinterestConfigurationDtoMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -1246,16 +1246,16 @@ func (r *PinterestConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 
 type PinterestConfigurationDtoMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -1303,7 +1303,7 @@ func (r *PinterestConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 // The property URL is required.
 type PinterestConfigurationDtoMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -1328,16 +1328,16 @@ func (r *PinterestConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type PinterestConfigurationDtoMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -1366,25 +1366,25 @@ func init() {
 
 type PlatformConfigurationsDto struct {
 	// Bluesky configuration
-	Bluesky BlueskyConfigurationDto `json:"bluesky,nullable"`
+	Bluesky BlueskyConfigurationDto `json:"bluesky" api:"nullable"`
 	// Facebook configuration
-	Facebook FacebookConfigurationDto `json:"facebook,nullable"`
+	Facebook FacebookConfigurationDto `json:"facebook" api:"nullable"`
 	// Instagram configuration
-	Instagram InstagramConfigurationDto `json:"instagram,nullable"`
+	Instagram InstagramConfigurationDto `json:"instagram" api:"nullable"`
 	// LinkedIn configuration
-	Linkedin LinkedinConfigurationDto `json:"linkedin,nullable"`
+	Linkedin LinkedinConfigurationDto `json:"linkedin" api:"nullable"`
 	// Pinterest configuration
-	Pinterest PinterestConfigurationDto `json:"pinterest,nullable"`
+	Pinterest PinterestConfigurationDto `json:"pinterest" api:"nullable"`
 	// Threads configuration
-	Threads ThreadsConfigurationDto `json:"threads,nullable"`
+	Threads ThreadsConfigurationDto `json:"threads" api:"nullable"`
 	// TikTok configuration
-	Tiktok TiktokConfiguration `json:"tiktok,nullable"`
+	Tiktok TiktokConfiguration `json:"tiktok" api:"nullable"`
 	// TikTok configuration
-	TiktokBusiness TiktokConfiguration `json:"tiktok_business,nullable"`
+	TiktokBusiness TiktokConfiguration `json:"tiktok_business" api:"nullable"`
 	// Twitter configuration
-	X TwitterConfigurationDto `json:"x,nullable"`
+	X TwitterConfigurationDto `json:"x" api:"nullable"`
 	// YouTube configuration
-	Youtube YoutubeConfigurationDto `json:"youtube,nullable"`
+	Youtube YoutubeConfigurationDto `json:"youtube" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Bluesky        respjson.Field
@@ -1452,29 +1452,29 @@ func (r *PlatformConfigurationsDtoParam) UnmarshalJSON(data []byte) error {
 
 type SocialPost struct {
 	// Unique identifier of the post
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// Account-specific configurations for the post
-	AccountConfigurations []SocialPostAccountConfiguration `json:"account_configurations,required"`
+	AccountConfigurations []SocialPostAccountConfiguration `json:"account_configurations" api:"required"`
 	// Caption text for the post
-	Caption string `json:"caption,required"`
+	Caption string `json:"caption" api:"required"`
 	// Timestamp when the post was created
-	CreatedAt string `json:"created_at,required"`
+	CreatedAt string `json:"created_at" api:"required"`
 	// Provided unique identifier of the post
-	ExternalID string `json:"external_id,required"`
+	ExternalID string `json:"external_id" api:"required"`
 	// Array of media URLs associated with the post
-	Media []SocialPostMedia `json:"media,required"`
+	Media []SocialPostMedia `json:"media" api:"required"`
 	// Platform-specific configurations for the post
-	PlatformConfigurations PlatformConfigurationsDto `json:"platform_configurations,required"`
+	PlatformConfigurations PlatformConfigurationsDto `json:"platform_configurations" api:"required"`
 	// Scheduled date and time for the post
-	ScheduledAt string `json:"scheduled_at,required"`
+	ScheduledAt string `json:"scheduled_at" api:"required"`
 	// Array of social account IDs for posting
-	SocialAccounts []SocialAccount `json:"social_accounts,required"`
+	SocialAccounts []SocialAccount `json:"social_accounts" api:"required"`
 	// Current status of the post: draft, processed, scheduled, or processing
 	//
 	// Any of "draft", "scheduled", "processing", "processed".
-	Status SocialPostStatus `json:"status,required"`
+	Status SocialPostStatus `json:"status" api:"required"`
 	// Timestamp when the post was last updated
-	UpdatedAt string `json:"updated_at,required"`
+	UpdatedAt string `json:"updated_at" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID                     respjson.Field
@@ -1501,9 +1501,9 @@ func (r *SocialPost) UnmarshalJSON(data []byte) error {
 
 type SocialPostAccountConfiguration struct {
 	// Configuration for the social account
-	Configuration SocialPostAccountConfigurationConfiguration `json:"configuration,required"`
+	Configuration SocialPostAccountConfigurationConfiguration `json:"configuration" api:"required"`
 	// ID of the social account, you want to apply the configuration to
-	SocialAccountID string `json:"social_account_id,required"`
+	SocialAccountID string `json:"social_account_id" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Configuration   respjson.Field
@@ -1522,67 +1522,67 @@ func (r *SocialPostAccountConfiguration) UnmarshalJSON(data []byte) error {
 // Configuration for the social account
 type SocialPostAccountConfigurationConfiguration struct {
 	// Allow comments on TikTok
-	AllowComment bool `json:"allow_comment,nullable"`
+	AllowComment bool `json:"allow_comment" api:"nullable"`
 	// Allow duets on TikTok
-	AllowDuet bool `json:"allow_duet,nullable"`
+	AllowDuet bool `json:"allow_duet" api:"nullable"`
 	// Allow stitch on TikTok
-	AllowStitch bool `json:"allow_stitch,nullable"`
+	AllowStitch bool `json:"allow_stitch" api:"nullable"`
 	// Will automatically add music to photo posts on TikTok
-	AutoAddMusic bool `json:"auto_add_music,nullable"`
+	AutoAddMusic bool `json:"auto_add_music" api:"nullable"`
 	// Pinterest board IDs
-	BoardIDs []string `json:"board_ids,nullable"`
+	BoardIDs []string `json:"board_ids" api:"nullable"`
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// List of page ids or users to invite as collaborators for a Video Reel (Instagram
 	// and Facebook)
-	Collaborators [][]any `json:"collaborators,nullable"`
+	Collaborators [][]any `json:"collaborators" api:"nullable"`
 	// Id of the twitter community to post to
 	CommunityID string `json:"community_id"`
 	// Disclose branded content on TikTok
-	DiscloseBrandedContent bool `json:"disclose_branded_content,nullable"`
+	DiscloseBrandedContent bool `json:"disclose_branded_content" api:"nullable"`
 	// Disclose your brand on TikTok
-	DiscloseYourBrand bool `json:"disclose_your_brand,nullable"`
+	DiscloseYourBrand bool `json:"disclose_your_brand" api:"nullable"`
 	// Flag content as AI generated on TikTok
-	IsAIGenerated bool `json:"is_ai_generated,nullable"`
+	IsAIGenerated bool `json:"is_ai_generated" api:"nullable"`
 	// Will create a draft upload to TikTok, posting will need to be completed from
 	// within the app
-	IsDraft bool `json:"is_draft,nullable"`
+	IsDraft bool `json:"is_draft" api:"nullable"`
 	// Pinterest post link
-	Link string `json:"link,nullable"`
+	Link string `json:"link" api:"nullable"`
 	// Page id with a location that you want to tag the image or video with (Instagram
 	// and Facebook)
-	Location string `json:"location,nullable"`
+	Location string `json:"location" api:"nullable"`
 	// If true will notify YouTube the video is intended for kids, defaults to false
-	MadeForKids bool `json:"made_for_kids,nullable"`
+	MadeForKids bool `json:"made_for_kids" api:"nullable"`
 	// Overrides the `media` from the post
-	Media []SocialPostAccountConfigurationConfigurationMedia `json:"media,nullable"`
+	Media []SocialPostAccountConfigurationConfigurationMedia `json:"media" api:"nullable"`
 	// Post placement for Facebook/Instagram/Threads
 	//
 	// Any of "reels", "timeline", "stories".
-	Placement string `json:"placement,nullable"`
+	Placement string `json:"placement" api:"nullable"`
 	// Poll options for the twitter
 	Poll SocialPostAccountConfigurationConfigurationPoll `json:"poll"`
 	// Sets the privacy status for TikTok (private, public), or YouTube (private,
 	// public, unlisted)
 	//
 	// Any of "public", "private", "unlisted".
-	PrivacyStatus string `json:"privacy_status,nullable"`
+	PrivacyStatus string `json:"privacy_status" api:"nullable"`
 	// Id of the tweet you want to quote
 	QuoteTweetID string `json:"quote_tweet_id"`
 	// Who can reply to the tweet
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
-	ReplySettings string `json:"reply_settings,nullable"`
+	ReplySettings string `json:"reply_settings" api:"nullable"`
 	// If false Instagram video posts will only be shown in the Reels tab
-	ShareToFeed bool `json:"share_to_feed,nullable"`
+	ShareToFeed bool `json:"share_to_feed" api:"nullable"`
 	// Overrides the `title` from the post
-	Title string `json:"title,nullable"`
+	Title string `json:"title" api:"nullable"`
 	// Instagram trial reel type, when passed will be created as a trial reel. If
 	// manual the trial reel can be manually graduated in the native app. If perfomance
 	// the trial reel will be automatically graduated if the trial reel performs well.
 	//
 	// Any of "manual", "performance".
-	TrialReelType string `json:"trial_reel_type,nullable"`
+	TrialReelType string `json:"trial_reel_type" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		AllowComment           respjson.Field
@@ -1622,17 +1622,17 @@ func (r *SocialPostAccountConfigurationConfiguration) UnmarshalJSON(data []byte)
 
 type SocialPostAccountConfigurationConfigurationMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []SocialPostAccountConfigurationConfigurationMediaTag `json:"tags,nullable"`
+	Tags []SocialPostAccountConfigurationConfigurationMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -1653,16 +1653,16 @@ func (r *SocialPostAccountConfigurationConfigurationMedia) UnmarshalJSON(data []
 
 type SocialPostAccountConfigurationConfigurationMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -1690,9 +1690,9 @@ func (r *SocialPostAccountConfigurationConfigurationMediaTag) UnmarshalJSON(data
 // Poll options for the twitter
 type SocialPostAccountConfigurationConfigurationPoll struct {
 	// Duration of the poll in minutes
-	DurationMinutes float64 `json:"duration_minutes,required"`
+	DurationMinutes float64 `json:"duration_minutes" api:"required"`
 	// The choices of the poll, requiring 2-4 options
-	Options []string `json:"options,required"`
+	Options []string `json:"options" api:"required"`
 	// Who can reply to the tweet
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
@@ -1715,17 +1715,17 @@ func (r *SocialPostAccountConfigurationConfigurationPoll) UnmarshalJSON(data []b
 
 type SocialPostMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []SocialPostMediaTag `json:"tags,nullable"`
+	Tags []SocialPostMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -1746,16 +1746,16 @@ func (r *SocialPostMedia) UnmarshalJSON(data []byte) error {
 
 type SocialPostMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -1792,13 +1792,13 @@ const (
 
 type ThreadsConfigurationDto struct {
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// Overrides the `media` from the post
-	Media []ThreadsConfigurationDtoMedia `json:"media,nullable"`
+	Media []ThreadsConfigurationDtoMedia `json:"media" api:"nullable"`
 	// Threads post placement
 	//
 	// Any of "reels", "timeline".
-	Placement ThreadsConfigurationDtoPlacement `json:"placement,nullable"`
+	Placement ThreadsConfigurationDtoPlacement `json:"placement" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption     respjson.Field
@@ -1826,17 +1826,17 @@ func (r ThreadsConfigurationDto) ToParam() ThreadsConfigurationDtoParam {
 
 type ThreadsConfigurationDtoMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []ThreadsConfigurationDtoMediaTag `json:"tags,nullable"`
+	Tags []ThreadsConfigurationDtoMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -1857,16 +1857,16 @@ func (r *ThreadsConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 
 type ThreadsConfigurationDtoMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -1922,7 +1922,7 @@ func (r *ThreadsConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 // The property URL is required.
 type ThreadsConfigurationDtoMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -1947,16 +1947,16 @@ func (r *ThreadsConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type ThreadsConfigurationDtoMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -1985,30 +1985,30 @@ func init() {
 
 type TiktokConfiguration struct {
 	// Allow comments on TikTok
-	AllowComment bool `json:"allow_comment,nullable"`
+	AllowComment bool `json:"allow_comment" api:"nullable"`
 	// Allow duets on TikTok
-	AllowDuet bool `json:"allow_duet,nullable"`
+	AllowDuet bool `json:"allow_duet" api:"nullable"`
 	// Allow stitch on TikTok
-	AllowStitch bool `json:"allow_stitch,nullable"`
+	AllowStitch bool `json:"allow_stitch" api:"nullable"`
 	// Will automatically add music to photo posts
-	AutoAddMusic bool `json:"auto_add_music,nullable"`
+	AutoAddMusic bool `json:"auto_add_music" api:"nullable"`
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// Disclose branded content on TikTok
-	DiscloseBrandedContent bool `json:"disclose_branded_content,nullable"`
+	DiscloseBrandedContent bool `json:"disclose_branded_content" api:"nullable"`
 	// Disclose your brand on TikTok
-	DiscloseYourBrand bool `json:"disclose_your_brand,nullable"`
+	DiscloseYourBrand bool `json:"disclose_your_brand" api:"nullable"`
 	// Flag content as AI generated on TikTok
-	IsAIGenerated bool `json:"is_ai_generated,nullable"`
+	IsAIGenerated bool `json:"is_ai_generated" api:"nullable"`
 	// Will create a draft upload to TikTok, posting will need to be completed from
 	// within the app
-	IsDraft bool `json:"is_draft,nullable"`
+	IsDraft bool `json:"is_draft" api:"nullable"`
 	// Overrides the `media` from the post
-	Media []TiktokConfigurationMedia `json:"media,nullable"`
+	Media []TiktokConfigurationMedia `json:"media" api:"nullable"`
 	// Sets the privacy status for TikTok (private, public)
-	PrivacyStatus string `json:"privacy_status,nullable"`
+	PrivacyStatus string `json:"privacy_status" api:"nullable"`
 	// Overrides the `title` from the post
-	Title string `json:"title,nullable"`
+	Title string `json:"title" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		AllowComment           respjson.Field
@@ -2045,17 +2045,17 @@ func (r TiktokConfiguration) ToParam() TiktokConfigurationParam {
 
 type TiktokConfigurationMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []TiktokConfigurationMediaTag `json:"tags,nullable"`
+	Tags []TiktokConfigurationMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -2076,16 +2076,16 @@ func (r *TiktokConfigurationMedia) UnmarshalJSON(data []byte) error {
 
 type TiktokConfigurationMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -2150,7 +2150,7 @@ func (r *TiktokConfigurationParam) UnmarshalJSON(data []byte) error {
 // The property URL is required.
 type TiktokConfigurationMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -2175,16 +2175,16 @@ func (r *TiktokConfigurationMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type TiktokConfigurationMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -2213,11 +2213,11 @@ func init() {
 
 type TwitterConfigurationDto struct {
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// Id of the community to post to
 	CommunityID string `json:"community_id"`
 	// Overrides the `media` from the post
-	Media []TwitterConfigurationDtoMedia `json:"media,nullable"`
+	Media []TwitterConfigurationDtoMedia `json:"media" api:"nullable"`
 	// Poll options for the tweet
 	Poll TwitterConfigurationDtoPoll `json:"poll"`
 	// Id of the tweet you want to quote
@@ -2225,7 +2225,7 @@ type TwitterConfigurationDto struct {
 	// Who can reply to the tweet
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
-	ReplySettings TwitterConfigurationDtoReplySettings `json:"reply_settings,nullable"`
+	ReplySettings TwitterConfigurationDtoReplySettings `json:"reply_settings" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption       respjson.Field
@@ -2256,17 +2256,17 @@ func (r TwitterConfigurationDto) ToParam() TwitterConfigurationDtoParam {
 
 type TwitterConfigurationDtoMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []TwitterConfigurationDtoMediaTag `json:"tags,nullable"`
+	Tags []TwitterConfigurationDtoMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -2287,16 +2287,16 @@ func (r *TwitterConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 
 type TwitterConfigurationDtoMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -2324,9 +2324,9 @@ func (r *TwitterConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
 // Poll options for the tweet
 type TwitterConfigurationDtoPoll struct {
 	// Duration of the poll in minutes
-	DurationMinutes float64 `json:"duration_minutes,required"`
+	DurationMinutes float64 `json:"duration_minutes" api:"required"`
 	// The choices of the poll, requiring 2-4 options
-	Options []string `json:"options,required"`
+	Options []string `json:"options" api:"required"`
 	// Who can reply to the tweet
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
@@ -2386,7 +2386,7 @@ func (r *TwitterConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 // The property URL is required.
 type TwitterConfigurationDtoMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -2411,16 +2411,16 @@ func (r *TwitterConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type TwitterConfigurationDtoMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -2452,9 +2452,9 @@ func init() {
 // The properties DurationMinutes, Options are required.
 type TwitterConfigurationDtoPollParam struct {
 	// Duration of the poll in minutes
-	DurationMinutes float64 `json:"duration_minutes,required"`
+	DurationMinutes float64 `json:"duration_minutes" api:"required"`
 	// The choices of the poll, requiring 2-4 options
-	Options []string `json:"options,omitzero,required"`
+	Options []string `json:"options,omitzero" api:"required"`
 	// Who can reply to the tweet
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
@@ -2478,17 +2478,17 @@ func init() {
 
 type YoutubeConfigurationDto struct {
 	// Overrides the `caption` from the post
-	Caption any `json:"caption,nullable"`
+	Caption any `json:"caption" api:"nullable"`
 	// If true will notify YouTube the video is intended for kids, defaults to false
-	MadeForKids bool `json:"made_for_kids,nullable"`
+	MadeForKids bool `json:"made_for_kids" api:"nullable"`
 	// Overrides the `media` from the post
-	Media []YoutubeConfigurationDtoMedia `json:"media,nullable"`
+	Media []YoutubeConfigurationDtoMedia `json:"media" api:"nullable"`
 	// Sets the privacy status of the video, will default to public
 	//
 	// Any of "public", "private", "unlisted".
-	PrivacyStatus YoutubeConfigurationDtoPrivacyStatus `json:"privacy_status,nullable"`
+	PrivacyStatus YoutubeConfigurationDtoPrivacyStatus `json:"privacy_status" api:"nullable"`
 	// Overrides the `title` from the post
-	Title string `json:"title,nullable"`
+	Title string `json:"title" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption       respjson.Field
@@ -2518,17 +2518,17 @@ func (r YoutubeConfigurationDto) ToParam() YoutubeConfigurationDtoParam {
 
 type YoutubeConfigurationDtoMedia struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
-	SkipProcessing bool `json:"skip_processing,nullable"`
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
 	// List of tags to attach to the media
-	Tags []YoutubeConfigurationDtoMediaTag `json:"tags,nullable"`
+	Tags []YoutubeConfigurationDtoMediaTag `json:"tags" api:"nullable"`
 	// Timestamp in milliseconds of frame to use as thumbnail for the media
-	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms,nullable"`
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
 	// Public URL of the thumbnail for the media
-	ThumbnailURL any `json:"thumbnail_url,nullable"`
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		URL                  respjson.Field
@@ -2549,16 +2549,16 @@ func (r *YoutubeConfigurationDtoMedia) UnmarshalJSON(data []byte) error {
 
 type YoutubeConfigurationDtoMediaTag struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X float64 `json:"x"`
@@ -2619,7 +2619,7 @@ func (r *YoutubeConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 // The property URL is required.
 type YoutubeConfigurationDtoMediaParam struct {
 	// Public URL of the media
-	URL string `json:"url,required"`
+	URL string `json:"url" api:"required"`
 	// If true the media will not be processed at all and instead be posted as is, this
 	// may increase chance of post failure if media does not meet platform's
 	// requirements. Best used for larger files.
@@ -2644,16 +2644,16 @@ func (r *YoutubeConfigurationDtoMediaParam) UnmarshalJSON(data []byte) error {
 // The properties ID, Platform, Type are required.
 type YoutubeConfigurationDtoMediaTagParam struct {
 	// Facebook User ID, Instagram Username or Instagram product id to tag
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The platform for the tags
 	//
 	// Any of "facebook", "instagram".
-	Platform string `json:"platform,omitzero,required"`
+	Platform string `json:"platform,omitzero" api:"required"`
 	// The type of tag, user to tag accounts, product to tag products (only supported
 	// for instagram)
 	//
 	// Any of "user", "product".
-	Type string `json:"type,omitzero,required"`
+	Type string `json:"type,omitzero" api:"required"`
 	// Percentage distance from left edge of the image, Not required for videos or
 	// stories
 	X param.Opt[float64] `json:"x,omitzero"`
@@ -2681,8 +2681,8 @@ func init() {
 }
 
 type SocialPostListResponse struct {
-	Data []SocialPost               `json:"data,required"`
-	Meta SocialPostListResponseMeta `json:"meta,required"`
+	Data []SocialPost               `json:"data" api:"required"`
+	Meta SocialPostListResponseMeta `json:"meta" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -2700,13 +2700,13 @@ func (r *SocialPostListResponse) UnmarshalJSON(data []byte) error {
 
 type SocialPostListResponseMeta struct {
 	// Maximum number of items returned.
-	Limit float64 `json:"limit,required"`
+	Limit float64 `json:"limit" api:"required"`
 	// URL to the next page of results, or null if none.
-	Next string `json:"next,required"`
+	Next string `json:"next" api:"required"`
 	// Number of items skipped.
-	Offset float64 `json:"offset,required"`
+	Offset float64 `json:"offset" api:"required"`
 	// Total number of items available.
-	Total float64 `json:"total,required"`
+	Total float64 `json:"total" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Limit       respjson.Field
@@ -2726,7 +2726,7 @@ func (r *SocialPostListResponseMeta) UnmarshalJSON(data []byte) error {
 
 type SocialPostDeleteResponse struct {
 	// Whether or not the entity was deleted
-	Success bool `json:"success,required"`
+	Success bool `json:"success" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Success     respjson.Field

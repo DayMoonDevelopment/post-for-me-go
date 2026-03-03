@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.0-alpha.17 (2026-02-25)
+
+Full Changelog: [v0.1.0-alpha.16...v0.1.0-alpha.17](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.16...v0.1.0-alpha.17)
+
+### Features
+
+* **api:** api update ([b328be1](https://github.com/DayMoonDevelopment/post-for-me-go/commit/b328be1d9887a23dc3bbb697db57d0b5fd59aaee))
+
+
+### Bug Fixes
+
+* allow canceling a request while it is waiting to retry ([0ac7b97](https://github.com/DayMoonDevelopment/post-for-me-go/commit/0ac7b974e730bac31525cfb3dbc48bfc429144a5))
+
+
+### Chores
+
+* **internal:** move custom custom `json` tags to `api` ([0b84d5b](https://github.com/DayMoonDevelopment/post-for-me-go/commit/0b84d5b696a9c7b968015eaea91140d893bbda63))
+* **internal:** remove mock server code ([75b1c0f](https://github.com/DayMoonDevelopment/post-for-me-go/commit/75b1c0f20be0646482b6cfb0cf6c35d5b879b97b))
+* update mock server docs ([3315619](https://github.com/DayMoonDevelopment/post-for-me-go/commit/331561949d65e4ec436fa2c37a019a96e983accf))
+
 ## 0.1.0-alpha.16 (2026-02-11)
 
 Full Changelog: [v0.1.0-alpha.15...v0.1.0-alpha.16](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.15...v0.1.0-alpha.16)

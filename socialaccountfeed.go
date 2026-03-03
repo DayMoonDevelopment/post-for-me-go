@@ -53,31 +53,31 @@ func (r *SocialAccountFeedService) List(ctx context.Context, socialAccountID str
 
 type PlatformPost struct {
 	// Caption or text content of the post
-	Caption string `json:"caption,required"`
+	Caption string `json:"caption" api:"required"`
 	// Array of media items attached to the post
-	Media [][]any `json:"media,required"`
+	Media [][]any `json:"media" api:"required"`
 	// Social media platform name
-	Platform string `json:"platform,required"`
+	Platform string `json:"platform" api:"required"`
 	// Platform-specific account ID
-	PlatformAccountID string `json:"platform_account_id,required"`
+	PlatformAccountID string `json:"platform_account_id" api:"required"`
 	// Platform-specific post ID
-	PlatformPostID string `json:"platform_post_id,required"`
+	PlatformPostID string `json:"platform_post_id" api:"required"`
 	// URL to the post on the platform
-	PlatformURL string `json:"platform_url,required"`
+	PlatformURL string `json:"platform_url" api:"required"`
 	// ID of the social account
-	SocialAccountID string `json:"social_account_id,required"`
+	SocialAccountID string `json:"social_account_id" api:"required"`
 	// External account ID from the platform
-	ExternalAccountID string `json:"external_account_id,nullable"`
+	ExternalAccountID string `json:"external_account_id" api:"nullable"`
 	// External post ID from the platform
-	ExternalPostID string `json:"external_post_id,nullable"`
+	ExternalPostID string `json:"external_post_id" api:"nullable"`
 	// Post metrics and analytics data
 	Metrics PlatformPostMetricsUnion `json:"metrics"`
 	// Date the post was published
 	PostedAt time.Time `json:"posted_at" format:"date-time"`
 	// ID of the social post
-	SocialPostID string `json:"social_post_id,nullable"`
+	SocialPostID string `json:"social_post_id" api:"nullable"`
 	// ID of the social post result
-	SocialPostResultID string `json:"social_post_result_id,nullable"`
+	SocialPostResultID string `json:"social_post_result_id" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Caption            respjson.Field
@@ -535,53 +535,53 @@ func (r *PlatformPostMetricsUnion) UnmarshalJSON(data []byte) error {
 
 type PlatformPostMetricsTikTokBusinessMetricsDto struct {
 	// Number of address clicks
-	AddressClicks float64 `json:"address_clicks,required"`
+	AddressClicks float64 `json:"address_clicks" api:"required"`
 	// Number of app download clicks
-	AppDownloadClicks float64 `json:"app_download_clicks,required"`
+	AppDownloadClicks float64 `json:"app_download_clicks" api:"required"`
 	// Audience cities breakdown
-	AudienceCities []PlatformPostMetricsTikTokBusinessMetricsDtoAudienceCity `json:"audience_cities,required"`
+	AudienceCities []PlatformPostMetricsTikTokBusinessMetricsDtoAudienceCity `json:"audience_cities" api:"required"`
 	// Audience countries breakdown
-	AudienceCountries []PlatformPostMetricsTikTokBusinessMetricsDtoAudienceCountry `json:"audience_countries,required"`
+	AudienceCountries []PlatformPostMetricsTikTokBusinessMetricsDtoAudienceCountry `json:"audience_countries" api:"required"`
 	// Audience genders breakdown
-	AudienceGenders []PlatformPostMetricsTikTokBusinessMetricsDtoAudienceGender `json:"audience_genders,required"`
+	AudienceGenders []PlatformPostMetricsTikTokBusinessMetricsDtoAudienceGender `json:"audience_genders" api:"required"`
 	// Audience types breakdown
-	AudienceTypes []PlatformPostMetricsTikTokBusinessMetricsDtoAudienceType `json:"audience_types,required"`
+	AudienceTypes []PlatformPostMetricsTikTokBusinessMetricsDtoAudienceType `json:"audience_types" api:"required"`
 	// Average time watched in seconds
-	AverageTimeWatched float64 `json:"average_time_watched,required"`
+	AverageTimeWatched float64 `json:"average_time_watched" api:"required"`
 	// Number of comments on the post
-	Comments float64 `json:"comments,required"`
+	Comments float64 `json:"comments" api:"required"`
 	// Number of email clicks
-	EmailClicks float64 `json:"email_clicks,required"`
+	EmailClicks float64 `json:"email_clicks" api:"required"`
 	// Engagement likes data by percentage and time
-	EngagementLikes []PlatformPostMetricsTikTokBusinessMetricsDtoEngagementLike `json:"engagement_likes,required"`
+	EngagementLikes []PlatformPostMetricsTikTokBusinessMetricsDtoEngagementLike `json:"engagement_likes" api:"required"`
 	// Number of favorites on the post
-	Favorites float64 `json:"favorites,required"`
+	Favorites float64 `json:"favorites" api:"required"`
 	// Rate of full video watches as a percentage
-	FullVideoWatchedRate float64 `json:"full_video_watched_rate,required"`
+	FullVideoWatchedRate float64 `json:"full_video_watched_rate" api:"required"`
 	// Impression sources breakdown
-	ImpressionSources []PlatformPostMetricsTikTokBusinessMetricsDtoImpressionSource `json:"impression_sources,required"`
+	ImpressionSources []PlatformPostMetricsTikTokBusinessMetricsDtoImpressionSource `json:"impression_sources" api:"required"`
 	// Number of lead submissions
-	LeadSubmissions float64 `json:"lead_submissions,required"`
+	LeadSubmissions float64 `json:"lead_submissions" api:"required"`
 	// Number of likes on the post
-	Likes float64 `json:"likes,required"`
+	Likes float64 `json:"likes" api:"required"`
 	// Number of new followers gained from the post
-	NewFollowers float64 `json:"new_followers,required"`
+	NewFollowers float64 `json:"new_followers" api:"required"`
 	// Number of phone number clicks
-	PhoneNumberClicks float64 `json:"phone_number_clicks,required"`
+	PhoneNumberClicks float64 `json:"phone_number_clicks" api:"required"`
 	// Number of profile views generated
-	ProfileViews float64 `json:"profile_views,required"`
+	ProfileViews float64 `json:"profile_views" api:"required"`
 	// Total reach of the post
-	Reach float64 `json:"reach,required"`
+	Reach float64 `json:"reach" api:"required"`
 	// Number of shares on the post
-	Shares float64 `json:"shares,required"`
+	Shares float64 `json:"shares" api:"required"`
 	// Total time watched in seconds
-	TotalTimeWatched float64 `json:"total_time_watched,required"`
+	TotalTimeWatched float64 `json:"total_time_watched" api:"required"`
 	// Video view retention data by percentage and time
-	VideoViewRetention []PlatformPostMetricsTikTokBusinessMetricsDtoVideoViewRetention `json:"video_view_retention,required"`
+	VideoViewRetention []PlatformPostMetricsTikTokBusinessMetricsDtoVideoViewRetention `json:"video_view_retention" api:"required"`
 	// Total number of video views
-	VideoViews float64 `json:"video_views,required"`
+	VideoViews float64 `json:"video_views" api:"required"`
 	// Number of website clicks
-	WebsiteClicks float64 `json:"website_clicks,required"`
+	WebsiteClicks float64 `json:"website_clicks" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		AddressClicks        respjson.Field
@@ -621,9 +621,9 @@ func (r *PlatformPostMetricsTikTokBusinessMetricsDto) UnmarshalJSON(data []byte)
 
 type PlatformPostMetricsTikTokBusinessMetricsDtoAudienceCity struct {
 	// City name
-	CityName string `json:"city_name,required"`
+	CityName string `json:"city_name" api:"required"`
 	// Percentage of audience from this city
-	Percentage float64 `json:"percentage,required"`
+	Percentage float64 `json:"percentage" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		CityName    respjson.Field
@@ -641,9 +641,9 @@ func (r *PlatformPostMetricsTikTokBusinessMetricsDtoAudienceCity) UnmarshalJSON(
 
 type PlatformPostMetricsTikTokBusinessMetricsDtoAudienceCountry struct {
 	// Country name
-	Country string `json:"country,required"`
+	Country string `json:"country" api:"required"`
 	// Percentage of audience from this country
-	Percentage float64 `json:"percentage,required"`
+	Percentage float64 `json:"percentage" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Country     respjson.Field
@@ -663,9 +663,9 @@ func (r *PlatformPostMetricsTikTokBusinessMetricsDtoAudienceCountry) UnmarshalJS
 
 type PlatformPostMetricsTikTokBusinessMetricsDtoAudienceGender struct {
 	// Gender category
-	Gender string `json:"gender,required"`
+	Gender string `json:"gender" api:"required"`
 	// Percentage of audience of this gender
-	Percentage float64 `json:"percentage,required"`
+	Percentage float64 `json:"percentage" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Gender      respjson.Field
@@ -685,9 +685,9 @@ func (r *PlatformPostMetricsTikTokBusinessMetricsDtoAudienceGender) UnmarshalJSO
 
 type PlatformPostMetricsTikTokBusinessMetricsDtoAudienceType struct {
 	// Percentage of audience of this type
-	Percentage float64 `json:"percentage,required"`
+	Percentage float64 `json:"percentage" api:"required"`
 	// Type of audience
-	Type string `json:"type,required"`
+	Type string `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Percentage  respjson.Field
@@ -705,9 +705,9 @@ func (r *PlatformPostMetricsTikTokBusinessMetricsDtoAudienceType) UnmarshalJSON(
 
 type PlatformPostMetricsTikTokBusinessMetricsDtoEngagementLike struct {
 	// Percentage value for the metric
-	Percentage float64 `json:"percentage,required"`
+	Percentage float64 `json:"percentage" api:"required"`
 	// Time in seconds for the metric
-	Second string `json:"second,required"`
+	Second string `json:"second" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Percentage  respjson.Field
@@ -727,9 +727,9 @@ func (r *PlatformPostMetricsTikTokBusinessMetricsDtoEngagementLike) UnmarshalJSO
 
 type PlatformPostMetricsTikTokBusinessMetricsDtoImpressionSource struct {
 	// Name of the impression source
-	ImpressionSource string `json:"impression_source,required"`
+	ImpressionSource string `json:"impression_source" api:"required"`
 	// Percentage of impressions from this source
-	Percentage float64 `json:"percentage,required"`
+	Percentage float64 `json:"percentage" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ImpressionSource respjson.Field
@@ -749,9 +749,9 @@ func (r *PlatformPostMetricsTikTokBusinessMetricsDtoImpressionSource) UnmarshalJ
 
 type PlatformPostMetricsTikTokBusinessMetricsDtoVideoViewRetention struct {
 	// Percentage value for the metric
-	Percentage float64 `json:"percentage,required"`
+	Percentage float64 `json:"percentage" api:"required"`
 	// Time in seconds for the metric
-	Second string `json:"second,required"`
+	Second string `json:"second" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Percentage  respjson.Field
@@ -771,13 +771,13 @@ func (r *PlatformPostMetricsTikTokBusinessMetricsDtoVideoViewRetention) Unmarsha
 
 type PlatformPostMetricsTikTokPostMetricsDto struct {
 	// Number of comments on the video
-	CommentCount float64 `json:"comment_count,required"`
+	CommentCount float64 `json:"comment_count" api:"required"`
 	// Number of likes on the video
-	LikeCount float64 `json:"like_count,required"`
+	LikeCount float64 `json:"like_count" api:"required"`
 	// Number of shares of the video
-	ShareCount float64 `json:"share_count,required"`
+	ShareCount float64 `json:"share_count" api:"required"`
 	// Number of views on the video
-	ViewCount float64 `json:"view_count,required"`
+	ViewCount float64 `json:"view_count" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		CommentCount respjson.Field
@@ -853,13 +853,13 @@ func (r *PlatformPostMetricsInstagramPostMetricsDto) UnmarshalJSON(data []byte) 
 
 type PlatformPostMetricsYouTubePostMetricsDto struct {
 	// Number of comments on the video
-	Comments float64 `json:"comments,required"`
+	Comments float64 `json:"comments" api:"required"`
 	// Number of dislikes on the video
-	Dislikes float64 `json:"dislikes,required"`
+	Dislikes float64 `json:"dislikes" api:"required"`
 	// Number of likes on the video
-	Likes float64 `json:"likes,required"`
+	Likes float64 `json:"likes" api:"required"`
 	// Number of views on the video
-	Views float64 `json:"views,required"`
+	Views float64 `json:"views" api:"required"`
 	// Number of clickable annotation impressions
 	AnnotationClickableImpressions float64 `json:"annotationClickableImpressions"`
 	// Number of annotation clicks
@@ -1105,9 +1105,9 @@ func (r *PlatformPostMetricsFacebookPostMetricsDto) UnmarshalJSON(data []byte) e
 
 type PlatformPostMetricsFacebookPostMetricsDtoActivityByActionType struct {
 	// Action type (e.g., like, comment, share)
-	ActionType string `json:"action_type,required"`
+	ActionType string `json:"action_type" api:"required"`
 	// Number of actions
-	Value float64 `json:"value,required"`
+	Value float64 `json:"value" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ActionType  respjson.Field
@@ -1127,9 +1127,9 @@ func (r *PlatformPostMetricsFacebookPostMetricsDtoActivityByActionType) Unmarsha
 
 type PlatformPostMetricsFacebookPostMetricsDtoActivityByActionTypeUnique struct {
 	// Action type (e.g., like, comment, share)
-	ActionType string `json:"action_type,required"`
+	ActionType string `json:"action_type" api:"required"`
 	// Number of actions
-	Value float64 `json:"value,required"`
+	Value float64 `json:"value" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ActionType  respjson.Field
@@ -1149,9 +1149,9 @@ func (r *PlatformPostMetricsFacebookPostMetricsDtoActivityByActionTypeUnique) Un
 
 type PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphAutoplayed struct {
 	// Percentage of viewers at this time
-	Rate float64 `json:"rate,required"`
+	Rate float64 `json:"rate" api:"required"`
 	// Time in seconds
-	Time float64 `json:"time,required"`
+	Time float64 `json:"time" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Rate        respjson.Field
@@ -1171,9 +1171,9 @@ func (r *PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphAutoplayed)
 
 type PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphClickedToPlay struct {
 	// Percentage of viewers at this time
-	Rate float64 `json:"rate,required"`
+	Rate float64 `json:"rate" api:"required"`
 	// Time in seconds
-	Time float64 `json:"time,required"`
+	Time float64 `json:"time" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Rate        respjson.Field
@@ -1193,9 +1193,9 @@ func (r *PlatformPostMetricsFacebookPostMetricsDtoVideoRetentionGraphClickedToPl
 
 type PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByAgeGender struct {
 	// Demographic key (e.g., age_gender, region, country)
-	Key string `json:"key,required"`
+	Key string `json:"key" api:"required"`
 	// Total view time in milliseconds
-	Value float64 `json:"value,required"`
+	Value float64 `json:"value" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Key         respjson.Field
@@ -1215,9 +1215,9 @@ func (r *PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByAgeGender) Unma
 
 type PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByCountry struct {
 	// Demographic key (e.g., age_gender, region, country)
-	Key string `json:"key,required"`
+	Key string `json:"key" api:"required"`
 	// Total view time in milliseconds
-	Value float64 `json:"value,required"`
+	Value float64 `json:"value" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Key         respjson.Field
@@ -1237,9 +1237,9 @@ func (r *PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByCountry) Unmars
 
 type PlatformPostMetricsFacebookPostMetricsDtoVideoViewTimeByRegion struct {
 	// Demographic key (e.g., age_gender, region, country)
-	Key string `json:"key,required"`
+	Key string `json:"key" api:"required"`
 	// Total view time in milliseconds
-	Value float64 `json:"value,required"`
+	Value float64 `json:"value" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Key         respjson.Field
@@ -1283,11 +1283,11 @@ func (r *PlatformPostMetricsTwitterPostMetricsDto) UnmarshalJSON(data []byte) er
 // Non-public metrics for the Tweet (available to the Tweet owner or advertisers)
 type PlatformPostMetricsTwitterPostMetricsDtoNonPublicMetrics struct {
 	// Number of times this Tweet has been viewed via promoted distribution
-	ImpressionCount float64 `json:"impression_count,required"`
+	ImpressionCount float64 `json:"impression_count" api:"required"`
 	// Number of clicks on links in this Tweet via promoted distribution
-	URLLinkClicks float64 `json:"url_link_clicks,required"`
+	URLLinkClicks float64 `json:"url_link_clicks" api:"required"`
 	// Number of clicks on the author's profile via promoted distribution
-	UserProfileClicks float64 `json:"user_profile_clicks,required"`
+	UserProfileClicks float64 `json:"user_profile_clicks" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ImpressionCount   respjson.Field
@@ -1307,17 +1307,17 @@ func (r *PlatformPostMetricsTwitterPostMetricsDtoNonPublicMetrics) UnmarshalJSON
 // Organic metrics for the Tweet (available to the Tweet owner)
 type PlatformPostMetricsTwitterPostMetricsDtoOrganicMetrics struct {
 	// Number of times this Tweet has been viewed organically
-	ImpressionCount float64 `json:"impression_count,required"`
+	ImpressionCount float64 `json:"impression_count" api:"required"`
 	// Number of Likes of this Tweet from organic distribution
-	LikeCount float64 `json:"like_count,required"`
+	LikeCount float64 `json:"like_count" api:"required"`
 	// Number of Replies of this Tweet from organic distribution
-	ReplyCount float64 `json:"reply_count,required"`
+	ReplyCount float64 `json:"reply_count" api:"required"`
 	// Number of Retweets of this Tweet from organic distribution
-	RetweetCount float64 `json:"retweet_count,required"`
+	RetweetCount float64 `json:"retweet_count" api:"required"`
 	// Number of clicks on links in this Tweet from organic distribution
-	URLLinkClicks float64 `json:"url_link_clicks,required"`
+	URLLinkClicks float64 `json:"url_link_clicks" api:"required"`
 	// Number of clicks on the author's profile from organic distribution
-	UserProfileClicks float64 `json:"user_profile_clicks,required"`
+	UserProfileClicks float64 `json:"user_profile_clicks" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ImpressionCount   respjson.Field
@@ -1340,17 +1340,17 @@ func (r *PlatformPostMetricsTwitterPostMetricsDtoOrganicMetrics) UnmarshalJSON(d
 // Publicly available metrics for the Tweet
 type PlatformPostMetricsTwitterPostMetricsDtoPublicMetrics struct {
 	// Number of times this Tweet has been bookmarked
-	BookmarkCount float64 `json:"bookmark_count,required"`
+	BookmarkCount float64 `json:"bookmark_count" api:"required"`
 	// Number of times this Tweet has been viewed
-	ImpressionCount float64 `json:"impression_count,required"`
+	ImpressionCount float64 `json:"impression_count" api:"required"`
 	// Number of Likes of this Tweet
-	LikeCount float64 `json:"like_count,required"`
+	LikeCount float64 `json:"like_count" api:"required"`
 	// Number of Quotes of this Tweet
-	QuoteCount float64 `json:"quote_count,required"`
+	QuoteCount float64 `json:"quote_count" api:"required"`
 	// Number of Replies of this Tweet
-	ReplyCount float64 `json:"reply_count,required"`
+	ReplyCount float64 `json:"reply_count" api:"required"`
 	// Number of Retweets of this Tweet
-	RetweetCount float64 `json:"retweet_count,required"`
+	RetweetCount float64 `json:"retweet_count" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		BookmarkCount   respjson.Field
@@ -1372,17 +1372,17 @@ func (r *PlatformPostMetricsTwitterPostMetricsDtoPublicMetrics) UnmarshalJSON(da
 
 type PlatformPostMetricsThreadsPostMetricsDto struct {
 	// Number of likes on the post
-	Likes float64 `json:"likes,required"`
+	Likes float64 `json:"likes" api:"required"`
 	// Number of quotes of the post
-	Quotes float64 `json:"quotes,required"`
+	Quotes float64 `json:"quotes" api:"required"`
 	// Number of replies on the post
-	Replies float64 `json:"replies,required"`
+	Replies float64 `json:"replies" api:"required"`
 	// Number of reposts of the post
-	Reposts float64 `json:"reposts,required"`
+	Reposts float64 `json:"reposts" api:"required"`
 	// Number of shares of the post
-	Shares float64 `json:"shares,required"`
+	Shares float64 `json:"shares" api:"required"`
 	// Number of views on the post
-	Views float64 `json:"views,required"`
+	Views float64 `json:"views" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Likes       respjson.Field
@@ -1458,13 +1458,13 @@ func (r *PlatformPostMetricsLinkedInPostMetricsDto) UnmarshalJSON(data []byte) e
 
 type PlatformPostMetricsBlueskyPostMetricsDto struct {
 	// Number of likes on the post
-	LikeCount float64 `json:"likeCount,required"`
+	LikeCount float64 `json:"likeCount" api:"required"`
 	// Number of quotes of the post
-	QuoteCount float64 `json:"quoteCount,required"`
+	QuoteCount float64 `json:"quoteCount" api:"required"`
 	// Number of replies on the post
-	ReplyCount float64 `json:"replyCount,required"`
+	ReplyCount float64 `json:"replyCount" api:"required"`
 	// Number of reposts of the post
-	RepostCount float64 `json:"repostCount,required"`
+	RepostCount float64 `json:"repostCount" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		LikeCount   respjson.Field
@@ -1515,13 +1515,13 @@ type PlatformPostMetricsPinterestPostMetricsDto90d struct {
 	// Number of clicks on the Pin to view it in closeup (Pin clicks)
 	PinClick float64 `json:"pin_click"`
 	// Number of visits to the author's profile driven from the Pin
-	ProfileVisit any `json:"profile_visit,nullable"`
+	ProfileVisit any `json:"profile_visit" api:"nullable"`
 	// Total number of reactions on the Pin
 	Reaction float64 `json:"reaction"`
 	// Number of saves of the Pin
 	Save float64 `json:"save"`
 	// Number of follows driven from the Pin
-	UserFollow any `json:"user_follow,nullable"`
+	UserFollow any `json:"user_follow" api:"nullable"`
 	// Number of video views of at least 10 seconds
 	Video10sViews float64 `json:"video_10s_views"`
 	// Average watch time for the video
@@ -1572,13 +1572,13 @@ type PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics struct {
 	// Number of clicks on the Pin to view it in closeup (Pin clicks)
 	PinClick float64 `json:"pin_click"`
 	// Number of visits to the author's profile driven from the Pin
-	ProfileVisit any `json:"profile_visit,nullable"`
+	ProfileVisit any `json:"profile_visit" api:"nullable"`
 	// Total number of reactions on the Pin
 	Reaction float64 `json:"reaction"`
 	// Number of saves of the Pin
 	Save float64 `json:"save"`
 	// Number of follows driven from the Pin
-	UserFollow any `json:"user_follow,nullable"`
+	UserFollow any `json:"user_follow" api:"nullable"`
 	// Number of video views of at least 10 seconds
 	Video10sViews float64 `json:"video_10s_views"`
 	// Average watch time for the video
@@ -1619,8 +1619,8 @@ func (r *PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics) UnmarshalJSO
 }
 
 type SocialAccountFeedListResponse struct {
-	Data []PlatformPost                    `json:"data,required"`
-	Meta SocialAccountFeedListResponseMeta `json:"meta,required"`
+	Data []PlatformPost                    `json:"data" api:"required"`
+	Meta SocialAccountFeedListResponseMeta `json:"meta" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field
@@ -1638,11 +1638,11 @@ func (r *SocialAccountFeedListResponse) UnmarshalJSON(data []byte) error {
 
 type SocialAccountFeedListResponseMeta struct {
 	// Id representing the next page of items
-	Cursor string `json:"cursor,required"`
+	Cursor string `json:"cursor" api:"required"`
 	// Maximum number of items returned.
-	Limit float64 `json:"limit,required"`
+	Limit float64 `json:"limit" api:"required"`
 	// URL to the next page of results, or null if none.
-	Next string `json:"next,required"`
+	Next string `json:"next" api:"required"`
 	// Indicates if there are more results or not
 	HasMore bool `json:"has_more"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
