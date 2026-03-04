@@ -18,6 +18,13 @@ import (
 	"github.com/DayMoonDevelopment/post-for-me-go/packages/respjson"
 )
 
+// Post results represent the outcome of publishing content to various social media
+// platforms. They provide comprehensive information including:
+//
+// - Publication status (success/failure)
+// - Any errors or issues encountered during posting
+// - Platform url to view the published post
+//
 // SocialPostResultService contains methods and other services that help with
 // interacting with the post-for-me API.
 //
