@@ -19,6 +19,11 @@ import (
 	"github.com/DayMoonDevelopment/post-for-me-go/packages/respjson"
 )
 
+// Social accounts represent platform-specific accounts (e.g. Twitter, LinkedIn,
+// Facebook) that are used for publishing posts. Each social account has a unique
+// `id` that can be referenced when creating or scheduling posts to specify which
+// platforms the content should be published to.
+//
 // SocialAccountService contains methods and other services that help with
 // interacting with the post-for-me API.
 //
