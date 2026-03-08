@@ -99,6 +99,8 @@ type PlatformPost struct {
 	ExternalPostID string `json:"external_post_id" api:"nullable"`
 	// Post metrics and analytics data
 	Metrics PlatformPostMetricsUnion `json:"metrics"`
+	// Platform-specific data for the post
+	PlatformData PlatformPostPlatformData `json:"platform_data"`
 	// Date the post was published
 	PostedAt time.Time `json:"posted_at" format:"date-time"`
 	// ID of the social post
@@ -117,6 +119,7 @@ type PlatformPost struct {
 		ExternalAccountID  respjson.Field
 		ExternalPostID     respjson.Field
 		Metrics            respjson.Field
+		PlatformData       respjson.Field
 		PostedAt           respjson.Field
 		SocialPostID       respjson.Field
 		SocialPostResultID respjson.Field
@@ -1642,6 +1645,24 @@ func (r PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics) RawJSON() str
 	return r.JSON.raw
 }
 func (r *PlatformPostMetricsPinterestPostMetricsDtoLifetimeMetrics) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Platform-specific data for the post
+type PlatformPostPlatformData struct {
+	// Title of the post
+	Title string `json:"title" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Title       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r PlatformPostPlatformData) RawJSON() string { return r.JSON.raw }
+func (r *PlatformPostPlatformData) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
