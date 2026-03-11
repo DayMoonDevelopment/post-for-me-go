@@ -57,7 +57,7 @@ func (r *SocialPostService) New(ctx context.Context, body SocialPostNewParams, o
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-posts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Get Post by ID
@@ -65,11 +65,11 @@ func (r *SocialPostService) Get(ctx context.Context, id string, opts ...option.R
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-posts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Update Post
@@ -77,11 +77,11 @@ func (r *SocialPostService) Update(ctx context.Context, id string, body SocialPo
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-posts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Get a paginated result for posts based on the applied filters
@@ -89,7 +89,7 @@ func (r *SocialPostService) List(ctx context.Context, query SocialPostListParams
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-posts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 // Delete Post
@@ -97,11 +97,11 @@ func (r *SocialPostService) Delete(ctx context.Context, id string, opts ...optio
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-posts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type BlueskyConfigurationDto struct {
