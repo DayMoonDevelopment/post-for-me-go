@@ -71,11 +71,11 @@ func (r *SocialAccountFeedService) List(ctx context.Context, socialAccountID str
 	opts = slices.Concat(r.Options, opts)
 	if socialAccountID == "" {
 		err = errors.New("missing required social_account_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-account-feeds/%s", socialAccountID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 type PlatformPost struct {

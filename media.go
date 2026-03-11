@@ -112,7 +112,7 @@ func (r *MediaService) NewUploadURL(ctx context.Context, opts ...option.RequestO
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/media/create-upload-url"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type MediaNewUploadURLResponse struct {

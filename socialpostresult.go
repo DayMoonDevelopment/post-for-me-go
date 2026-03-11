@@ -49,11 +49,11 @@ func (r *SocialPostResultService) Get(ctx context.Context, id string, opts ...op
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-post-results/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Get a paginated result for post results based on the applied filters
@@ -61,7 +61,7 @@ func (r *SocialPostResultService) List(ctx context.Context, query SocialPostResu
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-post-results"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 type SocialPostResult struct {
