@@ -295,7 +295,8 @@ type CreateSocialPostParam struct {
 	ScheduledAt param.Opt[time.Time] `json:"scheduled_at,omitzero" format:"date-time"`
 	// Account-specific configurations for the post
 	AccountConfigurations []CreateSocialPostAccountConfigurationParam `json:"account_configurations,omitzero"`
-	// Array of media URLs associated with the post
+	// Array of media associated with the post. If multiple media items are provided
+	// and the placement is `stories`, individual posts are created per media item.
 	Media []CreateSocialPostMediaParam `json:"media,omitzero"`
 	// Platform-specific configurations for the post
 	PlatformConfigurations PlatformConfigurationsDtoParam `json:"platform_configurations,omitzero"`
@@ -1473,7 +1474,7 @@ type SocialPost struct {
 	CreatedAt string `json:"created_at" api:"required"`
 	// Provided unique identifier of the post
 	ExternalID string `json:"external_id" api:"required"`
-	// Array of media URLs associated with the post
+	// Array of media associated with the post
 	Media []SocialPostMedia `json:"media" api:"required"`
 	// Platform-specific configurations for the post
 	PlatformConfigurations PlatformConfigurationsDto `json:"platform_configurations" api:"required"`
