@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.1.0-alpha.18 (2026-04-01)
+
+Full Changelog: [v0.1.0-alpha.17...v0.1.0-alpha.18](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.17...v0.1.0-alpha.18)
+
+### Features
+
+* **api:** api update ([c9e1e46](https://github.com/DayMoonDevelopment/post-for-me-go/commit/c9e1e463b64dcee1c90f8b0614bfd545083977a0))
+* **api:** api update ([050380f](https://github.com/DayMoonDevelopment/post-for-me-go/commit/050380fabb6d7b5d1b28730ac227fabc3539a86c))
+* **internal:** support comma format in multipart form encoding ([7d9803c](https://github.com/DayMoonDevelopment/post-for-me-go/commit/7d9803c3e91baf72f17904c10dd5c984701c345e))
+
+
+### Bug Fixes
+
+* fix issue with unmarshaling in some cases ([1de4894](https://github.com/DayMoonDevelopment/post-for-me-go/commit/1de48947e23e4765c9320d3fbd6fd62e40eb6202))
+* prevent duplicate ? in query params ([9481361](https://github.com/DayMoonDevelopment/post-for-me-go/commit/94813619ebd0c2777ed0a72798885ec9db3567c8))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([2fca3cc](https://github.com/DayMoonDevelopment/post-for-me-go/commit/2fca3cc91ec88c6c23d6dbc60567d0b8753facd4))
+* **ci:** skip uploading artifacts on stainless-internal branches ([bcf8662](https://github.com/DayMoonDevelopment/post-for-me-go/commit/bcf86627ddad1682443836ede0c6f09a65c4da20))
+* **ci:** support opting out of skipping builds on metadata-only commits ([19b47e2](https://github.com/DayMoonDevelopment/post-for-me-go/commit/19b47e2fec01acbb9fb1f1bd5bcc250ac3a31859))
+* **client:** fix multipart serialisation of Default() fields ([979fb00](https://github.com/DayMoonDevelopment/post-for-me-go/commit/979fb0031c37adf2297e3908c80661f4ca9342fb))
+* **internal:** codegen related update ([78a3e4e](https://github.com/DayMoonDevelopment/post-for-me-go/commit/78a3e4eab1118b1e9b8031cb383efe2628bea8d4))
+* **internal:** codegen related update ([d65ad68](https://github.com/DayMoonDevelopment/post-for-me-go/commit/d65ad68897ccfdb5475003b275c25d78bfea4b51))
+* **internal:** minor cleanup ([872dd53](https://github.com/DayMoonDevelopment/post-for-me-go/commit/872dd53049adb3c7ecd5fb4eaed6182551995e2c))
+* **internal:** support default value struct tag ([56110ce](https://github.com/DayMoonDevelopment/post-for-me-go/commit/56110ce5a28b0e6322020f1c3e0f3a93bdfc5677))
+* **internal:** tweak CI branches ([0722afc](https://github.com/DayMoonDevelopment/post-for-me-go/commit/0722afce1e3d490ceccd30e035b89226d0afefba))
+* **internal:** update gitignore ([e7ea329](https://github.com/DayMoonDevelopment/post-for-me-go/commit/e7ea32902fdb1e2ca8a086a9fb86bfd75ed92107))
+* **internal:** use explicit returns ([a4e07cf](https://github.com/DayMoonDevelopment/post-for-me-go/commit/a4e07cfe5dfbace8538af29533708b8843bb7f07))
+* **internal:** use explicit returns in more places ([3c8a167](https://github.com/DayMoonDevelopment/post-for-me-go/commit/3c8a167e9e1259c4a09649a11597770e5723f683))
+* remove unnecessary error check for url parsing ([2d609f7](https://github.com/DayMoonDevelopment/post-for-me-go/commit/2d609f7d1f7e78d18acb7b4eebae27bc8c639b11))
+* update docs for api:"required" ([13c7022](https://github.com/DayMoonDevelopment/post-for-me-go/commit/13c7022c403472f4dae7b59b7f64efcdffc84116))
+
 ## 0.1.0-alpha.17 (2026-02-25)
 
 Full Changelog: [v0.1.0-alpha.16...v0.1.0-alpha.17](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.16...v0.1.0-alpha.17)
