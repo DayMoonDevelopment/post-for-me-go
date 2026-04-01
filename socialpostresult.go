@@ -18,6 +18,13 @@ import (
 	"github.com/DayMoonDevelopment/post-for-me-go/packages/respjson"
 )
 
+// Post results represent the outcome of publishing content to various social media
+// platforms. They provide comprehensive information including:
+//
+// - Publication status (success/failure)
+// - Any errors or issues encountered during posting
+// - Platform url to view the published post
+//
 // SocialPostResultService contains methods and other services that help with
 // interacting with the post-for-me API.
 //
@@ -42,11 +49,11 @@ func (r *SocialPostResultService) Get(ctx context.Context, id string, opts ...op
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-post-results/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Get a paginated result for post results based on the applied filters
@@ -54,7 +61,7 @@ func (r *SocialPostResultService) List(ctx context.Context, query SocialPostResu
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-post-results"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 type SocialPostResult struct {
@@ -64,6 +71,8 @@ type SocialPostResult struct {
 	Details any `json:"details" api:"required"`
 	// Error message if the post failed
 	Error any `json:"error" api:"required"`
+	// Array of media URLs associated with the post
+	Media []SocialPostResultMedia `json:"media" api:"required"`
 	// Platform-specific data
 	PlatformData SocialPostResultPlatformData `json:"platform_data" api:"required"`
 	// The ID of the associated post
@@ -77,6 +86,7 @@ type SocialPostResult struct {
 		ID              respjson.Field
 		Details         respjson.Field
 		Error           respjson.Field
+		Media           respjson.Field
 		PlatformData    respjson.Field
 		PostID          respjson.Field
 		SocialAccountID respjson.Field
@@ -89,6 +99,73 @@ type SocialPostResult struct {
 // Returns the unmodified JSON received from the API
 func (r SocialPostResult) RawJSON() string { return r.JSON.raw }
 func (r *SocialPostResult) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SocialPostResultMedia struct {
+	// Public URL of the media
+	URL string `json:"url" api:"required"`
+	// If true the media will not be processed at all and instead be posted as is, this
+	// may increase chance of post failure if media does not meet platform's
+	// requirements. Best used for larger files.
+	SkipProcessing bool `json:"skip_processing" api:"nullable"`
+	// List of tags to attach to the media
+	Tags []SocialPostResultMediaTag `json:"tags" api:"nullable"`
+	// Timestamp in milliseconds of frame to use as thumbnail for the media
+	ThumbnailTimestampMs any `json:"thumbnail_timestamp_ms" api:"nullable"`
+	// Public URL of the thumbnail for the media
+	ThumbnailURL any `json:"thumbnail_url" api:"nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL                  respjson.Field
+		SkipProcessing       respjson.Field
+		Tags                 respjson.Field
+		ThumbnailTimestampMs respjson.Field
+		ThumbnailURL         respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SocialPostResultMedia) RawJSON() string { return r.JSON.raw }
+func (r *SocialPostResultMedia) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SocialPostResultMediaTag struct {
+	// Facebook User ID, Instagram Username or Instagram product id to tag
+	ID string `json:"id" api:"required"`
+	// The platform for the tags
+	//
+	// Any of "facebook", "instagram".
+	Platform string `json:"platform" api:"required"`
+	// The type of tag, user to tag accounts, product to tag products (only supported
+	// for instagram)
+	//
+	// Any of "user", "product".
+	Type string `json:"type" api:"required"`
+	// Percentage distance from left edge of the image, Not required for videos or
+	// stories
+	X float64 `json:"x"`
+	// Percentage distance from top edge of the image, Not required for videos or
+	// stories
+	Y float64 `json:"y"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Platform    respjson.Field
+		Type        respjson.Field
+		X           respjson.Field
+		Y           respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SocialPostResultMediaTag) RawJSON() string { return r.JSON.raw }
+func (r *SocialPostResultMediaTag) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

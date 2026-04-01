@@ -21,6 +21,18 @@ import (
 	"github.com/DayMoonDevelopment/post-for-me-go/packages/respjson"
 )
 
+// Posts represent content that can be published across multiple social media
+// platforms. Each post can have platform-specific content variations, allowing
+// customization for different platforms and accounts. Content can be defined at
+// three levels:
+//
+// 1. Default content for all platforms
+// 2. Platform-specific content overrides
+// 3. Account-specific content overrides
+//
+// The system will use the most specific content override available when publishing
+// to each platform and account.
+//
 // SocialPostService contains methods and other services that help with interacting
 // with the post-for-me API.
 //
@@ -45,7 +57,7 @@ func (r *SocialPostService) New(ctx context.Context, body SocialPostNewParams, o
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-posts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Get Post by ID
@@ -53,11 +65,11 @@ func (r *SocialPostService) Get(ctx context.Context, id string, opts ...option.R
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-posts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Update Post
@@ -65,11 +77,11 @@ func (r *SocialPostService) Update(ctx context.Context, id string, body SocialPo
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-posts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Get a paginated result for posts based on the applied filters
@@ -77,7 +89,7 @@ func (r *SocialPostService) List(ctx context.Context, query SocialPostListParams
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-posts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 // Delete Post
@@ -85,11 +97,11 @@ func (r *SocialPostService) Delete(ctx context.Context, id string, opts ...optio
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-posts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type BlueskyConfigurationDto struct {
@@ -283,7 +295,8 @@ type CreateSocialPostParam struct {
 	ScheduledAt param.Opt[time.Time] `json:"scheduled_at,omitzero" format:"date-time"`
 	// Account-specific configurations for the post
 	AccountConfigurations []CreateSocialPostAccountConfigurationParam `json:"account_configurations,omitzero"`
-	// Array of media URLs associated with the post
+	// Array of media associated with the post. If multiple media items are provided
+	// and the placement is `stories`, individual posts are created per media item.
 	Media []CreateSocialPostMediaParam `json:"media,omitzero"`
 	// Platform-specific configurations for the post
 	PlatformConfigurations PlatformConfigurationsDtoParam `json:"platform_configurations,omitzero"`
@@ -1461,7 +1474,7 @@ type SocialPost struct {
 	CreatedAt string `json:"created_at" api:"required"`
 	// Provided unique identifier of the post
 	ExternalID string `json:"external_id" api:"required"`
-	// Array of media URLs associated with the post
+	// Array of media associated with the post
 	Media []SocialPostMedia `json:"media" api:"required"`
 	// Platform-specific configurations for the post
 	PlatformConfigurations PlatformConfigurationsDto `json:"platform_configurations" api:"required"`
@@ -2750,7 +2763,7 @@ func (r SocialPostNewParams) MarshalJSON() (data []byte, err error) {
 	return shimjson.Marshal(r.CreateSocialPost)
 }
 func (r *SocialPostNewParams) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &r.CreateSocialPost)
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type SocialPostUpdateParams struct {
@@ -2762,7 +2775,7 @@ func (r SocialPostUpdateParams) MarshalJSON() (data []byte, err error) {
 	return shimjson.Marshal(r.CreateSocialPost)
 }
 func (r *SocialPostUpdateParams) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &r.CreateSocialPost)
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type SocialPostListParams struct {
