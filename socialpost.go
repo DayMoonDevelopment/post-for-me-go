@@ -2763,7 +2763,7 @@ func (r SocialPostNewParams) MarshalJSON() (data []byte, err error) {
 	return shimjson.Marshal(r.CreateSocialPost)
 }
 func (r *SocialPostNewParams) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &r.CreateSocialPost)
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type SocialPostUpdateParams struct {
@@ -2775,7 +2775,7 @@ func (r SocialPostUpdateParams) MarshalJSON() (data []byte, err error) {
 	return shimjson.Marshal(r.CreateSocialPost)
 }
 func (r *SocialPostUpdateParams) UnmarshalJSON(data []byte) error {
-	return json.Unmarshal(data, &r.CreateSocialPost)
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type SocialPostListParams struct {
