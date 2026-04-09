@@ -19,6 +19,11 @@ import (
 	"github.com/DayMoonDevelopment/post-for-me-go/packages/respjson"
 )
 
+// Social accounts represent platform-specific accounts (e.g. Twitter, LinkedIn,
+// Facebook) that are used for publishing posts. Each social account has a unique
+// `id` that can be referenced when creating or scheduling posts to specify which
+// platforms the content should be published to.
+//
 // SocialAccountService contains methods and other services that help with
 // interacting with the post-for-me API.
 //
@@ -44,7 +49,7 @@ func (r *SocialAccountService) New(ctx context.Context, body SocialAccountNewPar
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-accounts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Get social account by ID
@@ -52,11 +57,11 @@ func (r *SocialAccountService) Get(ctx context.Context, id string, opts ...optio
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-accounts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Update social account
@@ -64,11 +69,11 @@ func (r *SocialAccountService) Update(ctx context.Context, id string, body Socia
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-accounts/%s", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Get a paginated result for social accounts based on the applied filters
@@ -76,7 +81,7 @@ func (r *SocialAccountService) List(ctx context.Context, query SocialAccountList
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-accounts"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
-	return
+	return res, err
 }
 
 // Generates a URL that initiates the authentication flow for a user's social media
@@ -87,7 +92,7 @@ func (r *SocialAccountService) NewAuthURL(ctx context.Context, body SocialAccoun
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-accounts/auth-url"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Disconnecting an account with remove all auth tokens and mark the account as
@@ -97,11 +102,11 @@ func (r *SocialAccountService) Disconnect(ctx context.Context, id string, opts .
 	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("v1/social-accounts/%s/disconnect", id)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 type SocialAccount struct {

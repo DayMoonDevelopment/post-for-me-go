@@ -38,7 +38,7 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	client.SocialPosts.New(context.Background(), postforme.SocialPostNewParams{
+	_, _ = client.SocialPosts.New(context.Background(), postforme.SocialPostNewParams{
 		CreateSocialPost: postforme.CreateSocialPostParam{
 			Caption:        "caption",
 			SocialAccounts: []string{"string"},
