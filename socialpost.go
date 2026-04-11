@@ -354,6 +354,9 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	Location param.Opt[string] `json:"location,omitzero"`
 	// If true will notify YouTube the video is intended for kids, defaults to false
 	MadeForKids param.Opt[bool] `json:"made_for_kids,omitzero"`
+	// If true, include the caption on each image in a Facebook carousel upload; if
+	// false, only include it on the final carousel post
+	SetCaptionForEachImage param.Opt[bool] `json:"set_caption_for_each_image,omitzero"`
 	// If false Instagram video posts will only be shown in the Reels tab
 	ShareToFeed param.Opt[bool] `json:"share_to_feed,omitzero"`
 	// Overrides the `title` from the post
@@ -588,15 +591,19 @@ type FacebookConfigurationDto struct {
 	//
 	// Any of "reels", "stories", "timeline".
 	Placement FacebookConfigurationDtoPlacement `json:"placement" api:"nullable"`
+	// If true, include the caption on each image in a carousel upload; if false, only
+	// include it on the final carousel post
+	SetCaptionForEachImage bool `json:"set_caption_for_each_image" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Caption       respjson.Field
-		Collaborators respjson.Field
-		Location      respjson.Field
-		Media         respjson.Field
-		Placement     respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
+		Caption                respjson.Field
+		Collaborators          respjson.Field
+		Location               respjson.Field
+		Media                  respjson.Field
+		Placement              respjson.Field
+		SetCaptionForEachImage respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
 	} `json:"-"`
 }
 
@@ -695,6 +702,9 @@ const (
 type FacebookConfigurationDtoParam struct {
 	// Page id with a location that you want to tag the image or video with
 	Location param.Opt[string] `json:"location,omitzero"`
+	// If true, include the caption on each image in a carousel upload; if false, only
+	// include it on the final carousel post
+	SetCaptionForEachImage param.Opt[bool] `json:"set_caption_for_each_image,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// List of page ids to invite as collaborators for a Video Reel
@@ -1586,6 +1596,9 @@ type SocialPostAccountConfigurationConfiguration struct {
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
 	ReplySettings string `json:"reply_settings" api:"nullable"`
+	// If true, include the caption on each image in a Facebook carousel upload; if
+	// false, only include it on the final carousel post
+	SetCaptionForEachImage bool `json:"set_caption_for_each_image" api:"nullable"`
 	// If false Instagram video posts will only be shown in the Reels tab
 	ShareToFeed bool `json:"share_to_feed" api:"nullable"`
 	// Overrides the `title` from the post
@@ -1619,6 +1632,7 @@ type SocialPostAccountConfigurationConfiguration struct {
 		PrivacyStatus          respjson.Field
 		QuoteTweetID           respjson.Field
 		ReplySettings          respjson.Field
+		SetCaptionForEachImage respjson.Field
 		ShareToFeed            respjson.Field
 		Title                  respjson.Field
 		TrialReelType          respjson.Field
