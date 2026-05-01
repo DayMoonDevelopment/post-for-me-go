@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0-alpha.20 (2026-05-01)
+
+Full Changelog: [v0.1.0-alpha.19...v0.1.0-alpha.20](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.19...v0.1.0-alpha.20)
+
+### Features
+
+* **api:** api update ([4b69dac](https://github.com/DayMoonDevelopment/post-for-me-go/commit/4b69daca7ab31f9323d2386e8c4f1f77dce2c8cb))
+* **go:** add default http client with timeout ([2a04edf](https://github.com/DayMoonDevelopment/post-for-me-go/commit/2a04edfa9f61585467e6bc9e68fe89cd7dabe81d))
+* support setting headers via env ([d4a370c](https://github.com/DayMoonDevelopment/post-for-me-go/commit/d4a370c0c7b918de89fbd80aa63449c1cae37484))
+
+
+### Chores
+
+* avoid embedding reflect.Type for dead code elimination ([60bf831](https://github.com/DayMoonDevelopment/post-for-me-go/commit/60bf8313819046eeac502a21c45d69a278b9efb2))
+* **internal:** more robust bootstrap script ([d1d617b](https://github.com/DayMoonDevelopment/post-for-me-go/commit/d1d617ba64baefa88888fc8d77903dc9423c6031))
+
 ## 0.1.0-alpha.19 (2026-04-11)
 
 Full Changelog: [v0.1.0-alpha.18...v0.1.0-alpha.19](https://github.com/DayMoonDevelopment/post-for-me-go/compare/v0.1.0-alpha.18...v0.1.0-alpha.19)

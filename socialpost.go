@@ -359,7 +359,7 @@ type CreateSocialPostAccountConfigurationConfigurationParam struct {
 	SetCaptionForEachImage param.Opt[bool] `json:"set_caption_for_each_image,omitzero"`
 	// If false Instagram video posts will only be shown in the Reels tab
 	ShareToFeed param.Opt[bool] `json:"share_to_feed,omitzero"`
-	// Overrides the `title` from the post
+	// Overrides the `title` from the post (Pinterest, TikTok, YouTube)
 	Title param.Opt[string] `json:"title,omitzero"`
 	// Id of the twitter community to post to
 	CommunityID param.Opt[string] `json:"community_id,omitzero"`
@@ -1209,12 +1209,15 @@ type PinterestConfigurationDto struct {
 	Link string `json:"link" api:"nullable"`
 	// Overrides the `media` from the post
 	Media []PinterestConfigurationDtoMedia `json:"media" api:"nullable"`
+	// Overrides the `title` from the post for Pinterest
+	Title string `json:"title" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		BoardIDs    respjson.Field
 		Caption     respjson.Field
 		Link        respjson.Field
 		Media       respjson.Field
+		Title       respjson.Field
 		ExtraFields map[string]respjson.Field
 		raw         string
 	} `json:"-"`
@@ -1306,6 +1309,8 @@ func (r *PinterestConfigurationDtoMediaTag) UnmarshalJSON(data []byte) error {
 type PinterestConfigurationDtoParam struct {
 	// Pinterest post link
 	Link param.Opt[string] `json:"link,omitzero"`
+	// Overrides the `title` from the post for Pinterest
+	Title param.Opt[string] `json:"title,omitzero"`
 	// Pinterest board IDs
 	BoardIDs []string `json:"board_ids,omitzero"`
 	// Overrides the `caption` from the post
@@ -1601,7 +1606,7 @@ type SocialPostAccountConfigurationConfiguration struct {
 	SetCaptionForEachImage bool `json:"set_caption_for_each_image" api:"nullable"`
 	// If false Instagram video posts will only be shown in the Reels tab
 	ShareToFeed bool `json:"share_to_feed" api:"nullable"`
-	// Overrides the `title` from the post
+	// Overrides the `title` from the post (Pinterest, TikTok, YouTube)
 	Title string `json:"title" api:"nullable"`
 	// Instagram trial reel type, when passed will be created as a trial reel. If
 	// manual the trial reel can be manually graduated in the native app. If perfomance

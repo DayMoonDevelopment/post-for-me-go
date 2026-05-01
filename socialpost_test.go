@@ -183,6 +183,7 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 						ThumbnailTimestampMs: map[string]any{},
 						ThumbnailURL:         map[string]any{},
 					}},
+					Title: postforme.String("title"),
 				},
 				Threads: postforme.ThreadsConfigurationDtoParam{
 					Caption: map[string]any{},
@@ -504,6 +505,7 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 							ThumbnailTimestampMs: map[string]any{},
 							ThumbnailURL:         map[string]any{},
 						}},
+						Title: postforme.String("title"),
 					},
 					Threads: postforme.ThreadsConfigurationDtoParam{
 						Caption: map[string]any{},
