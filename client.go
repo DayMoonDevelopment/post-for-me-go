@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"slices"
+	"strings"
 
 	"github.com/DayMoonDevelopment/post-for-me-go/internal/requestconfig"
 	"github.com/DayMoonDevelopment/post-for-me-go/option"
@@ -77,17 +78,60 @@ type Client struct {
 	//     currently stopped giving permission for personal page analytics, we are on the
 	//     waitlist for when they resume.
 	SocialAccountFeeds SocialAccountFeedService
+	// Webhooks enable you to subscribe to certain events. This involves Post for Me
+	// making a POST request to the URL of any webhooks you create. Only the events you
+	// subscribe to will be sent to your webhook URL.
+	//
+	// ## Payload
+	//
+	// When an event happens that your webhook is subscribed to, we will make a POST
+	// request with the following JSON body
+	//
+	// ```
+	//
+	//	{
+	//	    "event_type": "",
+	//	    "data": {}
+	//	}
+	//
+	// ```
+	//
+	// The event_type will be the event that triggered the webhook POST, data will be
+	// the resulting entity from the event
+	//
+	// ## Security
+	//
+	// To verify the POST to your webhook URL is from us we will include a secret in
+	// the header "Post-For-Me-Webhook-Secret". When you create a webhook you will
+	// receive the secret in the response.
+	//
+	// ## Retries
+	//
+	// If your server fails to respond with a 2XX code, requests to it will be retried
+	// with exponential backoff around 8 times over the course of just over a day.
+	Webhooks WebhookService
+	// Social Post Previews allow you to see what a Social Post will create for each
+	// account in the post.
+	SocialPostPreviews SocialPostPreviewService
 }
 
 // DefaultClientOptions read from the environment (POST_FOR_ME_API_KEY,
 // POST_FOR_ME_BASE_URL). This should be used to initialize new clients.
 func DefaultClientOptions() []option.RequestOption {
-	defaults := []option.RequestOption{option.WithEnvironmentProduction()}
+	defaults := []option.RequestOption{option.WithHTTPClient(defaultHTTPClient()), option.WithEnvironmentProduction()}
 	if o, ok := os.LookupEnv("POST_FOR_ME_BASE_URL"); ok {
 		defaults = append(defaults, option.WithBaseURL(o))
 	}
 	if o, ok := os.LookupEnv("POST_FOR_ME_API_KEY"); ok {
 		defaults = append(defaults, option.WithAPIKey(o))
+	}
+	if o, ok := os.LookupEnv("POST_FOR_ME_CUSTOM_HEADERS"); ok {
+		for _, line := range strings.Split(o, "\n") {
+			colon := strings.Index(line, ":")
+			if colon >= 0 {
+				defaults = append(defaults, option.WithHeader(strings.TrimSpace(line[:colon]), strings.TrimSpace(line[colon+1:])))
+			}
+		}
 	}
 	return defaults
 }
@@ -106,6 +150,8 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r.SocialPostResults = NewSocialPostResultService(opts...)
 	r.SocialAccounts = NewSocialAccountService(opts...)
 	r.SocialAccountFeeds = NewSocialAccountFeedService(opts...)
+	r.Webhooks = NewWebhookService(opts...)
+	r.SocialPostPreviews = NewSocialPostPreviewService(opts...)
 
 	return
 }

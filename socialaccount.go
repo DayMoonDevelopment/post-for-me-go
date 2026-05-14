@@ -119,7 +119,7 @@ type SocialAccount struct {
 	// The external id of the social account
 	ExternalID string `json:"external_id" api:"required"`
 	// The metadata of the social account
-	Metadata any `json:"metadata" api:"required"`
+	Metadata SocialAccountMetadata `json:"metadata" api:"required"`
 	// The platform of the social account
 	Platform string `json:"platform" api:"required"`
 	// The platform's profile photo of the social account
@@ -168,6 +168,8 @@ const (
 	SocialAccountStatusConnected    SocialAccountStatus = "connected"
 	SocialAccountStatusDisconnected SocialAccountStatus = "disconnected"
 )
+
+type SocialAccountMetadata = any
 
 type SocialAccountListResponse struct {
 	Data []SocialAccount               `json:"data" api:"required"`
@@ -243,7 +245,7 @@ type SocialAccountDisconnectResponse struct {
 	// The external id of the social account
 	ExternalID string `json:"external_id" api:"required"`
 	// The metadata of the social account
-	Metadata any `json:"metadata" api:"required"`
+	Metadata SocialAccountMetadata `json:"metadata" api:"required"`
 	// The platform of the social account
 	Platform string `json:"platform" api:"required"`
 	// The platform's profile photo of the social account
@@ -313,7 +315,7 @@ type SocialAccountNewParams struct {
 	// The platform's username of the social account
 	Username param.Opt[string] `json:"username,omitzero"`
 	// The metadata of the social account
-	Metadata any `json:"metadata,omitzero"`
+	Metadata SocialAccountMetadata `json:"metadata,omitzero"`
 	paramObj
 }
 
