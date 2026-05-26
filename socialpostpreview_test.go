@@ -45,6 +45,7 @@ func TestSocialPostPreviewNewWithOptionalParams(t *testing.T) {
 					Caption:                map[string]any{},
 					Collaborators:          [][]any{{map[string]any{}}},
 					CommunityID:            postforme.String("community_id"),
+					ContainsSyntheticMedia: postforme.Bool(true),
 					DiscloseBrandedContent: postforme.Bool(true),
 					DiscloseYourBrand:      postforme.Bool(true),
 					IsAIGenerated:          postforme.Bool(true),
@@ -282,8 +283,9 @@ func TestSocialPostPreviewNewWithOptionalParams(t *testing.T) {
 					ReplySettings: postforme.TwitterConfigurationDtoReplySettingsFollowing,
 				},
 				Youtube: postforme.YoutubeConfigurationDtoParam{
-					Caption:     map[string]any{},
-					MadeForKids: postforme.Bool(true),
+					Caption:                map[string]any{},
+					ContainsSyntheticMedia: postforme.Bool(true),
+					MadeForKids:            postforme.Bool(true),
 					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
