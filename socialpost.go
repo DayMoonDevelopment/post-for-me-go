@@ -156,6 +156,11 @@ type AccountConfigurationConfiguration struct {
 	Collaborators [][]any `json:"collaborators" api:"nullable"`
 	// Id of the twitter community to post to
 	CommunityID string `json:"community_id"`
+	// If true, marks the YouTube video as containing altered or synthetic content per
+	// YouTube's disclosure policy. Sets status.containsSyntheticMedia on the
+	// videos.insert call; YouTube adds a "How this content was made" label to the
+	// description automatically.
+	ContainsSyntheticMedia bool `json:"contains_synthetic_media" api:"nullable"`
 	// Disclose branded content on TikTok
 	DiscloseBrandedContent bool `json:"disclose_branded_content" api:"nullable"`
 	// Disclose your brand on TikTok
@@ -215,6 +220,7 @@ type AccountConfigurationConfiguration struct {
 		Caption                respjson.Field
 		Collaborators          respjson.Field
 		CommunityID            respjson.Field
+		ContainsSyntheticMedia respjson.Field
 		DiscloseBrandedContent respjson.Field
 		DiscloseYourBrand      respjson.Field
 		IsAIGenerated          respjson.Field
@@ -274,6 +280,11 @@ type AccountConfigurationConfigurationParam struct {
 	AudioName param.Opt[string] `json:"audio_name,omitzero"`
 	// Will automatically add music to photo posts on TikTok
 	AutoAddMusic param.Opt[bool] `json:"auto_add_music,omitzero"`
+	// If true, marks the YouTube video as containing altered or synthetic content per
+	// YouTube's disclosure policy. Sets status.containsSyntheticMedia on the
+	// videos.insert call; YouTube adds a "How this content was made" label to the
+	// description automatically.
+	ContainsSyntheticMedia param.Opt[bool] `json:"contains_synthetic_media,omitzero"`
 	// Disclose branded content on TikTok
 	DiscloseBrandedContent param.Opt[bool] `json:"disclose_branded_content,omitzero"`
 	// Disclose your brand on TikTok
@@ -1340,6 +1351,11 @@ func (r *TwitterPollParam) UnmarshalJSON(data []byte) error {
 type YoutubeConfigurationDto struct {
 	// Overrides the `caption` from the post
 	Caption any `json:"caption" api:"nullable"`
+	// If true, marks the video as containing altered or synthetic content per
+	// YouTube's disclosure policy. Sets status.containsSyntheticMedia on the YouTube
+	// Data API videos.insert call; YouTube adds a "How this content was made" label to
+	// the description automatically.
+	ContainsSyntheticMedia bool `json:"contains_synthetic_media" api:"nullable"`
 	// If true will notify YouTube the video is intended for kids, defaults to false
 	MadeForKids bool `json:"made_for_kids" api:"nullable"`
 	// Overrides the `media` from the post
@@ -1352,13 +1368,14 @@ type YoutubeConfigurationDto struct {
 	Title string `json:"title" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Caption       respjson.Field
-		MadeForKids   respjson.Field
-		Media         respjson.Field
-		PrivacyStatus respjson.Field
-		Title         respjson.Field
-		ExtraFields   map[string]respjson.Field
-		raw           string
+		Caption                respjson.Field
+		ContainsSyntheticMedia respjson.Field
+		MadeForKids            respjson.Field
+		Media                  respjson.Field
+		PrivacyStatus          respjson.Field
+		Title                  respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
 	} `json:"-"`
 }
 
@@ -1387,6 +1404,11 @@ const (
 )
 
 type YoutubeConfigurationDtoParam struct {
+	// If true, marks the video as containing altered or synthetic content per
+	// YouTube's disclosure policy. Sets status.containsSyntheticMedia on the YouTube
+	// Data API videos.insert call; YouTube adds a "How this content was made" label to
+	// the description automatically.
+	ContainsSyntheticMedia param.Opt[bool] `json:"contains_synthetic_media,omitzero"`
 	// If true will notify YouTube the video is intended for kids, defaults to false
 	MadeForKids param.Opt[bool] `json:"made_for_kids,omitzero"`
 	// Overrides the `title` from the post
