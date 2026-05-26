@@ -135,6 +135,10 @@ func (r AccountConfiguration) ToParam() AccountConfigurationParam {
 
 // Configuration for the social account
 type AccountConfigurationConfiguration struct {
+	// Per-language localizations for the video title and description. Keys are BCP-47
+	// language tags (e.g. "fr", "es"). Maps to localizations on the YouTube Data API
+	// videos resource.
+	Localizations map[string]any `json:"localizations" api:"required"`
 	// Allow comments on TikTok
 	AllowComment bool `json:"allow_comment" api:"nullable"`
 	// Allow duets on TikTok
@@ -151,6 +155,9 @@ type AccountConfigurationConfiguration struct {
 	BoardIDs []string `json:"board_ids" api:"nullable"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption" api:"nullable"`
+	// YouTube video category id (maps to snippet.categoryId; see YouTube Data API
+	// videoCategories.list)
+	CategoryID string `json:"category_id" api:"nullable"`
 	// List of page ids or users to invite as collaborators for a Video Reel (Instagram
 	// and Facebook)
 	Collaborators [][]any `json:"collaborators" api:"nullable"`
@@ -161,15 +168,26 @@ type AccountConfigurationConfiguration struct {
 	// videos.insert call; YouTube adds a "How this content was made" label to the
 	// description automatically.
 	ContainsSyntheticMedia bool `json:"contains_synthetic_media" api:"nullable"`
+	// Default language of the video (BCP-47 language tag, e.g. "en"). Maps to
+	// snippet.defaultLanguage.
+	DefaultLanguage string `json:"default_language" api:"nullable"`
 	// Disclose branded content on TikTok
 	DiscloseBrandedContent bool `json:"disclose_branded_content" api:"nullable"`
 	// Disclose your brand on TikTok
 	DiscloseYourBrand bool `json:"disclose_your_brand" api:"nullable"`
+	// If true the video can be embedded on other websites (maps to status.embeddable).
+	// Defaults to true.
+	Embeddable bool `json:"embeddable" api:"nullable"`
 	// Flag content as AI generated on TikTok
 	IsAIGenerated bool `json:"is_ai_generated" api:"nullable"`
 	// Will create a draft upload to TikTok, posting will need to be completed from
 	// within the app
 	IsDraft bool `json:"is_draft" api:"nullable"`
+	// The video's license (maps to status.license). "youtube" is the standard YouTube
+	// license; "creativeCommon" is Creative Commons.
+	//
+	// Any of "youtube", "creativeCommon".
+	License string `json:"license" api:"nullable"`
 	// Pinterest post link
 	Link string `json:"link" api:"nullable"`
 	// Page id with a location that you want to tag the image or video with (Instagram
@@ -190,8 +208,17 @@ type AccountConfigurationConfiguration struct {
 	//
 	// Any of "public", "private", "unlisted".
 	PrivacyStatus string `json:"privacy_status" api:"nullable"`
+	// If true, the extended video statistics are publicly viewable (maps to
+	// status.publicStatsViewable). Defaults to true.
+	PublicStatsViewable bool `json:"public_stats_viewable" api:"nullable"`
+	// ISO 8601 datetime at which the video should be published. Only honoured when
+	// privacy_status is "private" (maps to status.publishAt).
+	PublishAt string `json:"publish_at" api:"nullable"`
 	// Id of the tweet you want to quote
 	QuoteTweetID string `json:"quote_tweet_id"`
+	// ISO 8601 date (YYYY-MM-DD) or datetime when the video was recorded (maps to
+	// recordingDetails.recordingDate).
+	RecordingDate string `json:"recording_date" api:"nullable"`
 	// Who can reply to the tweet
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
@@ -201,6 +228,8 @@ type AccountConfigurationConfiguration struct {
 	SetCaptionForEachImage bool `json:"set_caption_for_each_image" api:"nullable"`
 	// If false Instagram video posts will only be shown in the Reels tab
 	ShareToFeed bool `json:"share_to_feed" api:"nullable"`
+	// YouTube video tags
+	Tags []string `json:"tags" api:"nullable"`
 	// Overrides the `title` from the post (Pinterest, TikTok, YouTube)
 	Title string `json:"title" api:"nullable"`
 	// Instagram trial reel type, when passed will be created as a trial reel. If
@@ -211,6 +240,7 @@ type AccountConfigurationConfiguration struct {
 	TrialReelType string `json:"trial_reel_type" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Localizations          respjson.Field
 		AllowComment           respjson.Field
 		AllowDuet              respjson.Field
 		AllowStitch            respjson.Field
@@ -218,13 +248,17 @@ type AccountConfigurationConfiguration struct {
 		AutoAddMusic           respjson.Field
 		BoardIDs               respjson.Field
 		Caption                respjson.Field
+		CategoryID             respjson.Field
 		Collaborators          respjson.Field
 		CommunityID            respjson.Field
 		ContainsSyntheticMedia respjson.Field
+		DefaultLanguage        respjson.Field
 		DiscloseBrandedContent respjson.Field
 		DiscloseYourBrand      respjson.Field
+		Embeddable             respjson.Field
 		IsAIGenerated          respjson.Field
 		IsDraft                respjson.Field
+		License                respjson.Field
 		Link                   respjson.Field
 		Location               respjson.Field
 		MadeForKids            respjson.Field
@@ -232,10 +266,14 @@ type AccountConfigurationConfiguration struct {
 		Placement              respjson.Field
 		Poll                   respjson.Field
 		PrivacyStatus          respjson.Field
+		PublicStatsViewable    respjson.Field
+		PublishAt              respjson.Field
 		QuoteTweetID           respjson.Field
+		RecordingDate          respjson.Field
 		ReplySettings          respjson.Field
 		SetCaptionForEachImage respjson.Field
 		ShareToFeed            respjson.Field
+		Tags                   respjson.Field
 		Title                  respjson.Field
 		TrialReelType          respjson.Field
 		ExtraFields            map[string]respjson.Field
@@ -267,7 +305,13 @@ func (r *AccountConfigurationParam) UnmarshalJSON(data []byte) error {
 }
 
 // Configuration for the social account
+//
+// The property Localizations is required.
 type AccountConfigurationConfigurationParam struct {
+	// Per-language localizations for the video title and description. Keys are BCP-47
+	// language tags (e.g. "fr", "es"). Maps to localizations on the YouTube Data API
+	// videos resource.
+	Localizations map[string]any `json:"localizations,omitzero" api:"required"`
 	// Allow comments on TikTok
 	AllowComment param.Opt[bool] `json:"allow_comment,omitzero"`
 	// Allow duets on TikTok
@@ -280,15 +324,24 @@ type AccountConfigurationConfigurationParam struct {
 	AudioName param.Opt[string] `json:"audio_name,omitzero"`
 	// Will automatically add music to photo posts on TikTok
 	AutoAddMusic param.Opt[bool] `json:"auto_add_music,omitzero"`
+	// YouTube video category id (maps to snippet.categoryId; see YouTube Data API
+	// videoCategories.list)
+	CategoryID param.Opt[string] `json:"category_id,omitzero"`
 	// If true, marks the YouTube video as containing altered or synthetic content per
 	// YouTube's disclosure policy. Sets status.containsSyntheticMedia on the
 	// videos.insert call; YouTube adds a "How this content was made" label to the
 	// description automatically.
 	ContainsSyntheticMedia param.Opt[bool] `json:"contains_synthetic_media,omitzero"`
+	// Default language of the video (BCP-47 language tag, e.g. "en"). Maps to
+	// snippet.defaultLanguage.
+	DefaultLanguage param.Opt[string] `json:"default_language,omitzero"`
 	// Disclose branded content on TikTok
 	DiscloseBrandedContent param.Opt[bool] `json:"disclose_branded_content,omitzero"`
 	// Disclose your brand on TikTok
 	DiscloseYourBrand param.Opt[bool] `json:"disclose_your_brand,omitzero"`
+	// If true the video can be embedded on other websites (maps to status.embeddable).
+	// Defaults to true.
+	Embeddable param.Opt[bool] `json:"embeddable,omitzero"`
 	// Flag content as AI generated on TikTok
 	IsAIGenerated param.Opt[bool] `json:"is_ai_generated,omitzero"`
 	// Will create a draft upload to TikTok, posting will need to be completed from
@@ -301,6 +354,15 @@ type AccountConfigurationConfigurationParam struct {
 	Location param.Opt[string] `json:"location,omitzero"`
 	// If true will notify YouTube the video is intended for kids, defaults to false
 	MadeForKids param.Opt[bool] `json:"made_for_kids,omitzero"`
+	// If true, the extended video statistics are publicly viewable (maps to
+	// status.publicStatsViewable). Defaults to true.
+	PublicStatsViewable param.Opt[bool] `json:"public_stats_viewable,omitzero"`
+	// ISO 8601 datetime at which the video should be published. Only honoured when
+	// privacy_status is "private" (maps to status.publishAt).
+	PublishAt param.Opt[string] `json:"publish_at,omitzero"`
+	// ISO 8601 date (YYYY-MM-DD) or datetime when the video was recorded (maps to
+	// recordingDetails.recordingDate).
+	RecordingDate param.Opt[string] `json:"recording_date,omitzero"`
 	// If true, include the caption on each image in a Facebook carousel upload; if
 	// false, only include it on the final carousel post
 	SetCaptionForEachImage param.Opt[bool] `json:"set_caption_for_each_image,omitzero"`
@@ -319,6 +381,11 @@ type AccountConfigurationConfigurationParam struct {
 	// List of page ids or users to invite as collaborators for a Video Reel (Instagram
 	// and Facebook)
 	Collaborators [][]any `json:"collaborators,omitzero"`
+	// The video's license (maps to status.license). "youtube" is the standard YouTube
+	// license; "creativeCommon" is Creative Commons.
+	//
+	// Any of "youtube", "creativeCommon".
+	License string `json:"license,omitzero"`
 	// Overrides the `media` from the post
 	Media []SocialPostMediaParam `json:"media,omitzero"`
 	// Post placement for Facebook/Instagram/Threads
@@ -334,6 +401,8 @@ type AccountConfigurationConfigurationParam struct {
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
 	ReplySettings string `json:"reply_settings,omitzero"`
+	// YouTube video tags
+	Tags []string `json:"tags,omitzero"`
 	// Instagram trial reel type, when passed will be created as a trial reel. If
 	// manual the trial reel can be manually graduated in the native app. If perfomance
 	// the trial reel will be automatically graduated if the trial reel performs well.
@@ -354,6 +423,9 @@ func (r *AccountConfigurationConfigurationParam) UnmarshalJSON(data []byte) erro
 }
 
 func init() {
+	apijson.RegisterFieldValidator[AccountConfigurationConfigurationParam](
+		"license", "youtube", "creativeCommon",
+	)
 	apijson.RegisterFieldValidator[AccountConfigurationConfigurationParam](
 		"placement", "reels", "timeline", "stories",
 	)
@@ -1349,30 +1421,73 @@ func (r *TwitterPollParam) UnmarshalJSON(data []byte) error {
 }
 
 type YoutubeConfigurationDto struct {
+	// Per-language localizations for the video title and description. Keys are BCP-47
+	// language tags (e.g. "fr", "es"). Maps to localizations on the YouTube Data API
+	// videos resource.
+	Localizations map[string]any `json:"localizations" api:"required"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption" api:"nullable"`
+	// YouTube video category id (maps to snippet.categoryId; see YouTube Data API
+	// videoCategories.list)
+	CategoryID string `json:"category_id" api:"nullable"`
 	// If true, marks the video as containing altered or synthetic content per
-	// YouTube's disclosure policy. Sets status.containsSyntheticMedia on the YouTube
-	// Data API videos.insert call; YouTube adds a "How this content was made" label to
-	// the description automatically.
+	// YouTube's disclosure policy (maps to status.containsSyntheticMedia). YouTube
+	// adds a "How this content was made" label to the description automatically.
 	ContainsSyntheticMedia bool `json:"contains_synthetic_media" api:"nullable"`
-	// If true will notify YouTube the video is intended for kids, defaults to false
+	// Default language of the video (BCP-47 language tag, e.g. "en"). Maps to
+	// snippet.defaultLanguage.
+	DefaultLanguage string `json:"default_language" api:"nullable"`
+	// Description for the YouTube video (maps to snippet.description). Falls back to
+	// the post caption when not provided.
+	Description string `json:"description" api:"nullable"`
+	// If true the video can be embedded on other websites (maps to status.embeddable).
+	// Defaults to true.
+	Embeddable bool `json:"embeddable" api:"nullable"`
+	// The video's license (maps to status.license). "youtube" is the standard YouTube
+	// license; "creativeCommon" is Creative Commons.
+	//
+	// Any of "youtube", "creativeCommon".
+	License YoutubeConfigurationDtoLicense `json:"license" api:"nullable"`
+	// If true will notify YouTube the video is intended for kids (maps to
+	// status.selfDeclaredMadeForKids), defaults to false
 	MadeForKids bool `json:"made_for_kids" api:"nullable"`
 	// Overrides the `media` from the post
 	Media []SocialPostMedia `json:"media" api:"nullable"`
-	// Sets the privacy status of the video, will default to public
+	// Sets the privacy status of the video (maps to status.privacyStatus), will
+	// default to public
 	//
 	// Any of "public", "private", "unlisted".
 	PrivacyStatus YoutubeConfigurationDtoPrivacyStatus `json:"privacy_status" api:"nullable"`
-	// Overrides the `title` from the post
+	// If true, the extended video statistics are publicly viewable (maps to
+	// status.publicStatsViewable). Defaults to true.
+	PublicStatsViewable bool `json:"public_stats_viewable" api:"nullable"`
+	// ISO 8601 datetime at which the video should be published. Only honoured when
+	// privacy_status is "private" (maps to status.publishAt).
+	PublishAt string `json:"publish_at" api:"nullable"`
+	// ISO 8601 date (YYYY-MM-DD) or datetime when the video was recorded (maps to
+	// recordingDetails.recordingDate).
+	RecordingDate string `json:"recording_date" api:"nullable"`
+	// YouTube video tags (maps to snippet.tags)
+	Tags []string `json:"tags" api:"nullable"`
+	// Overrides the `title` from the post (maps to snippet.title)
 	Title string `json:"title" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Localizations          respjson.Field
 		Caption                respjson.Field
+		CategoryID             respjson.Field
 		ContainsSyntheticMedia respjson.Field
+		DefaultLanguage        respjson.Field
+		Description            respjson.Field
+		Embeddable             respjson.Field
+		License                respjson.Field
 		MadeForKids            respjson.Field
 		Media                  respjson.Field
 		PrivacyStatus          respjson.Field
+		PublicStatsViewable    respjson.Field
+		PublishAt              respjson.Field
+		RecordingDate          respjson.Field
+		Tags                   respjson.Field
 		Title                  respjson.Field
 		ExtraFields            map[string]respjson.Field
 		raw                    string
@@ -1394,7 +1509,17 @@ func (r YoutubeConfigurationDto) ToParam() YoutubeConfigurationDtoParam {
 	return param.Override[YoutubeConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
-// Sets the privacy status of the video, will default to public
+// The video's license (maps to status.license). "youtube" is the standard YouTube
+// license; "creativeCommon" is Creative Commons.
+type YoutubeConfigurationDtoLicense string
+
+const (
+	YoutubeConfigurationDtoLicenseYoutube        YoutubeConfigurationDtoLicense = "youtube"
+	YoutubeConfigurationDtoLicenseCreativeCommon YoutubeConfigurationDtoLicense = "creativeCommon"
+)
+
+// Sets the privacy status of the video (maps to status.privacyStatus), will
+// default to public
 type YoutubeConfigurationDtoPrivacyStatus string
 
 const (
@@ -1403,24 +1528,58 @@ const (
 	YoutubeConfigurationDtoPrivacyStatusUnlisted YoutubeConfigurationDtoPrivacyStatus = "unlisted"
 )
 
+// The property Localizations is required.
 type YoutubeConfigurationDtoParam struct {
+	// Per-language localizations for the video title and description. Keys are BCP-47
+	// language tags (e.g. "fr", "es"). Maps to localizations on the YouTube Data API
+	// videos resource.
+	Localizations map[string]any `json:"localizations,omitzero" api:"required"`
+	// YouTube video category id (maps to snippet.categoryId; see YouTube Data API
+	// videoCategories.list)
+	CategoryID param.Opt[string] `json:"category_id,omitzero"`
 	// If true, marks the video as containing altered or synthetic content per
-	// YouTube's disclosure policy. Sets status.containsSyntheticMedia on the YouTube
-	// Data API videos.insert call; YouTube adds a "How this content was made" label to
-	// the description automatically.
+	// YouTube's disclosure policy (maps to status.containsSyntheticMedia). YouTube
+	// adds a "How this content was made" label to the description automatically.
 	ContainsSyntheticMedia param.Opt[bool] `json:"contains_synthetic_media,omitzero"`
-	// If true will notify YouTube the video is intended for kids, defaults to false
+	// Default language of the video (BCP-47 language tag, e.g. "en"). Maps to
+	// snippet.defaultLanguage.
+	DefaultLanguage param.Opt[string] `json:"default_language,omitzero"`
+	// Description for the YouTube video (maps to snippet.description). Falls back to
+	// the post caption when not provided.
+	Description param.Opt[string] `json:"description,omitzero"`
+	// If true the video can be embedded on other websites (maps to status.embeddable).
+	// Defaults to true.
+	Embeddable param.Opt[bool] `json:"embeddable,omitzero"`
+	// If true will notify YouTube the video is intended for kids (maps to
+	// status.selfDeclaredMadeForKids), defaults to false
 	MadeForKids param.Opt[bool] `json:"made_for_kids,omitzero"`
-	// Overrides the `title` from the post
+	// If true, the extended video statistics are publicly viewable (maps to
+	// status.publicStatsViewable). Defaults to true.
+	PublicStatsViewable param.Opt[bool] `json:"public_stats_viewable,omitzero"`
+	// ISO 8601 datetime at which the video should be published. Only honoured when
+	// privacy_status is "private" (maps to status.publishAt).
+	PublishAt param.Opt[string] `json:"publish_at,omitzero"`
+	// ISO 8601 date (YYYY-MM-DD) or datetime when the video was recorded (maps to
+	// recordingDetails.recordingDate).
+	RecordingDate param.Opt[string] `json:"recording_date,omitzero"`
+	// Overrides the `title` from the post (maps to snippet.title)
 	Title param.Opt[string] `json:"title,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
+	// The video's license (maps to status.license). "youtube" is the standard YouTube
+	// license; "creativeCommon" is Creative Commons.
+	//
+	// Any of "youtube", "creativeCommon".
+	License YoutubeConfigurationDtoLicense `json:"license,omitzero"`
 	// Overrides the `media` from the post
 	Media []SocialPostMediaParam `json:"media,omitzero"`
-	// Sets the privacy status of the video, will default to public
+	// Sets the privacy status of the video (maps to status.privacyStatus), will
+	// default to public
 	//
 	// Any of "public", "private", "unlisted".
 	PrivacyStatus YoutubeConfigurationDtoPrivacyStatus `json:"privacy_status,omitzero"`
+	// YouTube video tags (maps to snippet.tags)
+	Tags []string `json:"tags,omitzero"`
 	paramObj
 }
 
