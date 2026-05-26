@@ -87,7 +87,11 @@ func (r *SocialAccountService) List(ctx context.Context, query SocialAccountList
 // Generates a URL that initiates the authentication flow for a user's social media
 // account. When visited, the user is redirected to the selected social platform's
 // login/authorization page. Upon successful authentication, they are redirected
-// back to your application
+// back to your application.
+//
+// For Quickstart projects using Post for Me system credentials,
+// `redirect_url_override` is not accepted. Configure the project redirect URL in
+// the dashboard instead.
 func (r *SocialAccountService) NewAuthURL(ctx context.Context, body SocialAccountNewAuthURLParams, opts ...option.RequestOption) (res *SocialAccountNewAuthURLResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-accounts/auth-url"
@@ -401,7 +405,7 @@ type SocialAccountNewAuthURLParams struct {
 	// Override the default redirect URL for the OAuth flow. If provided, this URL will
 	// be used instead of our redirect URL. Make sure this URL is included in your
 	// app's authorized redirect urls. This override will not work when using our
-	// system credientals.
+	// system credentials; configure the project redirect URL in the dashboard instead.
 	RedirectURLOverride param.Opt[string] `json:"redirect_url_override,omitzero"`
 	// List of permissions you want to allow. Will default to only post permissions.
 	// You must include the "feeds" permission to request an account feed and metrics
@@ -524,7 +528,7 @@ func init() {
 // The property ConnectionType is required.
 type SocialAccountNewAuthURLParamsPlatformDataLinkedin struct {
 	// The type of connection; If using our provided credentials always use
-	// "organization". If using your own crednetials then only use "organization" if
+	// "organization". If using your own credentials then only use "organization" if
 	// you are using the Community API
 	//
 	// Any of "personal", "organization".

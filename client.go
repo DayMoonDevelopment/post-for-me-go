@@ -61,6 +61,9 @@ type Client struct {
 	//   - Post information including caption, url, media, etc..
 	//   - When passing **expand=metrics**, Metrics information including views, likes,
 	//     follows, etc..
+	//   - For **Facebook** feeds with **expand=metrics**, page size is capped by the
+	//     server-side **FacebookFeedMetricsLimitCap** setting (default: **10**) to
+	//     protect API memory usage.
 	//
 	// Note: Currently the following platforms are supported:
 	//
