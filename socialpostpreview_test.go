@@ -39,6 +39,7 @@ func TestSocialPostPreviewNewWithOptionalParams(t *testing.T) {
 					AllowComment:           postforme.Bool(true),
 					AllowDuet:              postforme.Bool(true),
 					AllowStitch:            postforme.Bool(true),
+					AudioName:              postforme.String("audio_name"),
 					AutoAddMusic:           postforme.Bool(true),
 					BoardIDs:               []string{"string"},
 					Caption:                map[string]any{},
@@ -131,6 +132,7 @@ func TestSocialPostPreviewNewWithOptionalParams(t *testing.T) {
 					SetCaptionForEachImage: postforme.Bool(true),
 				},
 				Instagram: postforme.InstagramConfigurationDtoParam{
+					AudioName:     postforme.String("audio_name"),
 					Caption:       map[string]any{},
 					Collaborators: []string{"string"},
 					Location:      postforme.String("location"),

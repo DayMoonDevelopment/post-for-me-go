@@ -141,6 +141,10 @@ type AccountConfigurationConfiguration struct {
 	AllowDuet bool `json:"allow_duet" api:"nullable"`
 	// Allow stitch on TikTok
 	AllowStitch bool `json:"allow_stitch" api:"nullable"`
+	// Display name for the audio track on Instagram Reels. Only honored on Reels
+	// uploads, and only when the audio is original (Meta silently ignores it on
+	// licensed/fingerprinted tracks).
+	AudioName string `json:"audio_name" api:"nullable"`
 	// Will automatically add music to photo posts on TikTok
 	AutoAddMusic bool `json:"auto_add_music" api:"nullable"`
 	// Pinterest board IDs
@@ -205,6 +209,7 @@ type AccountConfigurationConfiguration struct {
 		AllowComment           respjson.Field
 		AllowDuet              respjson.Field
 		AllowStitch            respjson.Field
+		AudioName              respjson.Field
 		AutoAddMusic           respjson.Field
 		BoardIDs               respjson.Field
 		Caption                respjson.Field
@@ -263,6 +268,10 @@ type AccountConfigurationConfigurationParam struct {
 	AllowDuet param.Opt[bool] `json:"allow_duet,omitzero"`
 	// Allow stitch on TikTok
 	AllowStitch param.Opt[bool] `json:"allow_stitch,omitzero"`
+	// Display name for the audio track on Instagram Reels. Only honored on Reels
+	// uploads, and only when the audio is original (Meta silently ignores it on
+	// licensed/fingerprinted tracks).
+	AudioName param.Opt[string] `json:"audio_name,omitzero"`
 	// Will automatically add music to photo posts on TikTok
 	AutoAddMusic param.Opt[bool] `json:"auto_add_music,omitzero"`
 	// Disclose branded content on TikTok
@@ -523,6 +532,10 @@ func (r *FacebookConfigurationDtoParam) UnmarshalJSON(data []byte) error {
 }
 
 type InstagramConfigurationDto struct {
+	// Display name for the audio track on Instagram Reels. Only honored on Reels
+	// uploads, and only when the audio is original (Meta silently ignores it on
+	// licensed/fingerprinted tracks).
+	AudioName string `json:"audio_name" api:"nullable"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption" api:"nullable"`
 	// Instagram usernames to be tagged as a collaborator
@@ -545,6 +558,7 @@ type InstagramConfigurationDto struct {
 	TrialReelType InstagramConfigurationDtoTrialReelType `json:"trial_reel_type" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		AudioName     respjson.Field
 		Caption       respjson.Field
 		Collaborators respjson.Field
 		Location      respjson.Field
@@ -593,6 +607,10 @@ const (
 )
 
 type InstagramConfigurationDtoParam struct {
+	// Display name for the audio track on Instagram Reels. Only honored on Reels
+	// uploads, and only when the audio is original (Meta silently ignores it on
+	// licensed/fingerprinted tracks).
+	AudioName param.Opt[string] `json:"audio_name,omitzero"`
 	// Page id with a location that you want to tag the image or video with
 	Location param.Opt[string] `json:"location,omitzero"`
 	// If false video posts will only be shown in the Reels tab
