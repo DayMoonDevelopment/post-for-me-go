@@ -223,6 +223,8 @@ type AccountConfigurationConfiguration struct {
 	//
 	// Any of "following", "mentionedUsers", "subscribers", "verified".
 	ReplySettings string `json:"reply_settings" api:"nullable"`
+	// LinkedIn UGC post id to reshare. The caption is used as the reshare commentary.
+	ResharePostID string `json:"reshare_post_id" api:"nullable"`
 	// If true, include the caption on each image in a Facebook carousel upload; if
 	// false, only include it on the final carousel post
 	SetCaptionForEachImage bool `json:"set_caption_for_each_image" api:"nullable"`
@@ -271,6 +273,7 @@ type AccountConfigurationConfiguration struct {
 		QuoteTweetID           respjson.Field
 		RecordingDate          respjson.Field
 		ReplySettings          respjson.Field
+		ResharePostID          respjson.Field
 		SetCaptionForEachImage respjson.Field
 		ShareToFeed            respjson.Field
 		Tags                   respjson.Field
@@ -363,6 +366,8 @@ type AccountConfigurationConfigurationParam struct {
 	// ISO 8601 date (YYYY-MM-DD) or datetime when the video was recorded (maps to
 	// recordingDetails.recordingDate).
 	RecordingDate param.Opt[string] `json:"recording_date,omitzero"`
+	// LinkedIn UGC post id to reshare. The caption is used as the reshare commentary.
+	ResharePostID param.Opt[string] `json:"reshare_post_id,omitzero"`
 	// If true, include the caption on each image in a Facebook carousel upload; if
 	// false, only include it on the final carousel post
 	SetCaptionForEachImage param.Opt[bool] `json:"set_caption_for_each_image,omitzero"`
@@ -730,12 +735,15 @@ type LinkedinConfigurationDto struct {
 	Caption any `json:"caption" api:"nullable"`
 	// Overrides the `media` from the post
 	Media []SocialPostMedia `json:"media" api:"nullable"`
+	// LinkedIn UGC post id to reshare. The caption is used as the reshare commentary.
+	ResharePostID string `json:"reshare_post_id" api:"nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
-		Caption     respjson.Field
-		Media       respjson.Field
-		ExtraFields map[string]respjson.Field
-		raw         string
+		Caption       respjson.Field
+		Media         respjson.Field
+		ResharePostID respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
 	} `json:"-"`
 }
 
@@ -756,6 +764,8 @@ func (r LinkedinConfigurationDto) ToParam() LinkedinConfigurationDtoParam {
 }
 
 type LinkedinConfigurationDtoParam struct {
+	// LinkedIn UGC post id to reshare. The caption is used as the reshare commentary.
+	ResharePostID param.Opt[string] `json:"reshare_post_id,omitzero"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption,omitzero"`
 	// Overrides the `media` from the post

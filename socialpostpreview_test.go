@@ -85,6 +85,7 @@ func TestSocialPostPreviewNewWithOptionalParams(t *testing.T) {
 					QuoteTweetID:           postforme.String("quote_tweet_id"),
 					RecordingDate:          postforme.String("recording_date"),
 					ReplySettings:          "following",
+					ResharePostID:          postforme.String("reshare_post_id"),
 					SetCaptionForEachImage: postforme.Bool(true),
 					ShareToFeed:            postforme.Bool(true),
 					Tags:                   []string{"string"},
@@ -180,6 +181,7 @@ func TestSocialPostPreviewNewWithOptionalParams(t *testing.T) {
 						ThumbnailTimestampMs: map[string]any{},
 						ThumbnailURL:         map[string]any{},
 					}},
+					ResharePostID: postforme.String("reshare_post_id"),
 				},
 				Pinterest: postforme.PinterestConfigurationDtoParam{
 					BoardIDs: []string{"string"},
