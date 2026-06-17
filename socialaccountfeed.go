@@ -386,15 +386,7 @@ type PlatformPostMetricsUnion struct {
 	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
 	ActivityByActionTypeUnique []FacebookActivityByActionType `json:"activity_by_action_type_unique"`
 	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
-	FanReach float64 `json:"fan_reach"`
-	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
 	MediaViews float64 `json:"media_views"`
-	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
-	NonviralReach float64 `json:"nonviral_reach"`
-	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
-	OrganicReach float64 `json:"organic_reach"`
-	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
-	PaidReach float64 `json:"paid_reach"`
 	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
 	ReactionsAnger float64 `json:"reactions_anger"`
 	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
@@ -454,17 +446,9 @@ type PlatformPostMetricsUnion struct {
 	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
 	VideoViewsOrganic float64 `json:"video_views_organic"`
 	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
-	VideoViewsOrganicUnique float64 `json:"video_views_organic_unique"`
-	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
 	VideoViewsPaid float64 `json:"video_views_paid"`
 	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
-	VideoViewsPaidUnique float64 `json:"video_views_paid_unique"`
-	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
 	VideoViewsSoundOn float64 `json:"video_views_sound_on"`
-	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
-	VideoViewsUnique float64 `json:"video_views_unique"`
-	// This field is from variant [PlatformPostMetricsFacebookPostMetricsDto].
-	ViralReach float64 `json:"viral_reach"`
 	// This field is from variant [PlatformPostMetricsTwitterPostMetricsDto].
 	NonPublicMetrics PlatformPostMetricsTwitterPostMetricsDtoNonPublicMetrics `json:"non_public_metrics"`
 	// This field is from variant [PlatformPostMetricsTwitterPostMetricsDto].
@@ -564,11 +548,7 @@ type PlatformPostMetricsUnion struct {
 		VideosRemovedFromPlaylists       respjson.Field
 		ActivityByActionType             respjson.Field
 		ActivityByActionTypeUnique       respjson.Field
-		FanReach                         respjson.Field
 		MediaViews                       respjson.Field
-		NonviralReach                    respjson.Field
-		OrganicReach                     respjson.Field
-		PaidReach                        respjson.Field
 		ReactionsAnger                   respjson.Field
 		ReactionsByType                  respjson.Field
 		ReactionsHaha                    respjson.Field
@@ -598,12 +578,8 @@ type PlatformPostMetricsUnion struct {
 		VideoViewsByDistributionType     respjson.Field
 		VideoViewsClickedToPlay          respjson.Field
 		VideoViewsOrganic                respjson.Field
-		VideoViewsOrganicUnique          respjson.Field
 		VideoViewsPaid                   respjson.Field
-		VideoViewsPaidUnique             respjson.Field
 		VideoViewsSoundOn                respjson.Field
-		VideoViewsUnique                 respjson.Field
-		ViralReach                       respjson.Field
 		NonPublicMetrics                 respjson.Field
 		OrganicMetrics                   respjson.Field
 		PublicMetrics                    respjson.Field
@@ -1061,17 +1037,9 @@ type PlatformPostMetricsFacebookPostMetricsDto struct {
 	ActivityByActionTypeUnique []FacebookActivityByActionType `json:"activity_by_action_type_unique"`
 	// Number of comments (from post object)
 	Comments float64 `json:"comments"`
-	// Number of fans who saw the post
-	FanReach float64 `json:"fan_reach"`
 	// Number of times the photo or video was viewed
 	MediaViews float64 `json:"media_views"`
-	// Number of people who saw the post via non-viral distribution
-	NonviralReach float64 `json:"nonviral_reach"`
-	// Number of people who saw the post via organic distribution
-	OrganicReach float64 `json:"organic_reach"`
-	// Number of people who saw the post via paid distribution
-	PaidReach float64 `json:"paid_reach"`
-	// Total number of unique people who saw the post
+	// Total number of unique people who viewed the post media
 	Reach float64 `json:"reach"`
 	// Number of anger reactions
 	ReactionsAnger float64 `json:"reactions_anger"`
@@ -1136,29 +1104,16 @@ type PlatformPostMetricsFacebookPostMetricsDto struct {
 	VideoViewsClickedToPlay float64 `json:"video_views_clicked_to_play"`
 	// Number of times video was viewed for 3+ seconds organically
 	VideoViewsOrganic float64 `json:"video_views_organic"`
-	// Number of unique people who viewed the video for 3+ seconds organically
-	VideoViewsOrganicUnique float64 `json:"video_views_organic_unique"`
 	// Number of times video was viewed for 3+ seconds via paid distribution
 	VideoViewsPaid float64 `json:"video_views_paid"`
-	// Number of unique people who viewed the video for 3+ seconds via paid
-	// distribution
-	VideoViewsPaidUnique float64 `json:"video_views_paid_unique"`
 	// Number of times video was viewed with sound on
 	VideoViewsSoundOn float64 `json:"video_views_sound_on"`
-	// Number of unique people who viewed the video for 3+ seconds
-	VideoViewsUnique float64 `json:"video_views_unique"`
-	// Number of people who saw the post in News Feed via viral reach
-	ViralReach float64 `json:"viral_reach"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ActivityByActionType             respjson.Field
 		ActivityByActionTypeUnique       respjson.Field
 		Comments                         respjson.Field
-		FanReach                         respjson.Field
 		MediaViews                       respjson.Field
-		NonviralReach                    respjson.Field
-		OrganicReach                     respjson.Field
-		PaidReach                        respjson.Field
 		Reach                            respjson.Field
 		ReactionsAnger                   respjson.Field
 		ReactionsByType                  respjson.Field
@@ -1191,12 +1146,8 @@ type PlatformPostMetricsFacebookPostMetricsDto struct {
 		VideoViewsByDistributionType     respjson.Field
 		VideoViewsClickedToPlay          respjson.Field
 		VideoViewsOrganic                respjson.Field
-		VideoViewsOrganicUnique          respjson.Field
 		VideoViewsPaid                   respjson.Field
-		VideoViewsPaidUnique             respjson.Field
 		VideoViewsSoundOn                respjson.Field
-		VideoViewsUnique                 respjson.Field
-		ViralReach                       respjson.Field
 		ExtraFields                      map[string]respjson.Field
 		raw                              string
 	} `json:"-"`
