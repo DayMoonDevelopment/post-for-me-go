@@ -176,6 +176,9 @@ func TestSocialAccountNewAuthURLWithOptionalParams(t *testing.T) {
 			TiktokBusiness: postforme.SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness{
 				PermissionOverrides: [][]any{{map[string]any{}}},
 			},
+			X: postforme.SocialAccountNewAuthURLParamsPlatformDataX{
+				ConnectionType: "oauth1",
+			},
 			Youtube: postforme.SocialAccountNewAuthURLParamsPlatformDataYoutube{
 				PermissionOverrides: [][]any{{map[string]any{}}},
 			},

@@ -443,6 +443,8 @@ type SocialAccountNewAuthURLParamsPlatformData struct {
 	Tiktok SocialAccountNewAuthURLParamsPlatformDataTiktok `json:"tiktok,omitzero"`
 	// Additional data for connecting TikTok Business accounts
 	TiktokBusiness SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness `json:"tiktok_business,omitzero"`
+	// Additional data for connecting X accounts
+	X SocialAccountNewAuthURLParamsPlatformDataX `json:"x,omitzero"`
 	// Additional data for connecting YouTube accounts
 	Youtube SocialAccountNewAuthURLParamsPlatformDataYoutube `json:"youtube,omitzero"`
 	paramObj
@@ -620,6 +622,32 @@ func (r SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness) MarshalJSON() (
 }
 func (r *SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
+}
+
+// Additional data for connecting X accounts
+//
+// The property ConnectionType is required.
+type SocialAccountNewAuthURLParamsPlatformDataX struct {
+	// The type of connection; oauth1 for OAuth 1.0a app credentials, oauth2 for OAuth
+	// 2.0 app credentials.
+	//
+	// Any of "oauth1", "oauth2".
+	ConnectionType string `json:"connection_type,omitzero" api:"required"`
+	paramObj
+}
+
+func (r SocialAccountNewAuthURLParamsPlatformDataX) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewAuthURLParamsPlatformDataX
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewAuthURLParamsPlatformDataX) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[SocialAccountNewAuthURLParamsPlatformDataX](
+		"connection_type", "oauth1", "oauth2",
+	)
 }
 
 // Additional data for connecting YouTube accounts
