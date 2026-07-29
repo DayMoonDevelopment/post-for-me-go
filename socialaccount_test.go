@@ -154,33 +154,33 @@ func TestSocialAccountNewAuthURLWithOptionalParams(t *testing.T) {
 				Handle:      "handle",
 			},
 			Facebook: postforme.SocialAccountNewAuthURLParamsPlatformDataFacebook{
-				PermissionOverrides: [][]any{{map[string]any{}}},
+				PermissionOverrides: []string{"string"},
 			},
 			Instagram: postforme.SocialAccountNewAuthURLParamsPlatformDataInstagram{
 				ConnectionType:      "instagram",
-				PermissionOverrides: [][]any{{map[string]any{}}},
+				PermissionOverrides: []string{"string"},
 			},
 			Linkedin: postforme.SocialAccountNewAuthURLParamsPlatformDataLinkedin{
 				ConnectionType:      "personal",
-				PermissionOverrides: [][]any{{map[string]any{}}},
+				PermissionOverrides: []string{"string"},
 			},
 			Pinterest: postforme.SocialAccountNewAuthURLParamsPlatformDataPinterest{
-				PermissionOverrides: [][]any{{map[string]any{}}},
+				PermissionOverrides: []string{"string"},
 			},
 			Threads: postforme.SocialAccountNewAuthURLParamsPlatformDataThreads{
-				PermissionOverrides: [][]any{{map[string]any{}}},
+				PermissionOverrides: []string{"string"},
 			},
 			Tiktok: postforme.SocialAccountNewAuthURLParamsPlatformDataTiktok{
-				PermissionOverrides: [][]any{{map[string]any{}}},
+				PermissionOverrides: []string{"string"},
 			},
 			TiktokBusiness: postforme.SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness{
-				PermissionOverrides: [][]any{{map[string]any{}}},
+				PermissionOverrides: []string{"string"},
 			},
 			X: postforme.SocialAccountNewAuthURLParamsPlatformDataX{
 				ConnectionType: "oauth1",
 			},
 			Youtube: postforme.SocialAccountNewAuthURLParamsPlatformDataYoutube{
-				PermissionOverrides: [][]any{{map[string]any{}}},
+				PermissionOverrides: []string{"string"},
 			},
 		},
 		RedirectURLOverride: postforme.String("redirect_url_override"),

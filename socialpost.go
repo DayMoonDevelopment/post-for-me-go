@@ -138,7 +138,7 @@ type AccountConfigurationConfiguration struct {
 	// Per-language localizations for the video title and description. Keys are BCP-47
 	// language tags (e.g. "fr", "es"). Maps to localizations on the YouTube Data API
 	// videos resource.
-	Localizations map[string]any `json:"localizations" api:"required"`
+	Localizations map[string]AccountConfigurationConfigurationLocalization `json:"localizations" api:"required"`
 	// Allow comments on TikTok
 	AllowComment bool `json:"allow_comment" api:"nullable"`
 	// Allow duets on TikTok
@@ -290,6 +290,24 @@ func (r *AccountConfigurationConfiguration) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+type AccountConfigurationConfigurationLocalization struct {
+	Description string `json:"description" api:"nullable"`
+	Title       string `json:"title" api:"nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Description respjson.Field
+		Title       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r AccountConfigurationConfigurationLocalization) RawJSON() string { return r.JSON.raw }
+func (r *AccountConfigurationConfigurationLocalization) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // The properties Configuration, SocialAccountID are required.
 type AccountConfigurationParam struct {
 	// Configuration for the social account
@@ -314,7 +332,7 @@ type AccountConfigurationConfigurationParam struct {
 	// Per-language localizations for the video title and description. Keys are BCP-47
 	// language tags (e.g. "fr", "es"). Maps to localizations on the YouTube Data API
 	// videos resource.
-	Localizations map[string]any `json:"localizations,omitzero" api:"required"`
+	Localizations map[string]AccountConfigurationConfigurationLocalizationParam `json:"localizations,omitzero" api:"required"`
 	// Allow comments on TikTok
 	AllowComment param.Opt[bool] `json:"allow_comment,omitzero"`
 	// Allow duets on TikTok
@@ -443,6 +461,20 @@ func init() {
 	apijson.RegisterFieldValidator[AccountConfigurationConfigurationParam](
 		"trial_reel_type", "manual", "performance",
 	)
+}
+
+type AccountConfigurationConfigurationLocalizationParam struct {
+	Description param.Opt[string] `json:"description,omitzero"`
+	Title       param.Opt[string] `json:"title,omitzero"`
+	paramObj
+}
+
+func (r AccountConfigurationConfigurationLocalizationParam) MarshalJSON() (data []byte, err error) {
+	type shadow AccountConfigurationConfigurationLocalizationParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *AccountConfigurationConfigurationLocalizationParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
 }
 
 type BlueskyConfigurationDto struct {
@@ -1434,7 +1466,7 @@ type YoutubeConfigurationDto struct {
 	// Per-language localizations for the video title and description. Keys are BCP-47
 	// language tags (e.g. "fr", "es"). Maps to localizations on the YouTube Data API
 	// videos resource.
-	Localizations map[string]any `json:"localizations" api:"required"`
+	Localizations map[string]YoutubeConfigurationDtoLocalization `json:"localizations" api:"required"`
 	// Overrides the `caption` from the post
 	Caption any `json:"caption" api:"nullable"`
 	// YouTube video category id (maps to snippet.categoryId; see YouTube Data API
@@ -1519,6 +1551,24 @@ func (r YoutubeConfigurationDto) ToParam() YoutubeConfigurationDtoParam {
 	return param.Override[YoutubeConfigurationDtoParam](json.RawMessage(r.RawJSON()))
 }
 
+type YoutubeConfigurationDtoLocalization struct {
+	Description string `json:"description" api:"nullable"`
+	Title       string `json:"title" api:"nullable"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Description respjson.Field
+		Title       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r YoutubeConfigurationDtoLocalization) RawJSON() string { return r.JSON.raw }
+func (r *YoutubeConfigurationDtoLocalization) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // The video's license (maps to status.license). "youtube" is the standard YouTube
 // license; "creativeCommon" is Creative Commons.
 type YoutubeConfigurationDtoLicense string
@@ -1543,7 +1593,7 @@ type YoutubeConfigurationDtoParam struct {
 	// Per-language localizations for the video title and description. Keys are BCP-47
 	// language tags (e.g. "fr", "es"). Maps to localizations on the YouTube Data API
 	// videos resource.
-	Localizations map[string]any `json:"localizations,omitzero" api:"required"`
+	Localizations map[string]YoutubeConfigurationDtoLocalizationParam `json:"localizations,omitzero" api:"required"`
 	// YouTube video category id (maps to snippet.categoryId; see YouTube Data API
 	// videoCategories.list)
 	CategoryID param.Opt[string] `json:"category_id,omitzero"`
@@ -1598,6 +1648,20 @@ func (r YoutubeConfigurationDtoParam) MarshalJSON() (data []byte, err error) {
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *YoutubeConfigurationDtoParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type YoutubeConfigurationDtoLocalizationParam struct {
+	Description param.Opt[string] `json:"description,omitzero"`
+	Title       param.Opt[string] `json:"title,omitzero"`
+	paramObj
+}
+
+func (r YoutubeConfigurationDtoLocalizationParam) MarshalJSON() (data []byte, err error) {
+	type shadow YoutubeConfigurationDtoLocalizationParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *YoutubeConfigurationDtoLocalizationParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
