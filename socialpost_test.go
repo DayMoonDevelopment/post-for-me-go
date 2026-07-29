@@ -33,8 +33,11 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 			SocialAccounts: []string{"string"},
 			AccountConfigurations: []postforme.AccountConfigurationParam{{
 				Configuration: postforme.AccountConfigurationConfigurationParam{
-					Localizations: map[string]any{
-						"foo": "bar",
+					Localizations: map[string]postforme.AccountConfigurationConfigurationLocalizationParam{
+						"foo": {
+							Description: postforme.String("description"),
+							Title:       postforme.String("title"),
+						},
 					},
 					AllowComment:           postforme.Bool(true),
 					AllowDuet:              postforme.Bool(true),
@@ -295,8 +298,11 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					ReplySettings: postforme.TwitterConfigurationDtoReplySettingsFollowing,
 				},
 				Youtube: postforme.YoutubeConfigurationDtoParam{
-					Localizations: map[string]any{
-						"foo": "bar",
+					Localizations: map[string]postforme.YoutubeConfigurationDtoLocalizationParam{
+						"foo": {
+							Description: postforme.String("description"),
+							Title:       postforme.String("title"),
+						},
 					},
 					Caption:                map[string]any{},
 					CategoryID:             postforme.String("category_id"),
@@ -384,8 +390,11 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 				SocialAccounts: []string{"string"},
 				AccountConfigurations: []postforme.AccountConfigurationParam{{
 					Configuration: postforme.AccountConfigurationConfigurationParam{
-						Localizations: map[string]any{
-							"foo": "bar",
+						Localizations: map[string]postforme.AccountConfigurationConfigurationLocalizationParam{
+							"foo": {
+								Description: postforme.String("description"),
+								Title:       postforme.String("title"),
+							},
 						},
 						AllowComment:           postforme.Bool(true),
 						AllowDuet:              postforme.Bool(true),
@@ -646,8 +655,11 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						ReplySettings: postforme.TwitterConfigurationDtoReplySettingsFollowing,
 					},
 					Youtube: postforme.YoutubeConfigurationDtoParam{
-						Localizations: map[string]any{
-							"foo": "bar",
+						Localizations: map[string]postforme.YoutubeConfigurationDtoLocalizationParam{
+							"foo": {
+								Description: postforme.String("description"),
+								Title:       postforme.String("title"),
+							},
 						},
 						Caption:                map[string]any{},
 						CategoryID:             postforme.String("category_id"),
