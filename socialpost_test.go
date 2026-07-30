@@ -31,27 +31,39 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 		CreateSocialPost: postforme.CreateSocialPostParam{
 			Caption:        "caption",
 			SocialAccounts: []string{"string"},
-			AccountConfigurations: []postforme.CreateSocialPostAccountConfigurationParam{{
-				Configuration: postforme.CreateSocialPostAccountConfigurationConfigurationParam{
+			AccountConfigurations: []postforme.AccountConfigurationParam{{
+				Configuration: postforme.AccountConfigurationConfigurationParam{
+					Localizations: map[string]postforme.AccountConfigurationConfigurationLocalizationParam{
+						"foo": {
+							Description: postforme.String("description"),
+							Title:       postforme.String("title"),
+						},
+					},
 					AllowComment:           postforme.Bool(true),
 					AllowDuet:              postforme.Bool(true),
 					AllowStitch:            postforme.Bool(true),
+					AudioName:              postforme.String("audio_name"),
 					AutoAddMusic:           postforme.Bool(true),
 					BoardIDs:               []string{"string"},
 					Caption:                map[string]any{},
+					CategoryID:             postforme.String("category_id"),
 					Collaborators:          [][]any{{map[string]any{}}},
 					CommunityID:            postforme.String("community_id"),
+					ContainsSyntheticMedia: postforme.Bool(true),
+					DefaultLanguage:        postforme.String("default_language"),
 					DiscloseBrandedContent: postforme.Bool(true),
 					DiscloseYourBrand:      postforme.Bool(true),
+					Embeddable:             postforme.Bool(true),
 					IsAIGenerated:          postforme.Bool(true),
 					IsDraft:                postforme.Bool(true),
+					License:                "youtube",
 					Link:                   postforme.String("link"),
 					Location:               postforme.String("location"),
 					MadeForKids:            postforme.Bool(true),
-					Media: []postforme.CreateSocialPostAccountConfigurationConfigurationMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.CreateSocialPostAccountConfigurationConfigurationMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -62,16 +74,21 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 						ThumbnailURL:         map[string]any{},
 					}},
 					Placement: "reels",
-					Poll: postforme.CreateSocialPostAccountConfigurationConfigurationPollParam{
+					Poll: postforme.TwitterPollParam{
 						DurationMinutes: 0,
 						Options:         []string{"string"},
-						ReplySettings:   "following",
+						ReplySettings:   postforme.TwitterPollReplySettingsFollowing,
 					},
 					PrivacyStatus:          "public",
+					PublicStatsViewable:    postforme.Bool(true),
+					PublishAt:              postforme.String("publish_at"),
 					QuoteTweetID:           postforme.String("quote_tweet_id"),
+					RecordingDate:          postforme.String("recording_date"),
 					ReplySettings:          "following",
+					ResharePostID:          postforme.String("reshare_post_id"),
 					SetCaptionForEachImage: postforme.Bool(true),
 					ShareToFeed:            postforme.Bool(true),
+					Tags:                   []string{"string"},
 					Title:                  postforme.String("title"),
 					TrialReelType:          "manual",
 				},
@@ -79,10 +96,10 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 			}},
 			ExternalID: postforme.String("external_id"),
 			IsDraft:    postforme.Bool(true),
-			Media: []postforme.CreateSocialPostMediaParam{{
+			Media: []postforme.SocialPostMediaParam{{
 				URL:            "url",
 				SkipProcessing: postforme.Bool(true),
-				Tags: []postforme.CreateSocialPostMediaTagParam{{
+				Tags: []postforme.SocialPostMediaTagParam{{
 					ID:       "id",
 					Platform: "facebook",
 					Type:     "user",
@@ -95,10 +112,10 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 			PlatformConfigurations: postforme.PlatformConfigurationsDtoParam{
 				Bluesky: postforme.BlueskyConfigurationDtoParam{
 					Caption: map[string]any{},
-					Media: []postforme.BlueskyConfigurationDtoMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.BlueskyConfigurationDtoMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -113,10 +130,10 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					Caption:       map[string]any{},
 					Collaborators: [][]any{{map[string]any{}}},
 					Location:      postforme.String("location"),
-					Media: []postforme.FacebookConfigurationDtoMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.FacebookConfigurationDtoMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -130,13 +147,14 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					SetCaptionForEachImage: postforme.Bool(true),
 				},
 				Instagram: postforme.InstagramConfigurationDtoParam{
+					AudioName:     postforme.String("audio_name"),
 					Caption:       map[string]any{},
 					Collaborators: []string{"string"},
 					Location:      postforme.String("location"),
-					Media: []postforme.InstagramConfigurationDtoMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.InstagramConfigurationDtoMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -152,10 +170,10 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 				},
 				Linkedin: postforme.LinkedinConfigurationDtoParam{
 					Caption: map[string]any{},
-					Media: []postforme.LinkedinConfigurationDtoMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.LinkedinConfigurationDtoMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -165,15 +183,16 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 						ThumbnailTimestampMs: map[string]any{},
 						ThumbnailURL:         map[string]any{},
 					}},
+					ResharePostID: postforme.String("reshare_post_id"),
 				},
 				Pinterest: postforme.PinterestConfigurationDtoParam{
 					BoardIDs: []string{"string"},
 					Caption:  map[string]any{},
 					Link:     postforme.String("link"),
-					Media: []postforme.PinterestConfigurationDtoMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.PinterestConfigurationDtoMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -183,13 +202,14 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 						ThumbnailTimestampMs: map[string]any{},
 						ThumbnailURL:         map[string]any{},
 					}},
+					Title: postforme.String("title"),
 				},
 				Threads: postforme.ThreadsConfigurationDtoParam{
 					Caption: map[string]any{},
-					Media: []postforme.ThreadsConfigurationDtoMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.ThreadsConfigurationDtoMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -211,10 +231,10 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					DiscloseYourBrand:      postforme.Bool(true),
 					IsAIGenerated:          postforme.Bool(true),
 					IsDraft:                postforme.Bool(true),
-					Media: []postforme.TiktokConfigurationMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.TiktokConfigurationMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -237,10 +257,10 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 					DiscloseYourBrand:      postforme.Bool(true),
 					IsAIGenerated:          postforme.Bool(true),
 					IsDraft:                postforme.Bool(true),
-					Media: []postforme.TiktokConfigurationMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.TiktokConfigurationMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -256,10 +276,10 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 				X: postforme.TwitterConfigurationDtoParam{
 					Caption:     map[string]any{},
 					CommunityID: postforme.String("community_id"),
-					Media: []postforme.TwitterConfigurationDtoMediaParam{{
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.TwitterConfigurationDtoMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -269,21 +289,33 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 						ThumbnailTimestampMs: map[string]any{},
 						ThumbnailURL:         map[string]any{},
 					}},
-					Poll: postforme.TwitterConfigurationDtoPollParam{
+					Poll: postforme.TwitterPollParam{
 						DurationMinutes: 0,
 						Options:         []string{"string"},
-						ReplySettings:   "following",
+						ReplySettings:   postforme.TwitterPollReplySettingsFollowing,
 					},
 					QuoteTweetID:  postforme.String("quote_tweet_id"),
 					ReplySettings: postforme.TwitterConfigurationDtoReplySettingsFollowing,
 				},
 				Youtube: postforme.YoutubeConfigurationDtoParam{
-					Caption:     map[string]any{},
-					MadeForKids: postforme.Bool(true),
-					Media: []postforme.YoutubeConfigurationDtoMediaParam{{
+					Localizations: map[string]postforme.YoutubeConfigurationDtoLocalizationParam{
+						"foo": {
+							Description: postforme.String("description"),
+							Title:       postforme.String("title"),
+						},
+					},
+					Caption:                map[string]any{},
+					CategoryID:             postforme.String("category_id"),
+					ContainsSyntheticMedia: postforme.Bool(true),
+					DefaultLanguage:        postforme.String("default_language"),
+					Description:            postforme.String("description"),
+					Embeddable:             postforme.Bool(true),
+					License:                postforme.YoutubeConfigurationDtoLicenseYoutube,
+					MadeForKids:            postforme.Bool(true),
+					Media: []postforme.SocialPostMediaParam{{
 						URL:            "url",
 						SkipProcessing: postforme.Bool(true),
-						Tags: []postforme.YoutubeConfigurationDtoMediaTagParam{{
+						Tags: []postforme.SocialPostMediaTagParam{{
 							ID:       "id",
 							Platform: "facebook",
 							Type:     "user",
@@ -293,8 +325,12 @@ func TestSocialPostNewWithOptionalParams(t *testing.T) {
 						ThumbnailTimestampMs: map[string]any{},
 						ThumbnailURL:         map[string]any{},
 					}},
-					PrivacyStatus: postforme.YoutubeConfigurationDtoPrivacyStatusPublic,
-					Title:         postforme.String("title"),
+					PrivacyStatus:       postforme.YoutubeConfigurationDtoPrivacyStatusPublic,
+					PublicStatsViewable: postforme.Bool(true),
+					PublishAt:           postforme.String("publish_at"),
+					RecordingDate:       postforme.String("recording_date"),
+					Tags:                []string{"string"},
+					Title:               postforme.String("title"),
 				},
 			},
 			ScheduledAt: postforme.Time(time.Now()),
@@ -352,27 +388,39 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 			CreateSocialPost: postforme.CreateSocialPostParam{
 				Caption:        "caption",
 				SocialAccounts: []string{"string"},
-				AccountConfigurations: []postforme.CreateSocialPostAccountConfigurationParam{{
-					Configuration: postforme.CreateSocialPostAccountConfigurationConfigurationParam{
+				AccountConfigurations: []postforme.AccountConfigurationParam{{
+					Configuration: postforme.AccountConfigurationConfigurationParam{
+						Localizations: map[string]postforme.AccountConfigurationConfigurationLocalizationParam{
+							"foo": {
+								Description: postforme.String("description"),
+								Title:       postforme.String("title"),
+							},
+						},
 						AllowComment:           postforme.Bool(true),
 						AllowDuet:              postforme.Bool(true),
 						AllowStitch:            postforme.Bool(true),
+						AudioName:              postforme.String("audio_name"),
 						AutoAddMusic:           postforme.Bool(true),
 						BoardIDs:               []string{"string"},
 						Caption:                map[string]any{},
+						CategoryID:             postforme.String("category_id"),
 						Collaborators:          [][]any{{map[string]any{}}},
 						CommunityID:            postforme.String("community_id"),
+						ContainsSyntheticMedia: postforme.Bool(true),
+						DefaultLanguage:        postforme.String("default_language"),
 						DiscloseBrandedContent: postforme.Bool(true),
 						DiscloseYourBrand:      postforme.Bool(true),
+						Embeddable:             postforme.Bool(true),
 						IsAIGenerated:          postforme.Bool(true),
 						IsDraft:                postforme.Bool(true),
+						License:                "youtube",
 						Link:                   postforme.String("link"),
 						Location:               postforme.String("location"),
 						MadeForKids:            postforme.Bool(true),
-						Media: []postforme.CreateSocialPostAccountConfigurationConfigurationMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.CreateSocialPostAccountConfigurationConfigurationMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -383,16 +431,21 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 							ThumbnailURL:         map[string]any{},
 						}},
 						Placement: "reels",
-						Poll: postforme.CreateSocialPostAccountConfigurationConfigurationPollParam{
+						Poll: postforme.TwitterPollParam{
 							DurationMinutes: 0,
 							Options:         []string{"string"},
-							ReplySettings:   "following",
+							ReplySettings:   postforme.TwitterPollReplySettingsFollowing,
 						},
 						PrivacyStatus:          "public",
+						PublicStatsViewable:    postforme.Bool(true),
+						PublishAt:              postforme.String("publish_at"),
 						QuoteTweetID:           postforme.String("quote_tweet_id"),
+						RecordingDate:          postforme.String("recording_date"),
 						ReplySettings:          "following",
+						ResharePostID:          postforme.String("reshare_post_id"),
 						SetCaptionForEachImage: postforme.Bool(true),
 						ShareToFeed:            postforme.Bool(true),
+						Tags:                   []string{"string"},
 						Title:                  postforme.String("title"),
 						TrialReelType:          "manual",
 					},
@@ -400,10 +453,10 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 				}},
 				ExternalID: postforme.String("external_id"),
 				IsDraft:    postforme.Bool(true),
-				Media: []postforme.CreateSocialPostMediaParam{{
+				Media: []postforme.SocialPostMediaParam{{
 					URL:            "url",
 					SkipProcessing: postforme.Bool(true),
-					Tags: []postforme.CreateSocialPostMediaTagParam{{
+					Tags: []postforme.SocialPostMediaTagParam{{
 						ID:       "id",
 						Platform: "facebook",
 						Type:     "user",
@@ -416,10 +469,10 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 				PlatformConfigurations: postforme.PlatformConfigurationsDtoParam{
 					Bluesky: postforme.BlueskyConfigurationDtoParam{
 						Caption: map[string]any{},
-						Media: []postforme.BlueskyConfigurationDtoMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.BlueskyConfigurationDtoMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -434,10 +487,10 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						Caption:       map[string]any{},
 						Collaborators: [][]any{{map[string]any{}}},
 						Location:      postforme.String("location"),
-						Media: []postforme.FacebookConfigurationDtoMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.FacebookConfigurationDtoMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -451,13 +504,14 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						SetCaptionForEachImage: postforme.Bool(true),
 					},
 					Instagram: postforme.InstagramConfigurationDtoParam{
+						AudioName:     postforme.String("audio_name"),
 						Caption:       map[string]any{},
 						Collaborators: []string{"string"},
 						Location:      postforme.String("location"),
-						Media: []postforme.InstagramConfigurationDtoMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.InstagramConfigurationDtoMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -473,10 +527,10 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 					},
 					Linkedin: postforme.LinkedinConfigurationDtoParam{
 						Caption: map[string]any{},
-						Media: []postforme.LinkedinConfigurationDtoMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.LinkedinConfigurationDtoMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -486,15 +540,16 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 							ThumbnailTimestampMs: map[string]any{},
 							ThumbnailURL:         map[string]any{},
 						}},
+						ResharePostID: postforme.String("reshare_post_id"),
 					},
 					Pinterest: postforme.PinterestConfigurationDtoParam{
 						BoardIDs: []string{"string"},
 						Caption:  map[string]any{},
 						Link:     postforme.String("link"),
-						Media: []postforme.PinterestConfigurationDtoMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.PinterestConfigurationDtoMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -504,13 +559,14 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 							ThumbnailTimestampMs: map[string]any{},
 							ThumbnailURL:         map[string]any{},
 						}},
+						Title: postforme.String("title"),
 					},
 					Threads: postforme.ThreadsConfigurationDtoParam{
 						Caption: map[string]any{},
-						Media: []postforme.ThreadsConfigurationDtoMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.ThreadsConfigurationDtoMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -532,10 +588,10 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						DiscloseYourBrand:      postforme.Bool(true),
 						IsAIGenerated:          postforme.Bool(true),
 						IsDraft:                postforme.Bool(true),
-						Media: []postforme.TiktokConfigurationMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.TiktokConfigurationMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -558,10 +614,10 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 						DiscloseYourBrand:      postforme.Bool(true),
 						IsAIGenerated:          postforme.Bool(true),
 						IsDraft:                postforme.Bool(true),
-						Media: []postforme.TiktokConfigurationMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.TiktokConfigurationMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -577,10 +633,10 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 					X: postforme.TwitterConfigurationDtoParam{
 						Caption:     map[string]any{},
 						CommunityID: postforme.String("community_id"),
-						Media: []postforme.TwitterConfigurationDtoMediaParam{{
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.TwitterConfigurationDtoMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -590,21 +646,33 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 							ThumbnailTimestampMs: map[string]any{},
 							ThumbnailURL:         map[string]any{},
 						}},
-						Poll: postforme.TwitterConfigurationDtoPollParam{
+						Poll: postforme.TwitterPollParam{
 							DurationMinutes: 0,
 							Options:         []string{"string"},
-							ReplySettings:   "following",
+							ReplySettings:   postforme.TwitterPollReplySettingsFollowing,
 						},
 						QuoteTweetID:  postforme.String("quote_tweet_id"),
 						ReplySettings: postforme.TwitterConfigurationDtoReplySettingsFollowing,
 					},
 					Youtube: postforme.YoutubeConfigurationDtoParam{
-						Caption:     map[string]any{},
-						MadeForKids: postforme.Bool(true),
-						Media: []postforme.YoutubeConfigurationDtoMediaParam{{
+						Localizations: map[string]postforme.YoutubeConfigurationDtoLocalizationParam{
+							"foo": {
+								Description: postforme.String("description"),
+								Title:       postforme.String("title"),
+							},
+						},
+						Caption:                map[string]any{},
+						CategoryID:             postforme.String("category_id"),
+						ContainsSyntheticMedia: postforme.Bool(true),
+						DefaultLanguage:        postforme.String("default_language"),
+						Description:            postforme.String("description"),
+						Embeddable:             postforme.Bool(true),
+						License:                postforme.YoutubeConfigurationDtoLicenseYoutube,
+						MadeForKids:            postforme.Bool(true),
+						Media: []postforme.SocialPostMediaParam{{
 							URL:            "url",
 							SkipProcessing: postforme.Bool(true),
-							Tags: []postforme.YoutubeConfigurationDtoMediaTagParam{{
+							Tags: []postforme.SocialPostMediaTagParam{{
 								ID:       "id",
 								Platform: "facebook",
 								Type:     "user",
@@ -614,8 +682,12 @@ func TestSocialPostUpdateWithOptionalParams(t *testing.T) {
 							ThumbnailTimestampMs: map[string]any{},
 							ThumbnailURL:         map[string]any{},
 						}},
-						PrivacyStatus: postforme.YoutubeConfigurationDtoPrivacyStatusPublic,
-						Title:         postforme.String("title"),
+						PrivacyStatus:       postforme.YoutubeConfigurationDtoPrivacyStatusPublic,
+						PublicStatsViewable: postforme.Bool(true),
+						PublishAt:           postforme.String("publish_at"),
+						RecordingDate:       postforme.String("recording_date"),
+						Tags:                []string{"string"},
+						Title:               postforme.String("title"),
 					},
 				},
 				ScheduledAt: postforme.Time(time.Now()),

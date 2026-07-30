@@ -87,7 +87,11 @@ func (r *SocialAccountService) List(ctx context.Context, query SocialAccountList
 // Generates a URL that initiates the authentication flow for a user's social media
 // account. When visited, the user is redirected to the selected social platform's
 // login/authorization page. Upon successful authentication, they are redirected
-// back to your application
+// back to your application.
+//
+// For Quickstart projects using Post for Me system credentials,
+// `redirect_url_override` is not accepted. Configure the project redirect URL in
+// the dashboard instead.
 func (r *SocialAccountService) NewAuthURL(ctx context.Context, body SocialAccountNewAuthURLParams, opts ...option.RequestOption) (res *SocialAccountNewAuthURLResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	path := "v1/social-accounts/auth-url"
@@ -119,7 +123,7 @@ type SocialAccount struct {
 	// The external id of the social account
 	ExternalID string `json:"external_id" api:"required"`
 	// The metadata of the social account
-	Metadata any `json:"metadata" api:"required"`
+	Metadata SocialAccountMetadata `json:"metadata" api:"required"`
 	// The platform of the social account
 	Platform string `json:"platform" api:"required"`
 	// The platform's profile photo of the social account
@@ -168,6 +172,8 @@ const (
 	SocialAccountStatusConnected    SocialAccountStatus = "connected"
 	SocialAccountStatusDisconnected SocialAccountStatus = "disconnected"
 )
+
+type SocialAccountMetadata = any
 
 type SocialAccountListResponse struct {
 	Data []SocialAccount               `json:"data" api:"required"`
@@ -243,7 +249,7 @@ type SocialAccountDisconnectResponse struct {
 	// The external id of the social account
 	ExternalID string `json:"external_id" api:"required"`
 	// The metadata of the social account
-	Metadata any `json:"metadata" api:"required"`
+	Metadata SocialAccountMetadata `json:"metadata" api:"required"`
 	// The platform of the social account
 	Platform string `json:"platform" api:"required"`
 	// The platform's profile photo of the social account
@@ -313,7 +319,7 @@ type SocialAccountNewParams struct {
 	// The platform's username of the social account
 	Username param.Opt[string] `json:"username,omitzero"`
 	// The metadata of the social account
-	Metadata any `json:"metadata,omitzero"`
+	Metadata SocialAccountMetadata `json:"metadata,omitzero"`
 	paramObj
 }
 
@@ -399,7 +405,7 @@ type SocialAccountNewAuthURLParams struct {
 	// Override the default redirect URL for the OAuth flow. If provided, this URL will
 	// be used instead of our redirect URL. Make sure this URL is included in your
 	// app's authorized redirect urls. This override will not work when using our
-	// system credientals.
+	// system credentials; configure the project redirect URL in the dashboard instead.
 	RedirectURLOverride param.Opt[string] `json:"redirect_url_override,omitzero"`
 	// List of permissions you want to allow. Will default to only post permissions.
 	// You must include the "feeds" permission to request an account feed and metrics
@@ -437,6 +443,8 @@ type SocialAccountNewAuthURLParamsPlatformData struct {
 	Tiktok SocialAccountNewAuthURLParamsPlatformDataTiktok `json:"tiktok,omitzero"`
 	// Additional data for connecting TikTok Business accounts
 	TiktokBusiness SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness `json:"tiktok_business,omitzero"`
+	// Additional data for connecting X accounts
+	X SocialAccountNewAuthURLParamsPlatformDataX `json:"x,omitzero"`
 	// Additional data for connecting YouTube accounts
 	Youtube SocialAccountNewAuthURLParamsPlatformDataYoutube `json:"youtube,omitzero"`
 	paramObj
@@ -474,7 +482,7 @@ type SocialAccountNewAuthURLParamsPlatformDataFacebook struct {
 	// Override the default permissions/scopes requested during OAuth. Default scopes:
 	// public_profile, pages_show_list, pages_read_engagement, pages_manage_posts,
 	// business_management
-	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	PermissionOverrides []string `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
@@ -499,7 +507,7 @@ type SocialAccountNewAuthURLParamsPlatformDataInstagram struct {
 	// instagram scopes: instagram_business_basic, instagram_business_content_publish.
 	// Default facebook scopes: instagram_basic, instagram_content_publish,
 	// pages_show_list, public_profile, business_management
-	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	PermissionOverrides []string `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
@@ -522,7 +530,7 @@ func init() {
 // The property ConnectionType is required.
 type SocialAccountNewAuthURLParamsPlatformDataLinkedin struct {
 	// The type of connection; If using our provided credentials always use
-	// "organization". If using your own crednetials then only use "organization" if
+	// "organization". If using your own credentials then only use "organization" if
 	// you are using the Community API
 	//
 	// Any of "personal", "organization".
@@ -531,7 +539,7 @@ type SocialAccountNewAuthURLParamsPlatformDataLinkedin struct {
 	// scopes: openid, w_member_social, profile, email. Default organization scopes:
 	// r_basicprofile, w_member_social, r_organization_social, w_organization_social,
 	// rw_organization_admin
-	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	PermissionOverrides []string `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
@@ -553,7 +561,7 @@ func init() {
 type SocialAccountNewAuthURLParamsPlatformDataPinterest struct {
 	// Override the default permissions/scopes requested during OAuth. Default scopes:
 	// boards:read, boards:write, pins:read, pins:write, user_accounts:read
-	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	PermissionOverrides []string `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
@@ -569,7 +577,7 @@ func (r *SocialAccountNewAuthURLParamsPlatformDataPinterest) UnmarshalJSON(data 
 type SocialAccountNewAuthURLParamsPlatformDataThreads struct {
 	// Override the default permissions/scopes requested during OAuth. Default scopes:
 	// threads_basic, threads_content_publish
-	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	PermissionOverrides []string `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
@@ -585,7 +593,7 @@ func (r *SocialAccountNewAuthURLParamsPlatformDataThreads) UnmarshalJSON(data []
 type SocialAccountNewAuthURLParamsPlatformDataTiktok struct {
 	// Override the default permissions/scopes requested during OAuth. Default scopes:
 	// user.info.basic, video.list, video.upload, video.publish
-	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	PermissionOverrides []string `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
@@ -604,7 +612,7 @@ type SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness struct {
 	// user.account.type, user.insights, video.list, video.insights, comment.list,
 	// comment.list.manage, video.publish, video.upload, biz.spark.auth,
 	// discovery.search.words
-	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	PermissionOverrides []string `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
@@ -616,6 +624,32 @@ func (r *SocialAccountNewAuthURLParamsPlatformDataTiktokBusiness) UnmarshalJSON(
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Additional data for connecting X accounts
+//
+// The property ConnectionType is required.
+type SocialAccountNewAuthURLParamsPlatformDataX struct {
+	// The type of connection; oauth1 for OAuth 1.0a app credentials, oauth2 for OAuth
+	// 2.0 app credentials.
+	//
+	// Any of "oauth1", "oauth2".
+	ConnectionType string `json:"connection_type,omitzero" api:"required"`
+	paramObj
+}
+
+func (r SocialAccountNewAuthURLParamsPlatformDataX) MarshalJSON() (data []byte, err error) {
+	type shadow SocialAccountNewAuthURLParamsPlatformDataX
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SocialAccountNewAuthURLParamsPlatformDataX) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func init() {
+	apijson.RegisterFieldValidator[SocialAccountNewAuthURLParamsPlatformDataX](
+		"connection_type", "oauth1", "oauth2",
+	)
+}
+
 // Additional data for connecting YouTube accounts
 type SocialAccountNewAuthURLParamsPlatformDataYoutube struct {
 	// Override the default permissions/scopes requested during OAuth. Default scopes:
@@ -623,7 +657,7 @@ type SocialAccountNewAuthURLParamsPlatformDataYoutube struct {
 	// https://www.googleapis.com/auth/youtube.upload,
 	// https://www.googleapis.com/auth/youtube.readonly,
 	// https://www.googleapis.com/auth/userinfo.profile
-	PermissionOverrides [][]any `json:"permission_overrides,omitzero"`
+	PermissionOverrides []string `json:"permission_overrides,omitzero"`
 	paramObj
 }
 
